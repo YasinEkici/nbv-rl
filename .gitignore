@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+
+# Virtual environments
+.venv
+
+# Project (docs/AGENT_WORKFLOW.md §3.12)
+data/raw/
+data/cache/
+outputs/
+scratch/
+*.pt
+*.zip
+.env
+.claude/settings.local.json
