@@ -6,8 +6,8 @@ Course project (Deep Reinforcement Learning, graduate). A robot-mounted line-las
 
 | Phase | Description | Status |
 |---|---|---|
-| 0 | Repository scaffold | 🔄 |
-| 1 | Environment, precomputation, baselines (Plan 001) | ⏳ |
+| 0 | Repository scaffold | ✅ |
+| 1 | Environment, precomputation, baselines (Plan 001) | 🔄 |
 | 2 | Phase 1: classical RL (Plan 002) | ⏳ |
 | 3 | Phase 2: deep RL + ablations (Plan 003) | ⏳ |
 | 4 | Analysis and writing (Plan 004) | ⏳ |
@@ -23,8 +23,8 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
 ## Common commands
 
     uv run pytest -q
-    uv run python scripts/precompute.py --config configs/<config>.yaml
-    uv run python scripts/run.py --config configs/<config>.yaml
+    uv run python scripts/precompute.py --config configs/<config>.yaml   # (planned, Plan 001)
+    uv run python scripts/run.py --config configs/<config>.yaml          # (planned, Plan 001)
 
 ## Data
 
