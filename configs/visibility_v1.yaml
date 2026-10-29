@@ -1,0 +1,8 @@
+# Dual-occlusion visibility (Plan 001 Slice 3; D-025, D-026). Lengths in mm.
+n_samples: 20000             # surface samples per base part (shared by all its variants)
+sample_seed: 0
+max_laser_incidence_deg: 65.0  # laser ray vs surface normal (D-012)
+max_camera_angle_deg: 65.0     # camera ray vs surface normal (assumption, D-026)
+ray_offset_mm: 0.05            # ray origins pushed along the surface normal
+table_offset_mm: 0.5           # table plane = variant min z minus this offset (occluder)
+camera_sides: [1]              # camera at +b along the sweep axis; [1, -1] = dual-camera ablation
