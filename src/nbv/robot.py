@@ -78,10 +78,38 @@ def movej_time(dq: np.ndarray, v: float, a: float) -> np.ndarray:
     return np.where(d >= v * v / a, d / v + v / a, 2.0 * np.sqrt(d / a))
 
 
+def wrap_pi(dq: np.ndarray) -> np.ndarray:
+    """Joint differences mapped to [-pi, pi)."""
+    return (dq + np.pi) % (2 * np.pi) - np.pi
+
+
 def clears_table(robot: rtb.DHRobot, q: np.ndarray, clearance_m: float) -> bool:
     """All DH frame origins after the base, and the sensor origin, are above the table plane."""
     z = robot.fkine_all(q).t[1:, 2]
     return bool(z.min() >= clearance_m and robot.fkine(q).t[2] >= clearance_m)
+
+
+def wrap_to_home(q: np.ndarray, home: np.ndarray, qlim: np.ndarray, threshold: float = 1.5 * np.pi) -> np.ndarray:
+    """Shift joints of a sweep (k, n) whose midpoint is more than `threshold` from `home` by 2*pi.
+
+    A guard against IK returning a solution a full turn away. Joints within the threshold are left
+    alone: wrapping every joint to within pi of home splits passes near +-pi on joint 6 and inflates
+    PTP moves (D-021). A shifted joint moves as a whole sweep (continuity is kept) and must stay
+    within `qlim` (2, n); among the shifts that do, the one closest to home is used.
+    """
+    out = q.copy()
+    two_pi = 2 * np.pi
+    mid = q[len(q) // 2]
+    for j in range(q.shape[1]):
+        if abs(mid[j] - home[j]) <= threshold:
+            continue
+        m0 = np.round((home[j] - mid[j]) / two_pi)
+        for m in sorted({m0 - 1, m0, m0 + 1, 0.0}, key=lambda m: abs(mid[j] + m * two_pi - home[j])):
+            c = q[:, j] + m * two_pi
+            if c.min() >= qlim[0, j] and c.max() <= qlim[1, j]:
+                out[:, j] = c
+                break
+    return out
 
 
 def solve_sweep(
@@ -92,7 +120,7 @@ def solve_sweep(
     The first pose is solved from q_home and from each seeded random start; the solution closest
     to q_home is kept. Later poses are seeded with the previous solution so the sweep stays on one
     IK branch; a pass is rejected if any joint moves more than max_step between samples or the
-    arm/sensor goes below the table clearance.
+    arm/sensor goes below the table clearance. Accepted sweeps are wrapped towards q_home.
     """
     sols = [q for q0 in (home, *starts) if (q := solve(poses[0], q0)) is not None]
     if not sols:
@@ -107,7 +135,7 @@ def solve_sweep(
     clearance = ik["table_clearance_mm"] / 1000.0
     if not all(clears_table(robot, qi, clearance) for qi in q):
         return None
-    return np.array(q)
+    return wrap_to_home(np.array(q), home, robot.qlim)
 
 
 @dataclass(frozen=True)
@@ -118,6 +146,17 @@ class RobotPlan:
     from_home: np.ndarray   # (N,) s, q_home -> start of pass j
     to_home: np.ndarray     # (N,) s, end of pass i -> q_home
     scan_time: np.ndarray   # (N,) s, sweep length / scan speed
+    # Same with per-joint differences wrapped to [-pi, pi): planner approximation only (D-024).
+    ptp_pi: np.ndarray
+    from_home_pi: np.ndarray
+    to_home_pi: np.ndarray
+
+    def leading_dq(self, wrapped: bool = False) -> np.ndarray:
+        """Leading-axis |dq| (rad) of every PTP move i -> j between distinct reachable passes."""
+        r = np.flatnonzero(self.reachable)
+        dq = self.q[r, -1][:, None, :] - self.q[r, 0][None, :, :]
+        d = np.abs(wrap_pi(dq) if wrapped else dq).max(-1)
+        return d[~np.eye(len(r), dtype=bool)]
 
 
 def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotPlan:
@@ -139,10 +178,16 @@ def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotP
     reachable = ~np.isnan(q[:, 0, 0])
     v, a = motion["v_rad_s"], motion["a_rad_s2"]
     start, end = q[:, 0], q[:, -1]
-    ptp = movej_time(end[:, None, :] - start[None, :, :], v, a)
-    ptp[~reachable, :] = np.inf
-    ptp[:, ~reachable] = np.inf
-    np.fill_diagonal(ptp, 0.0)
-    from_home = np.where(reachable, movej_time(start - home, v, a), np.inf)
-    to_home = np.where(reachable, movej_time(end - home, v, a), np.inf)
-    return RobotPlan(reachable, q, ptp, from_home, to_home, passes.length / scan_speed_mm_s)
+
+    def times(wrap):
+        f = wrap_pi if wrap else (lambda x: x)
+        ptp = movej_time(f(end[:, None, :] - start[None, :, :]), v, a)
+        ptp[~reachable, :] = np.inf
+        ptp[:, ~reachable] = np.inf
+        np.fill_diagonal(ptp, 0.0)
+        from_home = np.where(reachable, movej_time(f(start - home), v, a), np.inf)
+        to_home = np.where(reachable, movej_time(f(end - home), v, a), np.inf)
+        return ptp, from_home, to_home
+
+    raw, pi = times(False), times(True)
+    return RobotPlan(reachable, q, *raw, passes.length / scan_speed_mm_s, *pi)

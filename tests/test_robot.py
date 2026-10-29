@@ -61,6 +61,14 @@ def test_reachable_sweeps_are_continuous(rc, plan):
     assert np.abs(np.diff(q, axis=1)).max() <= np.radians(rc["ik"]["max_step_deg"]) + 1e-9
 
 
+def test_wrapped_ptp_is_a_lower_bound(plan):
+    f = np.isfinite(plan.ptp)
+    assert np.array_equal(f, np.isfinite(plan.ptp_pi))
+    assert np.all(plan.ptp_pi[f] <= plan.ptp[f] + 1e-12)
+    assert np.all(np.diag(plan.ptp_pi) == 0.0)
+    assert np.degrees(plan.leading_dq(wrapped=True)).max() <= 180.0 + 1e-9
+
+
 def test_ptp_matches_movej_on_reachable(rc, plan):
     i, j = np.flatnonzero(plan.reachable)[:2]
     m = rc["motion"]
@@ -86,3 +94,40 @@ def test_plan_is_deterministic(rc, passes, plan):
     again = robot.plan_passes(passes, rc, parts.load_yaml("configs/sensor_v1.yaml")["scan_speed_mm_s"])
     assert np.array_equal(again.reachable, plan.reachable)
     assert np.array_equal(np.nan_to_num(again.q), np.nan_to_num(plan.q))
+
+
+def test_wrap_to_home_moves_midpoint_close_to_home():
+    lim = np.radians(360.0)
+    qlim = np.array([[-lim] * 6, [lim] * 6])
+    home = np.radians([0.0, -90.0, 90.0, -90.0, -90.0, 0.0])
+    sweep = home + np.radians([350.0, 0, 0, 0, 0, -340.0]) + np.linspace(0, 0.1, 5)[:, None]
+    w = robot.wrap_to_home(sweep, home, qlim)
+    assert np.all(np.abs(w[2] - home) <= np.pi + 1e-9)
+    # Joints within the 270 deg threshold are not touched, even when 2*pi closer exists.
+    near_pi = home + np.radians([200.0, 0, 0, 0, 0, -190.0]) + np.zeros((5, 1))
+    assert np.allclose(robot.wrap_to_home(near_pi, home, qlim), near_pi)
+    assert np.allclose(np.diff(w, axis=0), np.diff(sweep, axis=0))  # continuity kept
+    assert np.allclose(np.mod(w - sweep + np.pi, 2 * np.pi) - np.pi, 0.0)  # same poses
+
+
+def test_wrap_to_home_respects_limits():
+    lim = np.radians(360.0)
+    qlim = np.array([[-lim] * 6, [lim] * 6])
+    home = np.zeros(6)
+    sweep = np.zeros((3, 6))
+    # Midpoint 300 deg from home triggers the guard; -360 would bring it to -60 deg but push the
+    # start to -560 deg < -360 deg, and +360 moves it away, so the sweep is left as is.
+    sweep[:, 0] = np.radians([-200.0, 300.0, 350.0])
+    w = robot.wrap_to_home(sweep, home, qlim)
+    assert np.allclose(w, sweep)
+
+
+def test_reachable_midpoints_are_wrapped_towards_home(rc, plan):
+    home = robot.q_home(rc)
+    mid = plan.q[plan.reachable, plan.q.shape[1] // 2]
+    lim = np.radians(rc["joint_limit_deg"])
+    far = np.abs(mid - home) > 1.5 * np.pi
+    shifted_closer = far & (np.abs(mid - 2 * np.pi * np.sign(mid - home) - home) < np.abs(mid - home))
+    shifted = plan.q[plan.reachable] - 2 * np.pi * np.sign(mid - home)[:, None, :]
+    shifted_closer &= (shifted.max(1) <= lim) & (shifted.min(1) >= -lim)
+    assert not shifted_closer.any()
