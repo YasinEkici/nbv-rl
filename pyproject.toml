@@ -7,7 +7,15 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "numpy>=2.5.4",
+    "open3d>=0.20.0",
+    "pyyaml>=6.0.3",
+    "rtree>=1.4.1",
+    "scipy>=1.18.1",
+    "thingi10k>=1.5.0",
+    "trimesh>=5.2.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.11.8,<0.12.0"]
@@ -17,3 +25,7 @@ build-backend = "uv_build"
 dev = [
     "pytest>=9.2.0",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:dash"
