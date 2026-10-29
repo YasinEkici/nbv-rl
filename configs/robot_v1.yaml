@@ -1,0 +1,20 @@
+# Robot cell (D-021) and motion-time model (D-022). Geometry in mm/deg here; robot.py converts to m/rad.
+model: UR5 (roboticstoolbox DH model, rtb.models.DH.UR5)
+base_xyz_mm: [-400.0, 0.0, 0.0]   # part bbox bottom center at the origin, table plane z = 0
+base_yaw_deg: 180.0
+tcp_offset_mm: 120.0              # sensor origin along flange z
+q_home_deg: [0.0, -90.0, 90.0, -90.0, -90.0, 0.0]
+joint_limit_deg: 360.0           # UR5 datasheet range +/-360 deg on all joints (the DH model ships +/-180)
+
+ik:
+  n_samples: 5                    # poses along each sweep (start ... end)
+  n_random_starts: 8              # extra seeds after q_home for the first pose
+  seed: 0
+  ilimit: 100
+  tol: 1.0e-10                   # ik_LM residual; gives ~1e-8 m pose error
+  max_step_deg: 45.0              # max |dq| per joint between consecutive sweep samples
+  table_clearance_mm: 20.0        # all DH frame origins and the sensor origin above the table
+
+motion:                           # URScript movej trapezoid on the leading axis
+  v_rad_s: 1.05
+  a_rad_s2: 1.4

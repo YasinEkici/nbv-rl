@@ -1,0 +1,8 @@
+# Scan-pass candidates (D-020). Directions are part-independent; positions and sweep
+# lengths are computed per variant.
+n_candidates: 48
+n_candidates_sensitivity: 128
+min_elevation_deg: 10.0
+sweep_margin_mm: 20.0
+# Standoff from the part's bbox center along u: R(u) = h(u) + working_distance - depth_of_field / 2,
+# where h(u) is the part's support (farthest point) in direction u.

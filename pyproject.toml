@@ -11,6 +11,7 @@ dependencies = [
     "numpy>=2.5.4",
     "open3d>=0.20.0",
     "pyyaml>=6.0.3",
+    "roboticstoolbox-python>=1.5.0",
     "rtree>=1.4.1",
     "scipy>=1.18.1",
     "thingi10k>=1.5.0",
