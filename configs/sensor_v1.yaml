@@ -1,0 +1,9 @@
+# Generic line-laser profilometer (assumptions, not a specific product; D-019).
+working_distance_mm: 200.0
+depth_of_field_mm: 100.0        # +/- 50 mm around the working distance
+line_width_mm: 100.0            # laser line length at the working distance
+triangulation_angle_deg: 25.0   # laser axis vs camera axis
+scan_speed_mm_s: 100.0
+# Sensor frame: z = view direction (laser axis), x = sweep direction, y = z x x (laser line).
+# The camera sits on +x at working_distance * tan(triangulation_angle) and looks at the
+# working-distance point on the laser axis (used from Slice 3).
