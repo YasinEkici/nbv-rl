@@ -25,6 +25,7 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
     uv run pytest -q
     uv run python scripts/prepare_parts.py --help
     uv run python scripts/reachability.py   # scan passes, IK mask, PTP times -> results/reachability_v1.csv
+    uv run python scripts/visibility.py     # dual-occlusion visibility -> data/cache/visibility/, coverage columns
     uv run python scripts/precompute.py --config configs/<config>.yaml   # (planned, Plan 001)
     uv run python scripts/run.py --config configs/<config>.yaml          # (planned, Plan 001)
 

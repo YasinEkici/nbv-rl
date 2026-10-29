@@ -65,6 +65,11 @@ class ScanPasses:
     def rotation(self) -> np.ndarray:
         return sensor_rotations(self.view, self.sweep)
 
+    @classmethod
+    def from_cache(cls, z) -> ScanPasses:
+        """Rebuild from a robot-plan cache file (scripts/reachability.py)."""
+        return cls(*(np.asarray(z[f]) for f in ("center", "direction", "view", "sweep", "standoff", "length")))
+
 
 def make_passes(
     vertices: np.ndarray,
@@ -73,7 +78,14 @@ def make_passes(
     standoff_offset_mm: float,
     margin_mm: float,
 ) -> ScanPasses:
-    """Scan passes for one part.
+    """Scan passes for one part along `n` Fibonacci cap directions (see `passes_for_directions`)."""
+    return passes_for_directions(vertices, fibonacci_cap(n, min_elevation_deg), standoff_offset_mm, margin_mm)
+
+
+def passes_for_directions(
+    vertices: np.ndarray, directions: np.ndarray, standoff_offset_mm: float, margin_mm: float
+) -> ScanPasses:
+    """Scan passes for one part along given unit `directions` (center -> sensor).
 
     Standoff R(u) = h(u) + `standoff_offset_mm`, with h(u) the part's support in direction u, so the
     near limit of the depth of field touches the part's outermost point (D-020). The sweep is centered
@@ -82,7 +94,7 @@ def make_passes(
     lo, hi = vertices.min(0), vertices.max(0)
     center = (lo + hi) / 2
     hull = vertices[ConvexHull(vertices).vertices] - center
-    u = fibonacci_cap(n, min_elevation_deg)
+    u = np.asarray(directions, dtype=float)
     view = -u
     s = sweep_directions(view)
     h = (hull @ u.T).max(0)
