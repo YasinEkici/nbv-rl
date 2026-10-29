@@ -67,14 +67,19 @@ def main() -> None:
         t0 = time.perf_counter()
         scene = visibility.make_scene(mesh, mesh.vertices[:, 2].min() - vc["table_offset_mm"])
         t_scene = time.perf_counter() - t0
+        runs = {}
         for n in sizes:
             z = np.load(robot_cache / f"{vid}_n{n}.npz")
             t0 = time.perf_counter()
             vis = visibility.compute_visibility(scene, p, nrm, ScanPasses.from_cache(z), g, vc["ray_offset_mm"])
             dt = time.perf_counter() - t0
             vis.save(cache / f"{vid}_n{n}.npz")
-            values[(vid, str(n))] = visibility.coverage_report(vis, z["reachable"])
+            runs[n] = (vis, z["reachable"])
             timing.append({"variant_id": vid, "n": n, "scene_s": t_scene, "visibility_s": dt})
+        dense = cc["n_candidates_sensitivity"]
+        ref = visibility.union(runs[dense][0].measured(), runs[dense][1])  # NSC reference (D-028)
+        for n, (vis, reachable) in runs.items():
+            values[(vid, str(n))] = visibility.coverage_report(vis, reachable, ref)
         print(vid, {n: round(values[(vid, str(n))]["observable_reachable_over_all"], 3) for n in sizes})
     t_total = time.perf_counter() - t_total
     update_csv(Path(args.report), values)
@@ -87,7 +92,7 @@ def main() -> None:
             n = r["n_candidates"]
             vis = visibility.Visibility.load(cache / f"{r['variant_id']}_n{n}.npz")
             reachable = np.load(bdir / f"{r['variant_id']}_n{n}.npz")["reachable"]
-            rep = visibility.coverage_report(vis, reachable)
+            rep = visibility.coverage_report(vis, reachable)  # base sweep: primary ratio only
             sweep_values[(r["variant_id"], n)] = {"observable_reachable_over_all": rep["observable_reachable_over_all"]}
         update_csv(csv_path, sweep_values)
 
