@@ -23,9 +23,33 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
 ## Common commands
 
     uv run pytest -q
+    uv run python scripts/prepare_parts.py --help
     uv run python scripts/precompute.py --config configs/<config>.yaml   # (planned, Plan 001)
     uv run python scripts/run.py --config configs/<config>.yaml          # (planned, Plan 001)
 
 ## Data
 
-<Source of part meshes (ABC Dataset chunk / Thingi10K license-filtered subset), where to place them (data/raw/), and how the deviation generator creates variants.>
+Base parts are 14 mechanical meshes from [Thingi10K](https://huggingface.co/datasets/Thingi10K/Thingi10K) (Zhou & Jacobson, 2016), licensed CC BY or CC BY-SA, selected for occlusion features (internal cavities, ribs, deep holes, flanges). Each is scaled to a 200 mm longest side, and 5 cast-deviation variants per part are generated (low-frequency surface noise ≤ 0.5 mm, dents/bumps ≤ 1 mm, ±3% per-axis scale). Meshes and variants are not committed:
+
+    uv run python scripts/prepare_parts.py fetch    --config configs/parts_v1.yaml   # -> data/raw/parts/
+    uv run python scripts/prepare_parts.py split    --config configs/parts_v1.yaml   # -> configs/split_v1.yaml (committed)
+    uv run python scripts/prepare_parts.py variants --config configs/parts_v1.yaml   # -> data/cache/variants/
+
+Attribution (from configs/split_v1.yaml). Variants derived from CC BY-SA parts must be shared under CC BY-SA if distributed.
+
+| file_id | Part (Thingiverse thing) | Author | License | Split |
+|---|---|---|---|---|
+| 271875 | [PHIL](https://www.thingiverse.com/thing:136235) | Mr_MegaTronic | CC BY | val |
+| 46262 | [PrintrBot Clone](https://www.thingiverse.com/thing:14130) | PacManFan | CC BY-SA | train |
+| 124336 | [VEND - the totally printed candy dispenser](https://www.thingiverse.com/thing:45347) | Mr_MegaTronic | CC BY | train |
+| 486859 | [Dremel Devil](https://www.thingiverse.com/thing:266035) | MAKE | CC BY | test |
+| 178195 | [Turbine Rotary Tool 60000 rpm](https://www.thingiverse.com/thing:76369) | RichMac | CC BY | test |
+| 548863 | [RAPIRO - The Humanoid Robot for your Raspberry Pi](https://www.thingiverse.com/thing:309466) | ShotaIshiwatari | CC BY | train |
+| 37275 | [R. Maker - Mark I](https://www.thingiverse.com/thing:11654) | Mr_MegaTronic | CC BY-SA | val |
+| 591247 | [3D printed mechanical Clock with Anchor Escapement](https://www.thingiverse.com/thing:328569) | TheGoofy | CC BY-SA | val |
+| 65149 | [Functional Differential Gear System](https://www.thingiverse.com/thing:11836) | Thing-O-Fun | CC BY-SA | train |
+| 702389 | [OpenRC 1:10 4WD Truggy Concept RC Car](https://www.thingiverse.com/thing:42198) | barspin | CC BY-SA | train |
+| 135365 | [Customizable Battery Case (magnetic)](https://www.thingiverse.com/thing:51376) | walter | CC BY-SA | train |
+| 124532 | [Colorimeter V0.0](https://www.thingiverse.com/thing:45443) | chowderhead | CC BY-SA | train |
+| 635751 | [Adabot](https://www.thingiverse.com/thing:367226) | adafruit | CC BY-SA | train |
+| 79729 | [Guitar Hero Whammy Bar Replacement Part](https://www.thingiverse.com/thing:26714) | falconphysics | CC BY-SA | test |
