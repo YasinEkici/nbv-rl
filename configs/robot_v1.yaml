@@ -1,6 +1,6 @@
 # Robot cell (D-021) and motion-time model (D-022). Geometry in mm/deg here; robot.py converts to m/rad.
 model: UR5 (roboticstoolbox DH model, rtb.models.DH.UR5)
-base_xyz_mm: [-400.0, 0.0, 0.0]   # part bbox bottom center at the origin, table plane z = 0
+base_xyz_mm: [-350.0, 0.0, 0.0]   # D-027; part bbox bottom center at the origin, table plane z = 0
 base_yaw_deg: 180.0
 tcp_offset_mm: 120.0              # sensor origin along flange z
 q_home_deg: [0.0, -90.0, 90.0, -90.0, -90.0, 0.0]

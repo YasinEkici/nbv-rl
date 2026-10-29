@@ -117,3 +117,10 @@ def test_coverage_report_ratios():
     assert r["observable_reachable_over_all"] == 0.5
     assert r["laser_occlusion_loss"] == 0.25
     assert r["camera_occlusion_loss"] == 0.25
+
+
+def test_coverage_against_reference():
+    covered = np.array([1, 1, 0, 0, 1], bool)
+    ref = np.array([1, 0, 1, 0, 1], bool)
+    assert visibility.coverage(covered, ref) == 2 / 3
+    assert visibility.coverage(covered, np.zeros(5, bool)) == 0.0

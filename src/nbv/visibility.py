@@ -182,15 +182,29 @@ def union(matrix: np.ndarray, rows: np.ndarray | None = None) -> np.ndarray:
     return m.any(0)
 
 
-def coverage_report(vis: Visibility, reachable: np.ndarray) -> dict:
-    """Per-variant ratios (D-023): reachable vs all-pass unions and occlusion losses (fractions of samples)."""
+def coverage(covered: np.ndarray, reference: np.ndarray) -> float:
+    """Fraction of `reference` samples that are `covered` (both (N,) bool)."""
+    return float((covered & reference).sum() / max(reference.sum(), 1))
+
+
+def coverage_report(vis: Visibility, reachable: np.ndarray, dense_reference: np.ndarray | None = None) -> dict:
+    """Per-variant ratios (D-023, D-028): unions, metric ceilings, and occlusion losses.
+
+    `dense_reference` is the reachable union of the dense (128) candidate set, the NSC reference.
+    """
     meas, cam, las = vis.measured(), vis.camera_only(), vis.laser_ok()
     u_all, u_reach = union(meas), union(meas, reachable)
     u_cam, u_las = union(cam), union(las)
     n = meas.shape[1]
-    return {
+    out = {
         "union_all_over_samples": u_all.sum() / n,
         "observable_reachable_over_all": u_reach.sum() / max(u_all.sum(), 1),
+        "reachable_union_over_samples": u_reach.sum() / n,  # ceiling of raw coverage
         "laser_occlusion_loss": (u_cam & ~u_all).sum() / n,
         "camera_occlusion_loss": (u_las & ~u_all).sum() / n,
+        "laser_occlusion_loss_rel": (u_cam & ~u_all).sum() / max(u_all.sum(), 1),  # H3
     }
+    if dense_reference is not None:
+        out["nsc_ceiling"] = coverage(u_reach, dense_reference)
+        out["reachable_outside_dense_ref"] = (u_reach & ~dense_reference).sum() / max(u_reach.sum(), 1)
+    return out
