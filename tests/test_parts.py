@@ -4,7 +4,7 @@ import trimesh
 
 from nbv import parts
 
-CONFIG = "configs/parts_v1.yaml"
+CONFIG = "configs/parts_v2.yaml"
 
 
 @pytest.fixture(scope="module")

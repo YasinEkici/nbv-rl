@@ -107,7 +107,7 @@ class NBVEnv(gym.Env):
         n_candidates: int = 48,
         env_config: str = "configs/env_v1.yaml",
         robot_config: str = "configs/robot_v1.yaml",
-        parts_config: str = "configs/parts_v1.yaml",
+        parts_config: str = "configs/parts_v2.yaml",
         candidates_config: str = "configs/candidates_v1.yaml",
         loader: Callable[[str], EpisodeData] | None = None,
     ):
@@ -273,22 +273,37 @@ class NBVEnv(gym.Env):
         return self.scale * sum(parts_r.values()), {"t_home": t_home, "reward_parts": parts_r, "cycle_time": self.cycle_time}
 
 
-def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int]) -> dict:
-    """Run a fixed pass sequence through the environment (the only path for reported cycle times, D-024).
+RepairPolicy = Callable[[dict, NominalModel, np.ndarray], "int | None"]
 
-    Stops at success or truncation; passes after that are ignored. If the sequence ends first, the
-    episode is finished there (censored). Raises ValueError on a masked pass.
+
+def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int], repair: RepairPolicy | None = None) -> dict:
+    """Run a pass sequence through the environment (the only path for reported cycle times, D-024).
+
+    Stops at success or truncation; passes after that are ignored. If the sequence ends first and a
+    `repair` policy is given (open-loop plans, D-032), it adds passes from the observation and the
+    nominal model until success, K_max, or until it returns None; otherwise the episode is finished
+    there (censored). Raises ValueError on a masked pass.
     """
-    _, info = env.reset(options={"variant": variant_id})
+    obs, info = env.reset(options={"variant": variant_id})
     steps, total_reward, done = [], 0.0, False
-    for a in passes:
-        _, r, term, trunc, info = env.step(a)
+
+    def run(a: int, is_repair: bool) -> bool:
+        nonlocal obs, total_reward
+        obs, r, term, trunc, info = env.step(a)
         total_reward += r
         steps.append({k: info[k] for k in ("pass", "t_move", "t_scan", "t_home", "coverage", "coverage_nsc",
-                                           "coverage_raw", "nominal_coverage", "cycle_time")})
-        done = term or trunc
-        if done:
+                                           "coverage_raw", "nominal_coverage", "cycle_time")} | {"repair": is_repair})
+        return term or trunc
+
+    for a in passes:
+        if done := run(a, False):
             break
+    n_planned = len(steps)
+    while not done and repair is not None:
+        a = repair(obs, env.nominal, env.action_masks())
+        if a is None:
+            break
+        done = run(a, True)
     if not done:
         r, fin = env.finish()
         total_reward += r
@@ -297,7 +312,8 @@ def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int]) -> dict:
     success = bool(steps) and steps[-1]["coverage"] >= env.target
     return {
         "variant": variant_id, "env_version": ENV_VERSION, "n_candidates": env.n_candidates,
-        "steps": steps, "passes_executed": len(steps), "passes_ignored": len(passes) - len(steps),
+        "steps": steps, "passes_executed": len(steps), "passes_ignored": len(passes) - n_planned,
+        "repair_passes": len(steps) - n_planned,
         "success": success, "censored": not success,
         "passes_to_target": len(steps) if success else None,
         "cycle_time": env.cycle_time, "return": total_reward,

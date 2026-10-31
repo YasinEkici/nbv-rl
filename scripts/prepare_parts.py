@@ -2,7 +2,7 @@
 
     uv run python scripts/prepare_parts.py fetch    --config configs/parts_v1.yaml
     uv run python scripts/prepare_parts.py split    --config configs/parts_v1.yaml --out configs/split_v1.yaml
-    uv run python scripts/prepare_parts.py variants --config configs/parts_v1.yaml --manifest configs/split_v1.yaml
+    uv run python scripts/prepare_parts.py variants --config configs/parts_v2.yaml --manifest configs/split_v1.yaml
 """
 
 import argparse

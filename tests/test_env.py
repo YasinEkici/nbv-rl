@@ -202,3 +202,36 @@ def test_unsupported_pose_raises():
     e = make_env()
     with pytest.raises(NotImplementedError):
         e.reset(options={"variant": e.variants[0], "pose_id": 3})
+
+
+def test_plan_repair_adds_passes_until_done():
+    from nbv import baselines
+
+    e = make_env()
+    repair = baselines.repair_policy(e.v, e.a)
+    res = nbv_env.evaluate_sequence(e, e.variants[0], [0], repair=repair)
+    assert res["repair_passes"] == sum(s["repair"] for s in res["steps"]) == res["passes_executed"] - 1
+    assert not res["steps"][0]["repair"] and all(s["repair"] for s in res["steps"][1:])
+    total = sum(s["t_move"] + s["t_scan"] + s["t_home"] for s in res["steps"])
+    assert np.isclose(total, res["cycle_time"])
+    # Without repair the same plan is censored at its end (unless the single pass already succeeds).
+    plain = nbv_env.evaluate_sequence(make_env(), e.variants[0], [0])
+    assert plain["repair_passes"] == 0 and plain["passes_executed"] == 1
+
+
+def test_repair_of_empty_plan_is_closed_loop_greedy_cost():
+    from nbv import baselines
+
+    e = make_env()
+    repair = baselines.repair_policy(e.v, e.a)
+    res = nbv_env.evaluate_sequence(e, e.variants[0], [], repair=repair)
+    obs, _ = e.reset(options={"variant": e.variants[0]})
+    seq, done = [], False
+    while not done:
+        a = baselines.greedy_cost_action(obs, e.nominal, e.action_masks(), e.v, e.a)
+        if a is None:
+            break
+        obs, _, term, trunc, _ = e.step(a)
+        seq.append(a)
+        done = term or trunc
+    assert [s["pass"] for s in res["steps"]] == seq

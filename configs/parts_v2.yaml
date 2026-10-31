@@ -1,0 +1,60 @@
+# Base parts, geometry normalization, deviation generator, and split settings.
+# v2 (D-031): per-axis scaling tightened from +/-3% to +/-0.75%; parts, split, noise and dents unchanged.
+# Generated manifest: configs/split_v1.yaml (scripts/prepare_parts.py split).
+split_version: v1
+
+source:
+  dataset: Thingi10K
+  package: thingi10k==1.5.0
+  licenses: ["Creative Commons - Attribution", "Creative Commons - Attribution - Share Alike"]
+  filters: closed, manifold, oriented, PWN, solid, not self-intersecting, 1 component (Thingi10K metadata)
+
+paths:
+  thingi10k_cache: data/raw/.thingi10k
+  raw: data/raw/parts
+  variants: data/cache/variants_v2
+
+geometry:
+  longest_mm: 200.0    # D-017
+  max_edge_mm: 3.0     # subdivision before displacement
+
+deviation:             # D-031 (supersedes D-018)
+  noise:
+    amplitude_mm: 0.5
+    n_modes: 6
+    wavelength_mm: [40.0, 120.0]
+  dents:
+    amplitude_mm: 1.0  # signed: dent or bump
+    count: [3, 8]
+    radius_mm: [4.0, 12.0]
+  axis_scale: 0.0075   # per axis, uniform in [-0.75%, +0.75%] (~ +/-1.5 mm at 200 mm)
+
+variants:
+  per_part: 5
+  seed: 0
+
+split:                 # D-016
+  n_strata: 3
+  n_val: 3
+  n_test: 3
+  seed: 0
+
+# hard_ratio: fraction of 2000 surface samples seen from <= 3 of 48 Fibonacci directions
+# (orthographic line of sight, incidence < 80 deg, longest side scaled to 100).
+# Screening proxy from the Slice 1 candidate search; used only for stratifying the split.
+# original_unit: STL files carry no units; "mm (assumed)" where the size is plausible in mm.
+parts:
+  - {file_id: 271875, hard_ratio: 0.095, original_unit: mm (assumed)}
+  - {file_id: 46262, hard_ratio: 0.151, original_unit: mm (assumed)}
+  - {file_id: 124336, hard_ratio: 0.371, original_unit: mm (assumed)}
+  - {file_id: 486859, hard_ratio: 0.151, original_unit: "unknown, not mm (longest side 2.3 units)"}
+  - {file_id: 178195, hard_ratio: 0.132, original_unit: mm (assumed)}
+  - {file_id: 548863, hard_ratio: 0.218, original_unit: mm (assumed)}
+  - {file_id: 37275, hard_ratio: 0.231, original_unit: mm (assumed)}
+  - {file_id: 591247, hard_ratio: 0.221, original_unit: mm (assumed)}
+  - {file_id: 65149, hard_ratio: 0.052, original_unit: mm (assumed)}
+  - {file_id: 702389, hard_ratio: 0.119, original_unit: mm (assumed)}
+  - {file_id: 135365, hard_ratio: 0.403, original_unit: mm (assumed)}
+  - {file_id: 124532, hard_ratio: 0.165, original_unit: mm (assumed)}
+  - {file_id: 635751, hard_ratio: 0.075, original_unit: mm (assumed)}
+  - {file_id: 79729, hard_ratio: 0.377, original_unit: mm (assumed)}
