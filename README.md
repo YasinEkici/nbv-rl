@@ -27,6 +27,9 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
     uv run python scripts/reachability.py   # scan passes, IK mask, PTP times -> results/reachability_v1.csv
     uv run python scripts/visibility.py     # dual-occlusion visibility -> data/cache/visibility/, coverage columns
     uv run python scripts/env_benchmark.py  # environment speed and a greedy step-by-step breakdown
+    uv run python scripts/d_plan.py         # planning difficulty per part -> results/d_plan_v1.csv
+    uv run python scripts/run_baselines.py  # all baselines on train + val -> outputs/, results/registry.csv
+    uv run python scripts/ilp_bound.py      # k-pass max-coverage bound vs baselines -> results/ilp_bound_v1.csv
     uv run python scripts/precompute.py --config configs/<config>.yaml   # (planned, Plan 001)
     uv run python scripts/run.py --config configs/<config>.yaml          # (planned, Plan 001)
 
