@@ -47,3 +47,19 @@ def test_paired_difference_matches_variants():
 
 def test_iqm():
     assert evaluation.iqm(np.arange(8)) == 3.5
+
+
+def test_mark_superseded_keeps_rows(tmp_path):
+    p = tmp_path / "registry.csv"
+    evaluation.append_registry(p, [{"run_id": "a", "plan": "001", "status": "exploratory"},
+                                   {"run_id": "b", "plan": "002", "status": "canonical"}])
+    assert evaluation.mark_superseded(p, lambda r: r["plan"] == "001") == 1
+    rows = list(__import__("csv").DictReader(open(p, encoding="utf-8")))
+    assert [r["status"] for r in rows] == ["superseded", "canonical"]
+
+
+def test_aggregate_normalized_cycle_time():
+    ms = [{"success": True, "cycle_time": c, "passes_to_95": 1, "coverage_at_5": 0, "coverage_at_10": 0,
+           "auc_coverage_time": 0, "nsc_at_5": 0, "nsc_at_10": 0, "raw_at_5": 0, "raw_at_10": 0,
+           "total_joint_motion": 0, "repair_passes": 0, "normalized_cycle_time": r} for c, r in ((10, 1.0), (30, 1.5))]
+    assert evaluation.aggregate(ms)["normalized_cycle_time"] == 1.25

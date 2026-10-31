@@ -111,34 +111,54 @@ def _element_classes(vis: np.ndarray, ref: np.ndarray, rows: np.ndarray) -> tupl
     return np.unpackbits(uniq, axis=1, count=len(rows)).astype(bool), counts
 
 
-def _solve(model: cp_model.CpModel, time_limit_s: float) -> tuple[cp_model.CpSolver, str]:
+def _solve(model: cp_model.CpModel, time_limit_s: float, workers: int = 8) -> tuple[cp_model.CpSolver, str]:
     solver = cp_model.CpSolver()
     solver.parameters.max_time_in_seconds = time_limit_s
-    solver.parameters.num_workers = 8
+    solver.parameters.num_workers = workers
     solver.parameters.random_seed = 0
     status = solver.Solve(model)
     return solver, solver.StatusName(status)
 
 
 def set_cover(vis: np.ndarray, ref: np.ndarray, rows: np.ndarray, fraction: float, time_limit_s: float = 60.0) -> SolverResult:
-    """Fewest passes (among `rows`) covering >= `fraction` of the `ref` samples (partial set cover)."""
+    """Fewest passes (among `rows`) covering >= `fraction` of the `ref` samples (partial set cover).
+
+    Two stages so the result is both optimal and reproducible (D-033): (1) minimize the number of
+    passes; (2) with that number fixed, minimize a tie-break with distinct seeded weights per pass,
+    whose optimum is unique. With several workers, a single-stage solve returned a different optimal
+    cover on repeated runs; with one worker, the 95% cover at 128 candidates was not solved to
+    optimality within the time limit.
+    """
     cls, w = _element_classes(vis, ref, rows)
-    m = cp_model.CpModel()
-    x = [m.NewBoolVar(f"x{i}") for i in range(len(rows))]
     need = math.ceil(fraction * w.sum() - 1e-9)
-    if need >= w.sum():
-        for c in cls:
-            m.AddBoolOr([x[i] for i in np.flatnonzero(c)])
-    else:
-        y = [m.NewBoolVar(f"y{e}") for e in range(len(cls))]
-        for e, c in enumerate(cls):
-            m.AddBoolOr([x[i] for i in np.flatnonzero(c)]).OnlyEnforceIf(y[e])
-        m.Add(sum(int(w[e]) * y[e] for e in range(len(cls))) >= need)
-    m.Minimize(sum(x))
-    solver, status = _solve(m, time_limit_s)
-    chosen = [int(rows[i]) for i in range(len(rows)) if solver.Value(x[i])]
-    obj, bound = solver.ObjectiveValue(), solver.BestObjectiveBound()
-    return SolverResult(chosen, obj, status, (obj - bound) / max(obj, 1), solver.WallTime(), {"n_classes": len(cls)})
+
+    def model(count: int | None):
+        m = cp_model.CpModel()
+        x = [m.NewBoolVar(f"x{i}") for i in range(len(rows))]
+        if need >= w.sum():
+            for c in cls:
+                m.AddBoolOr([x[i] for i in np.flatnonzero(c)])
+        else:
+            y = [m.NewBoolVar(f"y{e}") for e in range(len(cls))]
+            for e, c in enumerate(cls):
+                m.AddBoolOr([x[i] for i in np.flatnonzero(c)]).OnlyEnforceIf(y[e])
+            m.Add(sum(int(w[e]) * y[e] for e in range(len(cls))) >= need)
+        if count is None:
+            m.Minimize(sum(x))
+        else:
+            m.Add(sum(x) == count)
+            tie = np.random.default_rng(0).permutation(len(rows)) + 1  # distinct weights -> unique optimum
+            m.Minimize(sum(int(tie[i]) * x[i] for i in range(len(rows))))
+        return m, x
+
+    m1, _ = model(None)
+    s1, status = _solve(m1, time_limit_s)
+    obj, bound = s1.ObjectiveValue(), s1.BestObjectiveBound()
+    m2, x = model(int(round(obj)))
+    s2, status2 = _solve(m2, time_limit_s)
+    chosen = [int(rows[i]) for i in range(len(rows)) if s2.Value(x[i])]
+    return SolverResult(chosen, obj, status, (obj - bound) / max(obj, 1), s1.WallTime() + s2.WallTime(),
+                        {"n_classes": len(cls), "tie_break_status": status2})
 
 
 def max_coverage(vis: np.ndarray, ref: np.ndarray, rows: np.ndarray, k: int, time_limit_s: float = 60.0) -> SolverResult:
@@ -250,6 +270,73 @@ def ilp_tsp_plan(nominal: NominalModel, fraction: float = 0.95, time_limit_s: fl
     sc = set_cover(nominal.visibility, nominal.union, rows, fraction, time_limit_s)
     order, info = tsp_order(nominal, sc.passes)
     return order, {"ilp_status": sc.status, "ilp_gap": sc.gap, "ilp_passes": len(sc.passes), "ilp_wall_s": sc.wall_s, **info}
+
+
+def planner_cost(nominal: NominalModel, seq: list[int]) -> float:
+    """Planner objective of a pass sequence: scan times + ptp_pi tour from home back to home (s)."""
+    return tour_cost(nominal, seq) + float(nominal.scan_time[seq].sum()) if seq else 0.0
+
+
+def joint_opt_plan(nominal: NominalModel, fraction: float = 0.95, time_limit_s: float = 300.0,
+                   hint: list[int] | None = None, workers: int = 8) -> tuple[list[int], dict]:
+    """Joint optimum reference (D-035): choose and order passes in one CP-SAT model.
+
+    Nodes: home (0) + reachable passes. A circuit through home; skipped passes take their self-loop.
+    Coverage: >= `fraction` of the nominal reachable union (merged sample classes, as in set cover).
+    Objective: scan times of chosen passes + ptp_pi arc times incl. leaving and returning home, in ms.
+    `hint` (e.g. the ILP + TSP plan) is given as a solution hint. Returns the plan and solver info,
+    including CP-SAT's lower bound, so the gap to the true joint optimum is bracketed.
+    """
+    rows = np.flatnonzero(nominal.reachable)
+    R = len(rows)
+    ms = lambda t: int(round(float(t) * 1000))  # noqa: E731
+    m = cp_model.CpModel()
+    x = [m.NewBoolVar(f"x{i}") for i in range(R)]
+    arcs, cost_terms, arc_var = [], [], {}
+    for i in range(R):
+        arcs.append((i + 1, i + 1, x[i].Not()))  # skipped pass
+        a0, a1 = m.NewBoolVar(f"h_{i}"), m.NewBoolVar(f"{i}_h")
+        arcs += [(0, i + 1, a0), (i + 1, 0, a1)]
+        arc_var[(-1, i)], arc_var[(i, -1)] = a0, a1
+        cost_terms += [ms(nominal.from_home_pi[rows[i]]) * a0, ms(nominal.to_home_pi[rows[i]]) * a1,
+                       ms(nominal.scan_time[rows[i]]) * x[i]]
+        for j in range(R):
+            if i != j:
+                b = m.NewBoolVar(f"{i}_{j}")
+                arcs.append((i + 1, j + 1, b))
+                arc_var[(i, j)] = b
+                cost_terms.append(ms(nominal.ptp_pi[rows[i], rows[j]]) * b)
+    m.AddCircuit(arcs)
+    cls, w = _element_classes(nominal.visibility, nominal.union, rows)
+    y = [m.NewBoolVar(f"y{e}") for e in range(len(cls))]
+    for e, c in enumerate(cls):
+        m.AddBoolOr([x[i] for i in np.flatnonzero(c)]).OnlyEnforceIf(y[e])
+    m.Add(sum(int(w[e]) * y[e] for e in range(len(cls))) >= math.ceil(fraction * w.sum() - 1e-9))
+    m.Minimize(sum(cost_terms))
+    if hint:
+        idx = {int(r): i for i, r in enumerate(rows)}
+        h = [idx[p] for p in hint]
+        on = set(zip([-1, *h], [*h, -1]))
+        for key, var in arc_var.items():
+            m.AddHint(var, key in on)
+        for i in range(R):
+            m.AddHint(x[i], i in h)
+    solver = cp_model.CpSolver()
+    solver.parameters.max_time_in_seconds = time_limit_s
+    solver.parameters.num_workers = workers
+    solver.parameters.random_seed = 0
+    status = solver.StatusName(solver.Solve(m))
+    # Follow the circuit from home.
+    order, node = [], -1
+    for _ in range(R):
+        nxt = next((j for j in range(R) if (node, j) in arc_var and solver.Value(arc_var[(node, j)])), None)
+        if nxt is None:
+            break
+        order.append(int(rows[nxt]))
+        node = nxt
+    obj, bound = solver.ObjectiveValue() / 1000, solver.BestObjectiveBound() / 1000
+    return order, {"joint_status": status, "joint_obj_s": obj, "joint_bound_s": bound,
+                   "joint_wall_s": solver.WallTime(), "joint_passes": len(order)}
 
 
 def random_tsp_plan(nominal: NominalModel, k: int, rng: np.random.Generator) -> tuple[list[int], dict]:
