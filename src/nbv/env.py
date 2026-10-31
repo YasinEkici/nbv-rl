@@ -18,6 +18,7 @@ potential is reset (- alpha * discount * C_end), so the shaping terms sum to zer
 
 from __future__ import annotations
 
+import os
 from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
@@ -72,7 +73,9 @@ def _nominal_points(fid: int, vis_dir: Path, parts_cfg: dict) -> tuple[np.ndarra
         mesh = parts.load_base(Path(parts_cfg["paths"]["raw"]) / f"{fid}.ply", g["longest_mm"], g["max_edge_mm"])
         s = np.load(vis_dir / f"samples_{fid}.npz")
         p, n = visibility.SurfaceSamples(s["face"], s["bary"]).on(mesh)
-        np.savez_compressed(path, points=p, normals=n)
+        tmp = path.with_name(f"{path.stem}.{os.getpid()}.tmp.npz")
+        np.savez_compressed(tmp, points=p, normals=n)
+        os.replace(tmp, path)  # atomic: parallel workers never read a half-written file
     z = np.load(path)
     return z["points"], z["normals"]
 
@@ -199,6 +202,7 @@ class NBVEnv(gym.Env):
         self._q = self.q_home.copy()
         self._step, self._c, self._c_nom = 0, 0.0, 0.0
         self._t_move = self._t_scan = self._t_home = 0.0
+        self._joint_motion = 0.0
         self._done = False
         return self._obs(), {"variant": vid, "action_mask": self.action_masks(), **self.coverages()}
 
@@ -210,6 +214,7 @@ class NBVEnv(gym.Env):
             raise ValueError(f"pass {a} is masked (unreachable or already used)")
         nom, real = self.data.nominal, self.data.real
         t_move, sweep = robot.transfer(self._q, nom.q_plan[a], self.qlim, self.v, self.a)
+        joint_motion = float(np.abs(sweep[0] - self._q).sum())  # rad, between passes
         t_scan = float(nom.scan_time[a])
         self._q = sweep[-1].copy()
         self._used[a] = True
@@ -220,6 +225,7 @@ class NBVEnv(gym.Env):
         c_old, c_new = self._c, cov["coverage"]
         self._c, self._c_nom = c_new, cov["nominal_coverage"]
         self._t_move += t_move
+        self._joint_motion += joint_motion
         self._t_scan += t_scan
 
         success = c_new >= self.target
@@ -236,16 +242,18 @@ class NBVEnv(gym.Env):
         if success or truncated:
             t_home = float(robot.movej_time(self.q_home - self._q, self.v, self.a))
             self._t_home = t_home
+            self._joint_motion += float(np.abs(self.q_home - self._q).sum())
             parts_r["home"] = -self.beta * t_home
             if self.phi_zero:
                 parts_r["terminal_potential"] = -self.alpha * self.discount * c_new
             self._done = True
         reward = self.scale * sum(parts_r.values())
         info = {
-            "pass": a, "t_move": t_move, "t_scan": t_scan, "t_home": t_home,
+            "pass": a, "t_move": t_move, "t_scan": t_scan, "t_home": t_home, "joint_motion": joint_motion,
             "delta_coverage": c_new - c_old, "reward_parts": parts_r, **cov,
             "coverage_gap_nominal_minus_real": cov["nominal_coverage"] - c_new,
-            "cycle_time": self.cycle_time, "success": success, "action_mask": self.action_masks(),
+            "cycle_time": self.cycle_time, "total_joint_motion": self._joint_motion,
+            "success": success, "action_mask": self.action_masks(),
         }
         return self._obs(), reward, success, truncated, info
 
@@ -268,15 +276,59 @@ class NBVEnv(gym.Env):
             raise RuntimeError("episode is already over")
         t_home = float(robot.movej_time(self.q_home - self._q, self.v, self.a))
         self._t_home = t_home
+        self._joint_motion += float(np.abs(self.q_home - self._q).sum())
         parts_r = {"home": -self.beta * t_home, "terminal_potential": -self.alpha * self.discount * self._c if self.phi_zero else 0.0}
         self._done = True
-        return self.scale * sum(parts_r.values()), {"t_home": t_home, "reward_parts": parts_r, "cycle_time": self.cycle_time}
+        return self.scale * sum(parts_r.values()), {
+            "t_home": t_home, "reward_parts": parts_r, "cycle_time": self.cycle_time,
+            "total_joint_motion": self._joint_motion,
+        }
 
 
-RepairPolicy = Callable[[dict, NominalModel, np.ndarray], "int | None"]
+Policy = Callable[[dict, NominalModel, np.ndarray], "int | None"]
 
 
-def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int], repair: RepairPolicy | None = None) -> dict:
+def _run(env: NBVEnv, variant_id: str, plan: list[int], follow: Policy | None, follow_is_repair: bool) -> dict:
+    obs, info = env.reset(options={"variant": variant_id})
+    steps, total_reward, done = [], 0.0, False
+    keys = ("pass", "t_move", "t_scan", "t_home", "joint_motion", "coverage", "coverage_nsc", "coverage_raw",
+            "nominal_coverage", "cycle_time", "total_joint_motion")
+
+    def run(a: int, is_repair: bool) -> bool:
+        nonlocal obs, total_reward
+        obs, r, term, trunc, info = env.step(a)
+        total_reward += r
+        steps.append({k: info[k] for k in keys} | {"repair": is_repair})
+        return term or trunc
+
+    for a in plan:
+        if done := run(a, False):
+            break
+    n_planned = len(steps)
+    while not done and follow is not None:
+        a = follow(obs, env.nominal, env.action_masks())
+        if a is None:
+            break
+        done = run(a, follow_is_repair)
+    if not done:
+        r, fin = env.finish()
+        total_reward += r
+        if steps:
+            steps[-1].update(t_home=fin["t_home"], cycle_time=fin["cycle_time"],
+                             total_joint_motion=fin["total_joint_motion"])
+    success = bool(steps) and steps[-1]["coverage"] >= env.target
+    return {
+        "variant": variant_id, "env_version": ENV_VERSION, "n_candidates": env.n_candidates,
+        "steps": steps, "passes_executed": len(steps), "passes_ignored": len(plan) - n_planned,
+        "repair_passes": len(steps) - n_planned if follow_is_repair else 0,
+        "success": success, "censored": not success,
+        "passes_to_target": len(steps) if success else None,
+        "cycle_time": env.cycle_time, "total_joint_motion": steps[-1]["total_joint_motion"] if steps else 0.0,
+        "return": total_reward,
+    }
+
+
+def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int], repair: Policy | None = None) -> dict:
     """Run a pass sequence through the environment (the only path for reported cycle times, D-024).
 
     Stops at success or truncation; passes after that are ignored. If the sequence ends first and a
@@ -284,37 +336,15 @@ def evaluate_sequence(env: NBVEnv, variant_id: str, passes: list[int], repair: R
     nominal model until success, K_max, or until it returns None; otherwise the episode is finished
     there (censored). Raises ValueError on a masked pass.
     """
-    obs, info = env.reset(options={"variant": variant_id})
-    steps, total_reward, done = [], 0.0, False
+    return _run(env, variant_id, passes, repair, True)
 
-    def run(a: int, is_repair: bool) -> bool:
-        nonlocal obs, total_reward
-        obs, r, term, trunc, info = env.step(a)
-        total_reward += r
-        steps.append({k: info[k] for k in ("pass", "t_move", "t_scan", "t_home", "coverage", "coverage_nsc",
-                                           "coverage_raw", "nominal_coverage", "cycle_time")} | {"repair": is_repair})
-        return term or trunc
 
-    for a in passes:
-        if done := run(a, False):
-            break
-    n_planned = len(steps)
-    while not done and repair is not None:
-        a = repair(obs, env.nominal, env.action_masks())
-        if a is None:
-            break
-        done = run(a, True)
-    if not done:
-        r, fin = env.finish()
-        total_reward += r
-        if steps:
-            steps[-1].update(t_home=fin["t_home"], cycle_time=fin["cycle_time"])
-    success = bool(steps) and steps[-1]["coverage"] >= env.target
-    return {
-        "variant": variant_id, "env_version": ENV_VERSION, "n_candidates": env.n_candidates,
-        "steps": steps, "passes_executed": len(steps), "passes_ignored": len(passes) - n_planned,
-        "repair_passes": len(steps) - n_planned,
-        "success": success, "censored": not success,
-        "passes_to_target": len(steps) if success else None,
-        "cycle_time": env.cycle_time, "return": total_reward,
-    }
+def evaluate_policy(env: NBVEnv, variant_id: str, make_policy: Callable[[NBVEnv], Policy]) -> dict:
+    """Run a closed-loop policy until success, truncation, or until it returns None (censored).
+
+    `make_policy(env)` is called after reset, so privileged baselines (greedy-oracle) can bind the
+    episode's real part explicitly; nominal baselines must not use `env` beyond configuration.
+    """
+    env.reset(options={"variant": variant_id})
+    policy = make_policy(env)
+    return _run(env, variant_id, [], policy, False)
