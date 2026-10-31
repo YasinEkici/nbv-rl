@@ -83,6 +83,26 @@ def wrap_pi(dq: np.ndarray) -> np.ndarray:
     return (dq + np.pi) % (2 * np.pi) - np.pi
 
 
+def transfer(q: np.ndarray, sweep: np.ndarray, qlim: np.ndarray, v: float, a: float) -> tuple[float, np.ndarray]:
+    """Move from joint state `q` to the start of `sweep` (k, n) while tracking multi-turn joints (D-024).
+
+    Per joint, the target is the start value closest to q modulo 2*pi ([-pi, pi] difference), unless
+    the whole shifted sweep would leave `qlim`; then the next closest valid 2*pi shift is used (the
+    unshifted sweep is always valid). Returns the movej time and the sweep as executed.
+    """
+    out = sweep.copy()
+    two_pi = 2 * np.pi
+    for j in range(len(q)):
+        base = q[j] + wrap_pi(sweep[0, j] - q[j]) - sweep[0, j]  # multiple of 2*pi
+        shifts = sorted({base + m * two_pi for m in (-2, -1, 0, 1, 2)}, key=lambda s: abs(sweep[0, j] + s - q[j]))
+        for s in (*shifts, 0.0):
+            c = sweep[:, j] + s
+            if c.min() >= qlim[0, j] and c.max() <= qlim[1, j]:
+                out[:, j] = c
+                break
+    return float(movej_time(out[0] - q, v, a)), out
+
+
 def clears_table(robot: rtb.DHRobot, q: np.ndarray, clearance_m: float) -> bool:
     """All DH frame origins after the base, and the sensor origin, are above the table plane."""
     z = robot.fkine_all(q).t[1:, 2]
