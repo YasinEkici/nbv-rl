@@ -28,7 +28,7 @@ import numpy as np
 
 from nbv import parts, robot, visibility
 
-ENV_VERSION = "v1"
+ENV_VERSION = "v2"  # v2: K_max 40 at 128 candidates (D-036)
 
 
 @dataclass(frozen=True)
@@ -108,7 +108,7 @@ class NBVEnv(gym.Env):
         self,
         variants: list[str],
         n_candidates: int = 48,
-        env_config: str = "configs/env_v1.yaml",
+        env_config: str = "configs/env_v2.yaml",
         robot_config: str = "configs/robot_v1.yaml",
         parts_config: str = "configs/parts_v2.yaml",
         candidates_config: str = "configs/candidates_v1.yaml",

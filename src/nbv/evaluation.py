@@ -75,6 +75,8 @@ def aggregate(metrics: list[dict]) -> dict:
         "nsc_at_5": mean("nsc_at_5"), "nsc_at_10": mean("nsc_at_10"), "raw_at_5": mean("raw_at_5"),
         "raw_at_10": mean("raw_at_10"), "total_joint_motion_rad": mean("total_joint_motion"),
         "repair_passes": mean("repair_passes"),
+        # cycle time / ILP + TSP cycle time on the same variant (D-034); set by the caller per episode
+        "normalized_cycle_time": mean("normalized_cycle_time") if metrics and "normalized_cycle_time" in metrics[0] else float("nan"),
     }
 
 
@@ -114,6 +116,21 @@ def append_registry(path: Path, rows: list[dict]) -> None:
             w.writeheader()
         for r in rows:
             w.writerow({k: r.get(k, "") for k in REGISTRY_FIELDS})
+
+
+def mark_superseded(path: Path, predicate) -> int:
+    """Set status = superseded on rows matching `predicate`; rows are never deleted. Returns the count."""
+    rows = list(csv.DictReader(open(path, encoding="utf-8")))
+    n = 0
+    for r in rows:
+        if predicate(r):
+            r["status"] = "superseded"
+            n += 1
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=REGISTRY_FIELDS)
+        w.writeheader()
+        w.writerows(rows)
+    return n
 
 
 def registry_row(run_id: str, method: str, config: str, split: str, seed: int | str, summary: dict,

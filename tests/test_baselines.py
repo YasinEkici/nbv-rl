@@ -115,3 +115,31 @@ def test_random_tsp_plan_uses_k_distinct_reachable_passes():
     plan, info = baselines.random_tsp_plan(nom, 4, np.random.default_rng(0))
     assert len(plan) == 4 == len(set(plan)) and all(nom.reachable[plan])
     assert info["tsp"] == "held_karp"
+
+
+def test_joint_opt_is_optimal_on_small_instance_and_never_worse_than_ilp_tsp():
+    nom = synthetic().nominal
+    rows = np.flatnonzero(nom.reachable)
+    need = math.ceil(0.95 * nom.union.sum() - 1e-9)
+    best = math.inf
+    for r in range(1, len(rows) + 1):
+        for sub in itertools.combinations(rows, r):
+            if (nom.visibility[list(sub)].any(0) & nom.union).sum() < need:
+                continue
+            for perm in itertools.permutations(sub):
+                best = min(best, baselines.planner_cost(nom, list(perm)))
+    ilp, _ = baselines.ilp_tsp_plan(nom, time_limit_s=10)
+    plan, info = baselines.joint_opt_plan(nom, time_limit_s=30, hint=ilp, workers=1)
+    assert info["joint_status"] == "OPTIMAL"
+    assert (nom.visibility[plan].any(0) & nom.union).sum() >= need
+    assert np.isclose(baselines.planner_cost(nom, plan), best, atol=5e-3)  # ms rounding
+    assert baselines.planner_cost(nom, plan) <= baselines.planner_cost(nom, ilp) + 5e-3
+    assert info["joint_bound_s"] <= info["joint_obj_s"] + 1e-9
+
+
+@pytest.mark.skipif(not Path("data/cache/visibility/nominal").exists(), reason="needs precomputed caches")
+def test_ilp_tsp_plan_is_reproducible():
+    e = nbv_env.NBVEnv(["65149_v0"])
+    e.reset(options={"variant": "65149_v0"})
+    plans = {tuple(baselines.ilp_tsp_plan(e.nominal)[0]) for _ in range(3)}
+    assert len(plans) == 1
