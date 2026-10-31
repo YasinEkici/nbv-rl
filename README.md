@@ -32,11 +32,11 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
 
 ## Data
 
-Base parts are 14 mechanical meshes from [Thingi10K](https://huggingface.co/datasets/Thingi10K/Thingi10K) (Zhou & Jacobson, 2016), licensed CC BY or CC BY-SA, selected for occlusion features (internal cavities, ribs, deep holes, flanges). Each is scaled to a 200 mm longest side, and 5 cast-deviation variants per part are generated (low-frequency surface noise ≤ 0.5 mm, dents/bumps ≤ 1 mm, ±3% per-axis scale). Meshes and variants are not committed:
+Base parts are 14 mechanical meshes from [Thingi10K](https://huggingface.co/datasets/Thingi10K/Thingi10K) (Zhou & Jacobson, 2016), licensed CC BY or CC BY-SA, selected for occlusion features (internal cavities, ribs, deep holes, flanges). Each is scaled to a 200 mm longest side, and 5 cast-deviation variants per part are generated (low-frequency surface noise ≤ 0.5 mm, dents/bumps ≤ 1 mm, ±0.75% per-axis scale). Meshes and variants are not committed:
 
     uv run python scripts/prepare_parts.py fetch    --config configs/parts_v1.yaml   # -> data/raw/parts/
     uv run python scripts/prepare_parts.py split    --config configs/parts_v1.yaml   # -> configs/split_v1.yaml (committed)
-    uv run python scripts/prepare_parts.py variants --config configs/parts_v1.yaml   # -> data/cache/variants/
+    uv run python scripts/prepare_parts.py variants --config configs/parts_v2.yaml   # -> data/cache/variants_v2/
 
 Attribution (from configs/split_v1.yaml). Variants derived from CC BY-SA parts must be shared under CC BY-SA if distributed.
 

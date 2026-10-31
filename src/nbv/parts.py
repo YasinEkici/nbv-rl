@@ -1,6 +1,6 @@
 """Part meshes: loading, cast-deviation generator, and train/validation/test split.
 
-Base parts come from Thingi10K (configs/parts_v1.yaml). `fetch_parts` is the only
+Base parts come from Thingi10K (configs/parts_v2.yaml; v1 had wider scaling, D-031). `fetch_parts` is the only
 function that touches the `thingi10k` package. It imports it lazily because on Windows
 `thingi10k` (via lagrange) fails to load if open3d was imported first in the same
 process; everything else in this module works on PLY files with trimesh only.

@@ -91,7 +91,7 @@ def test_deterministic_and_roundtrip(geometry, tmp_path):
 
 
 def test_samples_follow_the_variant_surface():
-    cfg = parts.load_yaml("configs/parts_v1.yaml")
+    cfg = parts.load_yaml("configs/parts_v2.yaml")
     g = cfg["geometry"]
     base = parts.subdivide(parts.normalize(trimesh.creation.annulus(20.0, 40.0, 30.0), g["longest_mm"]), g["max_edge_mm"])
     var = parts.make_variant(base, cfg["deviation"], parts.variant_rng(0, 1, 0))

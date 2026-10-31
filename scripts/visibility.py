@@ -36,7 +36,7 @@ def update_csv(path: Path, values: dict[tuple[str, str], dict]) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--parts", default="configs/parts_v1.yaml")
+    ap.add_argument("--parts", default="configs/parts_v2.yaml")
     ap.add_argument("--manifest", default="configs/split_v1.yaml")
     ap.add_argument("--sensor", default="configs/sensor_v1.yaml")
     ap.add_argument("--candidates", default="configs/candidates_v1.yaml")
