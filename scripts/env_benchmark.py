@@ -61,8 +61,8 @@ def main() -> None:
                 steps += 1
                 done = term or trunc
             ep_times.append(time.perf_counter() - e0)
-            ep_len.append(info["cycle_time"])
-            success += info["success"]
+            ep_len.append(info["agent"]["cycle_time"])
+            success += info["agent"]["success"]
         dt = time.perf_counter() - t0
         report[f"random_n{n}"] = {
             "steps_per_s": steps / dt, "episode_wall_ms_median": 1e3 * float(np.median(ep_times)),

@@ -29,7 +29,7 @@ METHODS = ["random", "fixed", "greedy_ig", "greedy_cost", "greedy_oracle", "ilp_
 INFO = {"random": "none", "fixed": "nominal", "greedy_ig": "nominal", "greedy_cost": "nominal",
         "greedy_oracle": "real", "ilp_tsp": "nominal", "random_tsp": "nominal", "mcts": "nominal",
         "joint_opt": "nominal (solver-based upper reference, not an oracle)"}
-ENV_CONFIG = "configs/env_v2.yaml"
+ENV_CONFIG = "configs/env_v3.yaml"
 # Every config the run or its precomputed caches depend on; hashed into the registry `config` column.
 CONFIG_FILES = [ENV_CONFIG, "configs/robot_v1.yaml", "configs/parts_v2.yaml", "configs/split_v1.yaml",
                 "configs/candidates_v1.yaml", "configs/sensor_v1.yaml", "configs/visibility_v1.yaml"]
@@ -64,13 +64,10 @@ def run_task(task: dict) -> dict:
             res = evaluate_sequence(env, vid, plan, repair)
             info = {**info, "plan": plan, "success_without_repair": evaluate_sequence(env, vid, plan)["success"]}
         else:
-            make = {
-                "random": lambda e: baselines.random_policy(rng),
-                "greedy_ig": lambda e: baselines.greedy_ig_action,
-                "greedy_cost": lambda e: baselines.greedy_cost_policy(e.v, e.a),
-                "greedy_oracle": lambda e: baselines.greedy_oracle_policy(e.data.real),
-                "mcts": lambda e: baselines.MCTSPlanner(e.v, e.a, rng, e.k_max, e.target),
-            }[method]
+            if method == "greedy_oracle":  # privileged by design (upper reference)
+                make = lambda e: baselines.greedy_oracle_policy(e.data.real)  # noqa: E731
+            else:
+                make = lambda e: baselines.make_policy(method, e, rng)  # noqa: E731
             res = evaluate_policy(env, vid, make)
         m = evaluation.episode_metrics(res)
         episodes.append({"run_id": task["run_id"], "method": method, "variant": vid, "part": fid, "split": split,

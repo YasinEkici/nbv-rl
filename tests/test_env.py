@@ -46,7 +46,7 @@ def greedy_episode(e, seed=None):
         gain = features.nominal_gain(obs, e.nominal).astype(float)
         gain[~e.action_masks()] = -1
         obs, r, term, trunc, info = e.step(int(np.argmax(gain)))
-        infos.append(info)
+        infos.append(info["agent"] | info["eval"])
         rewards.append(r)
         done = term or trunc
     return infos, rewards
@@ -59,18 +59,36 @@ def test_coverage_is_monotonic_and_bounded():
     assert 0.0 <= c[0] and c[-1] <= 1.0
 
 
-def test_shaping_parts_sum_to_final_coverage_and_reset_at_end():
+def test_return_is_minus_cycle_time_plus_bonus():
+    for data in (synthetic(), synthetic(seed=3)):
+        e = make_env(data)
+        infos, rewards = greedy_episode(e)
+        assert np.isclose(sum(i["delta_coverage"] for i in infos), infos[-1]["coverage"])
+        assert all(set(i["reward_parts"]) == {"move", "scan", "home", "bonus"} for i in infos)
+        expected = -e.cycle_time + (e.bonus if infos[-1]["success"] else 0.0)
+        assert np.isclose(sum(rewards), expected)
+    # Random policies, including episodes that end at K_max without success.
+    for seed in range(5):
+        e = make_env()
+        e.k_max = 3
+        obs, _ = e.reset(seed=seed, options={"variant": e.variants[0]})
+        rng, total, done = np.random.default_rng(seed), 0.0, False
+        while not done:
+            obs, r, term, trunc, info = e.step(int(rng.choice(np.flatnonzero(e.action_masks()))))
+            total += r
+            done = term or trunc
+        assert np.isclose(total, -e.cycle_time + e.bonus * info["agent"]["success"])
+
+
+def test_info_separates_agent_and_eval_fields():
     e = make_env()
-    infos, rewards = greedy_episode(e)
-    parts = [i["reward_parts"] for i in infos]
-    c_end = infos[-1]["coverage"]
-    assert np.isclose(sum(i["delta_coverage"] for i in infos), c_end)
-    assert np.isclose(sum(p["shaping"] for p in parts), e.alpha * c_end)  # discount 1
-    assert np.isclose(parts[-1]["terminal_potential"], -e.alpha * c_end)
-    assert np.isclose(sum(p["shaping"] + p["terminal_potential"] for p in parts), 0.0)
-    # Total return = -cycle time + bonus when successful (option (i), beta = gamma_t = 1).
-    expected = -e.cycle_time + (e.bonus if infos[-1]["success"] else 0.0)
-    assert np.isclose(sum(rewards), expected)
+    _, info = e.reset(options={"variant": e.variants[0]})
+    assert set(info) == {"agent", "eval"}
+    assert set(info["eval"]) == {"coverage", "coverage_nsc", "coverage_raw"}
+    _, _, _, _, info = e.step(0)
+    assert set(info["eval"]) == {"coverage", "coverage_nsc", "coverage_raw", "delta_coverage", "coverage_gap_nominal_minus_real"}
+    assert not set(info["agent"]) & set(info["eval"])
+    assert "coverage" not in info["agent"]
 
 
 def test_masked_action_raises():
@@ -110,7 +128,7 @@ def test_transfers_respect_wrapped_lower_bound():
     assert infos[-1]["t_home"] >= nom.to_home_pi[prev] - 1e-9
 
 
-def test_truncation_at_k_max():
+def test_k_max_terminates_the_episode():
     data = synthetic()
     # Real visibility that never reaches the target: each pass sees a single distinct sample.
     real_vis = np.zeros((P, N), bool)
@@ -122,7 +140,9 @@ def test_truncation_at_k_max():
     e.reset(options={"variant": data.variant_id})
     for k, a in enumerate((0, 1, 3)):
         _, _, term, trunc, info = e.step(a)
-    assert not term and trunc and e.state()["step"] == 3 and info["t_home"] > 0
+    # The budget is part of the task (D-038): a real end, not a time limit.
+    assert term and not trunc and e.state()["step"] == 3 and info["agent"]["t_home"] > 0
+    assert not info["agent"]["success"] and info["agent"]["reward_parts"]["bonus"] == 0.0
 
 
 def test_hand_computed_joint_tracking():
@@ -138,7 +158,7 @@ def test_hand_computed_joint_tracking():
             target[j] = q[j] + robot.wrap_pi(sweep[0, j] - q[j])
         t = robot.movej_time(target - q, e.v, e.a)
         _, _, _, _, info = e.step(a)
-        assert np.isclose(info["t_move"], t)
+        assert np.isclose(info["agent"]["t_move"], t)
         expected += t + data.nominal.scan_time[a]
         q = target + (sweep[-1] - sweep[0])
         assert np.allclose(e.state()["q"], q)

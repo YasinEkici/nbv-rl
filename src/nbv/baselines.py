@@ -17,7 +17,7 @@ from ortools.constraint_solver import pywrapcp, routing_enums_pb2
 from ortools.sat.python import cp_model
 
 from nbv import features
-from nbv.env import NominalModel, RealPart
+from nbv.env import NBVEnv, NominalModel, RealPart
 from nbv.robot import movej_time, wrap_pi
 
 Policy = Callable[[dict, NominalModel, np.ndarray], "int | None"]
@@ -57,6 +57,25 @@ def greedy_cost_policy(v: float, a: float) -> Policy:
 def repair_policy(v: float, a: float) -> Policy:
     """Plan repair for open-loop methods (D-032): cost-aware greedy with nominal visibility."""
     return greedy_cost_policy(v, a)
+
+
+NOMINAL_POLICIES = ("random", "greedy_ig", "greedy_cost", "mcts")
+
+
+def make_policy(method: str, env: NBVEnv, rng: np.random.Generator) -> Policy:
+    """Closed-loop baseline that needs no privileged data; reads only configuration from `env`.
+
+    greedy-oracle is built separately with `greedy_oracle_policy(env.data.real)` (upper reference).
+    """
+    if method == "random":
+        return random_policy(rng)
+    if method == "greedy_ig":
+        return greedy_ig_action
+    if method == "greedy_cost":
+        return greedy_cost_policy(env.v, env.a)
+    if method == "mcts":
+        return MCTSPlanner(env.v, env.a, rng, env.k_max, env.target)
+    raise ValueError(f"unknown nominal policy {method}")
 
 
 def greedy_oracle_policy(real: RealPart) -> Policy:
