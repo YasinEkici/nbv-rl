@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from nbv import evaluation
 
@@ -63,3 +64,45 @@ def test_aggregate_normalized_cycle_time():
            "auc_coverage_time": 0, "nsc_at_5": 0, "nsc_at_10": 0, "raw_at_5": 0, "raw_at_10": 0,
            "total_joint_motion": 0, "repair_passes": 0, "normalized_cycle_time": r} for c, r in ((10, 1.0), (30, 1.5))]
     assert evaluation.aggregate(ms)["normalized_cycle_time"] == 1.25
+
+
+def test_run_ids_are_unique_within_one_invocation():
+    ids = {evaluation.new_run_id("p001x-random-n48-train-s0-v2", stamp="20261103T120000") for _ in range(2000)}
+    assert len(ids) == 2000
+
+
+def test_write_run_never_overwrites(tmp_path):
+    out = tmp_path / "outputs" / "run-a"
+    evaluation.write_run(out, {"a": 1}, {"commit": "x"}, [{"e": 1}], {"m": 1.0})
+    before = (out / "episodes.jsonl").read_text(encoding="utf-8")
+    with pytest.raises(FileExistsError):
+        evaluation.write_run(out, {"a": 2}, {"commit": "y"}, [{"e": 2}], {"m": 2.0})
+    assert (out / "episodes.jsonl").read_text(encoding="utf-8") == before
+
+
+def test_registry_rejects_a_repeated_run_id(tmp_path):
+    p = tmp_path / "registry.csv"
+    evaluation.append_registry(p, [{"run_id": "a"}])
+    with pytest.raises(ValueError):
+        evaluation.append_registry(p, [{"run_id": "a"}])
+    with pytest.raises(ValueError):
+        evaluation.append_registry(tmp_path / "other.csv", [{"run_id": "b"}, {"run_id": "b"}])
+
+
+def test_canonical_run_refused_on_dirty_tree():
+    dirty = {"commit": "abc1234", "dirty": True, "changed_files": ["src/nbv/env.py"]}
+    with pytest.raises(RuntimeError):
+        evaluation.check_status("canonical", dirty)
+    evaluation.check_status("exploratory", dirty)
+    evaluation.check_status("canonical", dirty | {"dirty": False, "changed_files": []})
+    assert evaluation.commit_label(dirty) == "abc1234-dirty"
+
+
+def test_config_ref_names_files_and_hashes_contents(tmp_path):
+    a = tmp_path / "a.yaml"
+    a.write_text("x: 1\n", encoding="utf-8")
+    h1 = evaluation.file_hashes([str(a)])
+    ref = evaluation.config_ref(h1, {"n": 48})
+    assert ref.startswith(f"{a};n=48 sha256:")
+    a.write_text("x: 2\n", encoding="utf-8")
+    assert evaluation.config_ref(evaluation.file_hashes([str(a)]), {"n": 48}) != ref

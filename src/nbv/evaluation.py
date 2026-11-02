@@ -11,9 +11,10 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import secrets
 import subprocess
 from collections import defaultdict
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import numpy as np
@@ -83,22 +84,62 @@ def aggregate(metrics: list[dict]) -> dict:
 # --- Registry and run outputs ---------------------------------------------------------
 
 
-def git_commit() -> str:
+def _git(*args: str) -> str:
+    return subprocess.run(["git", *args], capture_output=True, text=True, check=True).stdout
+
+
+def git_state() -> dict:
+    """HEAD commit and whether the working tree differs from it (tracked changes or untracked files, D-037)."""
     try:
-        return subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, check=True).stdout.strip()
+        commit = _git("rev-parse", "--short", "HEAD").strip()
+        changed = [line[3:] for line in _git("status", "--porcelain", "--untracked-files=all").splitlines() if line]
     except (OSError, subprocess.CalledProcessError):
-        return "unknown"
+        return {"commit": "unknown", "dirty": True, "changed_files": ["<git unavailable>"]}
+    return {"commit": commit, "dirty": bool(changed), "changed_files": changed}
+
+
+def commit_label(state: dict) -> str:
+    """Registry `commit` value: the short hash, with `-dirty` if the tree had uncommitted changes."""
+    return state["commit"] + ("-dirty" if state["dirty"] else "")
+
+
+def check_status(status: str, state: dict) -> None:
+    """Canonical runs need a clean working tree, so the commit alone reproduces them (D-037)."""
+    if status == "canonical" and state["dirty"]:
+        shown = ", ".join(state["changed_files"][:10])
+        raise RuntimeError(f"canonical run refused: working tree is dirty ({len(state['changed_files'])} files: {shown})")
+
+
+def new_run_id(prefix: str, stamp: str | None = None) -> str:
+    """`<prefix>-<YYYYmmddTHHMMSS>-<6 hex>`: unique, so an output folder is never reused (D-037)."""
+    stamp = stamp or datetime.now().strftime("%Y%m%dT%H%M%S")
+    return f"{prefix}-{stamp}-{secrets.token_hex(3)}"
+
+
+def file_hashes(paths: list[str]) -> dict[str, str]:
+    return {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()[:12] for p in paths}
 
 
 def config_hash(obj: dict) -> str:
     return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()[:12]
 
 
+def config_ref(files: dict[str, str], params: dict) -> str:
+    """Registry `config` value: the config files used, run parameters, and a hash over file contents + parameters."""
+    names = ";".join(files)
+    args = ";".join(f"{k}={v}" for k, v in params.items())
+    return f"{names};{args} sha256:{config_hash({'files': files, 'params': params})}"
+
+
 def write_run(out_dir: Path, config: dict, provenance: dict, episodes: list[dict], summary: dict) -> None:
-    """outputs/<run_id>/: config.yaml (as JSON-compatible YAML), metrics.json, provenance.json, episodes.jsonl."""
+    """outputs/<run_id>/: config.yaml (as JSON-compatible YAML), metrics.json, provenance.json, episodes.jsonl.
+
+    Raises FileExistsError if the folder exists: run outputs are never overwritten (D-037).
+    """
     import yaml
 
-    out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir.parent.mkdir(parents=True, exist_ok=True)
+    out_dir.mkdir(exist_ok=False)
     (out_dir / "config.yaml").write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
     (out_dir / "metrics.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
     (out_dir / "provenance.json").write_text(json.dumps(provenance, indent=1), encoding="utf-8")
@@ -108,8 +149,16 @@ def write_run(out_dir: Path, config: dict, provenance: dict, episodes: list[dict
 
 
 def append_registry(path: Path, rows: list[dict]) -> None:
-    """Append rows; existing rows are never rewritten (old ones are marked superseded by hand)."""
+    """Append rows; existing rows are never rewritten (old ones are marked superseded by hand).
+
+    Raises ValueError if a run_id is already in the registry or repeated in `rows` (D-037).
+    """
     new = not path.exists() or path.stat().st_size == 0
+    seen = set() if new else {r["run_id"] for r in csv.DictReader(open(path, encoding="utf-8"))}
+    for r in rows:
+        if r["run_id"] in seen:
+            raise ValueError(f"run_id {r['run_id']} is already in {path}")
+        seen.add(r["run_id"])
     with open(path, "a", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=REGISTRY_FIELDS)
         if new:
@@ -134,14 +183,15 @@ def mark_superseded(path: Path, predicate) -> int:
 
 
 def registry_row(run_id: str, method: str, config: str, split: str, seed: int | str, summary: dict,
-                 extra: dict, env_version: str, split_version: str, status: str = "exploratory",
-                 plan: str = "001") -> dict:
+                 extra: dict, env_version: str, split_version: str, commit: str, status: str = "exploratory",
+                 plan: str = "001", budget_steps: int | str = "n/a") -> dict:
+    """One registry row; `config` from `config_ref`, `commit` from `commit_label`; budget "n/a" for baselines."""
     keys = ("success_rate", "cycle_time_to_95_s", "passes_to_95", "coverage_at_5", "coverage_at_10", "auc_coverage_time")
     return {
         "run_id": run_id, "plan": plan, "method": method, "config": config, "env_version": env_version,
-        "split_version": split_version, "part_split": split, "seed": seed, "budget_steps": "", "status": status,
+        "split_version": split_version, "part_split": split, "seed": seed, "budget_steps": budget_steps, "status": status,
         **{k: "" if np.isnan(summary[k]) else round(summary[k], 4) for k in keys},  # undefined (no success) -> empty
-        "extra_json": json.dumps(extra, sort_keys=True, default=float), "commit": git_commit(), "date": date.today().isoformat(),
+        "extra_json": json.dumps(extra, sort_keys=True, default=float), "commit": commit, "date": date.today().isoformat(),
     }
 
 
