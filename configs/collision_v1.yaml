@@ -1,0 +1,21 @@
+# Robot-part / robot-table clearance diagnostic (D-042). Assumptions, not product data; lengths in mm.
+# Capsules along the UR5 links; start/end = [DH frame index (fkine_all, 0 = base), offset along the
+# joint-2 axis]. Lateral offsets of the real arm: shoulder +135.85, elbow -119.7 (net 16.15), and
+# wrist 1 adds 93.0 (DH d4 = 109.15). Radii are rounded up from the housings (base 149 mm diameter,
+# size-3 joints ~120 mm, wrist joints ~90 mm).
+capsules:
+  - {name: base,      radius: 75, start: [0, 0.0],    end: [1, 0.0]}
+  - {name: shoulder,  radius: 65, start: [1, 0.0],    end: [1, 135.85]}
+  - {name: upper_arm, radius: 65, start: [1, 135.85], end: [2, 135.85], table_skip_mm: 65}
+  - {name: elbow,     radius: 55, start: [2, 135.85], end: [2, 16.15]}
+  - {name: forearm,   radius: 55, start: [2, 16.15],  end: [3, 16.15]}
+  - {name: wrist_1,   radius: 50, start: [3, 16.15],  end: [4, 0.0]}
+  - {name: wrist_2,   radius: 50, start: [4, 0.0],    end: [5, 0.0]}
+  - {name: wrist_3,   radius: 50, start: [5, 0.0],    end: [6, 0.0]}
+# Generic line-laser profilometer head with its mount, in the sensor frame (z = view direction,
+# x = sweep, laser exit at the origin, camera at x = +93.3, flange at z = -120): 175 x 80 x 120 mm.
+sensor_box_mm: {x: [-40.0, 135.0], y: [-40.0, 40.0], z: [-120.0, 0.0]}
+sample_step_mm: 5.0
+table_exempt: [base, shoulder]   # fixed height above the table (joint 1 vertical, joint 2 horizontal)
+# table_skip_mm: the first part of a capsule inside the shoulder housing (fixed height) is not table-checked
+near_mm: 10.0                  # "near" threshold in the report
