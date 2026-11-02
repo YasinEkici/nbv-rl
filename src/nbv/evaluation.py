@@ -1,9 +1,12 @@
-"""Metrics, registry writing, and statistics (D-034).
+"""Metrics, registry writing, and statistics (D-034, D-039).
 
 Statistics are descriptive: the unit is the base part. With 3 test parts no significance test is
 meaningful (the smallest two-sided paired Wilcoxon p-value at n = 3 is 0.25), and treating variants
-or seeds as independent would be pseudo-replication. Results are reported per part, with a
-hierarchical bootstrap CI (resample parts, then variants within a part, then seeds within a variant).
+or seeds as independent would be pseudo-replication. Results are reported per part first; the split
+mean comes with a hierarchical bootstrap interval (resample parts, then variants within a part, then
+seeds within a variant). With few parts this interval covers the true mean less often than its
+nominal level (simulation: ~72% at 3 parts, ~89% at 8; scripts/bootstrap_coverage.py), so it is not
+called a 95% confidence interval.
 """
 
 from __future__ import annotations
@@ -218,9 +221,11 @@ def per_part(data: Nested) -> dict[str, float]:
 
 
 def hierarchical_bootstrap(data: Nested, n_boot: int = 10_000, ci: float = 0.95, seed: int = 0) -> dict:
-    """Mean with a hierarchical bootstrap CI: resample parts, then variants within each, then seeds.
+    """Mean with a hierarchical bootstrap percentile interval: resample parts, then variants, then seeds.
 
-    Follows Saravanan, Berman & Sober 2020 for nested data. With few parts the CI is wide by design.
+    Follows Saravanan, Berman & Sober 2020 for nested data. `ci` is the nominal level; with few parts
+    the actual coverage is lower (D-039), so report it as a bootstrap interval, not a CI. With one
+    part it is an interval over variants and seeds of that part.
     """
     rng = np.random.default_rng(seed)
     parts = [[np.asarray(s, float) for s in v.values()] for v in data.values()]

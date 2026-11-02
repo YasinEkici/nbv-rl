@@ -1,11 +1,15 @@
-"""Run all Plan 001 baselines on train and val variants; write outputs/<run_id>/ and registry rows.
+"""Run the Plan 001 baselines on train and val variants; write outputs/<run_id>/ and registry rows.
 
-    uv run python scripts/run_baselines.py                          # 48 and 128 candidates, train + val
+    uv run python scripts/joint_opt.py                              # first: joint-optimum plans (D-035)
+    uv run python scripts/run_baselines.py                          # canonical set, 48 candidates, train + val
     uv run python scripts/run_baselines.py --status canonical --tag s6 --supersede
+    uv run python scripts/run_baselines.py --methods greedy_oracle ilp_tsp --sizes 48 128   # diagnostics
 
-Test parts are never run here. Stochastic methods use seeds 0-9; deterministic ones one run.
+Canonical set (D-041): greedy-IG/cost, MCTS, ILP + TSP, joint optimum (main table) and random, fixed
+pattern, greedy-IG (appendix), 48 candidates only. greedy-oracle and random + TSP, and 128 candidates,
+run only as exploratory diagnostics. Test parts are never run here. Stochastic methods use seeds 0-9.
 Canonical runs need a clean working tree; run_ids are unique and outputs are never overwritten (D-037).
-`joint_opt` needs data/cache/plans/joint_opt_n{n}.json from scripts/joint_opt.py (skipped otherwise).
+`joint_opt` needs data/cache/plans/joint_opt_n{n}.json from scripts/joint_opt.py (error otherwise).
 Every episode gets normalized_cycle_time = cycle time / ILP + TSP cycle time on the same variant (D-034).
 """
 
@@ -26,6 +30,8 @@ from nbv.env import ENV_VERSION, NBVEnv, evaluate_policy, evaluate_sequence
 STOCHASTIC = {"random", "random_tsp", "mcts"}
 OPEN_LOOP = {"fixed", "ilp_tsp", "random_tsp", "joint_opt"}
 METHODS = ["random", "fixed", "greedy_ig", "greedy_cost", "greedy_oracle", "ilp_tsp", "random_tsp", "mcts", "joint_opt"]
+CANONICAL = ["random", "fixed", "greedy_ig", "greedy_cost", "ilp_tsp", "mcts", "joint_opt"]  # D-041
+CANONICAL_SIZES = [48]
 INFO = {"random": "none", "fixed": "nominal", "greedy_ig": "nominal", "greedy_cost": "nominal",
         "greedy_oracle": "real", "ilp_tsp": "nominal", "random_tsp": "nominal", "mcts": "nominal",
         "joint_opt": "nominal (solver-based upper reference, not an oracle)"}
@@ -79,8 +85,8 @@ def run_task(task: dict) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--methods", nargs="+", default=METHODS, choices=METHODS)
-    ap.add_argument("--sizes", nargs="+", type=int, default=[48, 128])
+    ap.add_argument("--methods", nargs="+", default=CANONICAL, choices=METHODS)
+    ap.add_argument("--sizes", nargs="+", type=int, default=CANONICAL_SIZES)
     ap.add_argument("--splits", nargs="+", default=["train", "val"], choices=["train", "val"])
     ap.add_argument("--seeds", type=int, default=10)
     ap.add_argument("--workers", type=int, default=12)
@@ -92,8 +98,13 @@ def main() -> None:
     ap.add_argument("--outputs", default="outputs")
     ap.add_argument("--registry", default="results/registry.csv")
     args = ap.parse_args()
-    if "joint_opt" in args.methods and "ilp_tsp" not in args.methods:
+    if "ilp_tsp" not in args.methods:
         raise SystemExit("normalization needs ilp_tsp in --methods")
+    if args.status == "canonical" and (set(args.methods) - set(CANONICAL) or set(args.sizes) - set(CANONICAL_SIZES)):
+        raise SystemExit(f"canonical runs are limited to {CANONICAL} at {CANONICAL_SIZES} candidates (D-041)")
+    missing = [n for n in args.sizes if "joint_opt" in args.methods and not (Path(args.plans) / f"joint_opt_n{n}.json").exists()]
+    if missing:
+        raise SystemExit(f"joint_opt plans missing for n = {missing}: run scripts/joint_opt.py --n <n> first")
     state = evaluation.git_state()
     evaluation.check_status(args.status, state)
     files = evaluation.file_hashes(CONFIG_FILES)
@@ -104,9 +115,6 @@ def main() -> None:
     for method in args.methods:
         for n in args.sizes:
             joint_plans = Path(args.plans) / f"joint_opt_n{n}.json"
-            if method == "joint_opt" and not joint_plans.exists():
-                print(f"skip joint_opt n{n}: {joint_plans} missing")
-                continue
             for split in args.splits:
                 variants = [v["variant_id"] for v in manifest["variants"] if v["split"] == split]
                 for seed in (range(args.seeds) if method in STOCHASTIC else [0]):
