@@ -94,9 +94,10 @@ def test_max_coverage_ilp_bounds_every_method_synthetic():
 
 
 @pytest.mark.skipif(not Path("data/cache/visibility/nominal").exists(), reason="needs precomputed caches")
-def test_max_coverage_ilp_bounds_every_method_on_cached_variants():
-    for vid in ("46262_v0", "591247_v1"):  # train, val
-        _check_upper_bound(nbv_env.NBVEnv([vid]), vid)
+@pytest.mark.parametrize("vid", ["46262_v0", "124336_v0", "591247_v0", "37275_v0"])  # train, train, val, val
+def test_max_coverage_ilp_bounds_every_method_on_cached_variants(vid):
+    """Exact k-pass bound on the real variant, k <= 14 (replaces scripts/ilp_bound.py, D-033)."""
+    _check_upper_bound(nbv_env.NBVEnv([vid]), vid, k_max=14)
 
 
 def test_mcts_returns_valid_action_and_is_seeded():

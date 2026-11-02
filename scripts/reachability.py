@@ -2,7 +2,7 @@
 
     uv run python scripts/reachability.py
     uv run python scripts/reachability.py --base-x -450 --split train --sizes 48 \\
-        --cache data/cache/robot/base_x-450 --out results/base_sweep/base_x-450.csv
+        --cache scratch/base_x-450 --out scratch/base_x-450.csv      # base-position sweep (D-027)
 
 Unreachable passes are counted by region: `far` = direction pointing away from the robot
 (u_x > 0), `robot_side` = towards the robot (u_x <= 0).
@@ -58,8 +58,7 @@ def main() -> None:
                 cache / f"{fid}_n{n}.npz",
                 center=passes.center, direction=passes.direction, view=passes.view, sweep=passes.sweep,
                 standoff=passes.standoff, length=passes.length, reachable=plan.reachable, q=plan.q,
-                ptp=plan.ptp, from_home=plan.from_home, to_home=plan.to_home, scan_time=plan.scan_time,
-                ptp_pi=plan.ptp_pi, from_home_pi=plan.from_home_pi, to_home_pi=plan.to_home_pi,
+                scan_time=plan.scan_time, ptp_pi=plan.ptp_pi, from_home_pi=plan.from_home_pi, to_home_pi=plan.to_home_pi,
             )
             far = passes.direction[:, 0] > 0
             dq = np.degrees(plan.leading_dq())

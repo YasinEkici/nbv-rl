@@ -46,10 +46,10 @@ def test_ik_solves_known_reachable_pose(rc):
 
 
 def test_ptp_diagonal_zero_and_non_negative(plan):
-    assert plan.ptp.shape == (len(plan.reachable),) * 2
-    assert np.all(np.diag(plan.ptp) == 0.0)
-    assert np.all(plan.ptp >= 0.0)  # inf for unreachable passes
-    assert not np.isnan(plan.ptp).any()
+    assert plan.ptp_pi.shape == (len(plan.reachable),) * 2
+    assert np.all(np.diag(plan.ptp_pi) == 0.0)
+    assert np.all(plan.ptp_pi >= 0.0)  # inf for unreachable passes
+    assert not np.isnan(plan.ptp_pi).any()
 
 
 def test_some_but_not_all_reachable(plan):
@@ -61,10 +61,13 @@ def test_reachable_sweeps_are_continuous(rc, plan):
     assert np.abs(np.diff(q, axis=1)).max() <= np.radians(rc["ik"]["max_step_deg"]) + 1e-9
 
 
-def test_wrapped_ptp_is_a_lower_bound(plan):
-    f = np.isfinite(plan.ptp)
-    assert np.array_equal(f, np.isfinite(plan.ptp_pi))
-    assert np.all(plan.ptp_pi[f] <= plan.ptp[f] + 1e-12)
+def test_wrapped_ptp_is_a_lower_bound(rc, plan):
+    m = rc["motion"]
+    r = plan.reachable
+    raw = robot.movej_time(plan.q[r, -1][:, None, :] - plan.q[r, 0][None, :, :], m["v_rad_s"], m["a_rad_s2"])
+    np.fill_diagonal(raw, 0.0)
+    assert np.all(np.isfinite(plan.ptp_pi[np.ix_(r, r)])) and np.all(np.isinf(plan.ptp_pi[~r][:, r]))
+    assert np.all(plan.ptp_pi[np.ix_(r, r)] <= raw + 1e-12)
     assert np.all(np.diag(plan.ptp_pi) == 0.0)
     assert np.degrees(plan.leading_dq(wrapped=True)).max() <= 180.0 + 1e-9
 
@@ -72,8 +75,8 @@ def test_wrapped_ptp_is_a_lower_bound(plan):
 def test_ptp_matches_movej_on_reachable(rc, plan):
     i, j = np.flatnonzero(plan.reachable)[:2]
     m = rc["motion"]
-    expected = robot.movej_time(plan.q[j, 0] - plan.q[i, -1], m["v_rad_s"], m["a_rad_s2"])
-    assert np.isclose(plan.ptp[i, j], expected)
+    expected = robot.movej_time(robot.wrap_pi(plan.q[j, 0] - plan.q[i, -1]), m["v_rad_s"], m["a_rad_s2"])
+    assert np.isclose(plan.ptp_pi[i, j], expected)
 
 
 def test_movej_trapezoid():
