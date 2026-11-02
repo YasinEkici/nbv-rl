@@ -160,16 +160,13 @@ def solve_sweep(
 
 @dataclass(frozen=True)
 class RobotPlan:
-    reachable: np.ndarray   # (N,) bool
-    q: np.ndarray           # (N, k, 6) rad; NaN where unreachable
-    ptp: np.ndarray         # (N, N) s, end of pass i -> start of pass j; 0 on the diagonal, inf if unreachable
-    from_home: np.ndarray   # (N,) s, q_home -> start of pass j
-    to_home: np.ndarray     # (N,) s, end of pass i -> q_home
-    scan_time: np.ndarray   # (N,) s, sweep length / scan speed
-    # Same with per-joint differences wrapped to [-pi, pi): planner approximation only (D-024).
-    ptp_pi: np.ndarray
-    from_home_pi: np.ndarray
-    to_home_pi: np.ndarray
+    reachable: np.ndarray     # (N,) bool
+    q: np.ndarray             # (N, k, 6) rad; NaN where unreachable
+    scan_time: np.ndarray     # (N,) s, sweep length / scan speed
+    # movej times with per-joint differences wrapped to [-pi, pi): planner approximation only (D-024).
+    ptp_pi: np.ndarray        # (N, N) s, end of pass i -> start of pass j; 0 on the diagonal, inf if unreachable
+    from_home_pi: np.ndarray  # (N,) s, q_home -> start of pass j
+    to_home_pi: np.ndarray    # (N,) s, end of pass i -> q_home
 
     def leading_dq(self, wrapped: bool = False) -> np.ndarray:
         """Leading-axis |dq| (rad) of every PTP move i -> j between distinct reachable passes."""
@@ -199,15 +196,10 @@ def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotP
     v, a = motion["v_rad_s"], motion["a_rad_s2"]
     start, end = q[:, 0], q[:, -1]
 
-    def times(wrap):
-        f = wrap_pi if wrap else (lambda x: x)
-        ptp = movej_time(f(end[:, None, :] - start[None, :, :]), v, a)
-        ptp[~reachable, :] = np.inf
-        ptp[:, ~reachable] = np.inf
-        np.fill_diagonal(ptp, 0.0)
-        from_home = np.where(reachable, movej_time(f(start - home), v, a), np.inf)
-        to_home = np.where(reachable, movej_time(f(end - home), v, a), np.inf)
-        return ptp, from_home, to_home
-
-    raw, pi = times(False), times(True)
-    return RobotPlan(reachable, q, *raw, passes.length / scan_speed_mm_s, *pi)
+    ptp = movej_time(wrap_pi(end[:, None, :] - start[None, :, :]), v, a)
+    ptp[~reachable, :] = np.inf
+    ptp[:, ~reachable] = np.inf
+    np.fill_diagonal(ptp, 0.0)
+    from_home = np.where(reachable, movej_time(wrap_pi(start - home), v, a), np.inf)
+    to_home = np.where(reachable, movej_time(wrap_pi(end - home), v, a), np.inf)
+    return RobotPlan(reachable, q, passes.length / scan_speed_mm_s, ptp, from_home, to_home)
