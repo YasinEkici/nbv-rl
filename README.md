@@ -28,9 +28,12 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
     uv run python scripts/visibility.py     # dual-occlusion visibility -> data/cache/visibility/, coverage columns
     uv run python scripts/env_benchmark.py  # environment speed and a greedy step-by-step breakdown
     uv run python scripts/d_plan.py         # planning difficulty per part -> results/d_plan_v1.csv
-    uv run python scripts/run_baselines.py  # all baselines on train + val -> outputs/, results/registry.csv
-    uv run python scripts/precompute.py --config configs/<config>.yaml   # (planned, Plan 001)
-    uv run python scripts/run.py --config configs/<config>.yaml          # (planned, Plan 001)
+    uv run python scripts/joint_opt.py      # joint-optimum plans (needed by run_baselines) -> data/cache/plans/, results/joint_opt_v1.csv
+    uv run python scripts/run_baselines.py  # canonical baseline set, train + val -> outputs/, results/registry.csv
+    uv run python scripts/report.py         # per-part and summary tables from canonical registry rows
+    uv run python scripts/incidence_sensitivity.py  # 60/65/70 deg visibility sensitivity -> results/incidence_sensitivity_v1.csv
+    uv run python scripts/collision_diagnostic.py   # robot-part/table clearance per pass -> results/collision_v1.csv
+    uv run python scripts/bootstrap_coverage.py     # coverage of the hierarchical bootstrap interval (simulation)
 
 ## Data
 
