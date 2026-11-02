@@ -4,6 +4,7 @@
     uv run python scripts/run_baselines.py --status canonical --tag s6 --supersede
 
 Test parts are never run here. Stochastic methods use seeds 0-9; deterministic ones one run.
+Canonical runs need a clean working tree; run_ids are unique and outputs are never overwritten (D-037).
 `joint_opt` needs data/cache/plans/joint_opt_n{n}.json from scripts/joint_opt.py (skipped otherwise).
 Every episode gets normalized_cycle_time = cycle time / ILP + TSP cycle time on the same variant (D-034).
 """
@@ -13,6 +14,7 @@ import csv
 import json
 import math
 import time
+from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
@@ -28,6 +30,9 @@ INFO = {"random": "none", "fixed": "nominal", "greedy_ig": "nominal", "greedy_co
         "greedy_oracle": "real", "ilp_tsp": "nominal", "random_tsp": "nominal", "mcts": "nominal",
         "joint_opt": "nominal (solver-based upper reference, not an oracle)"}
 ENV_CONFIG = "configs/env_v2.yaml"
+# Every config the run or its precomputed caches depend on; hashed into the registry `config` column.
+CONFIG_FILES = [ENV_CONFIG, "configs/robot_v1.yaml", "configs/parts_v2.yaml", "configs/split_v1.yaml",
+                "configs/candidates_v1.yaml", "configs/sensor_v1.yaml", "configs/visibility_v1.yaml"]
 
 
 def d_plan95(path: str, n: int) -> dict[int, int]:
@@ -92,6 +97,11 @@ def main() -> None:
     args = ap.parse_args()
     if "joint_opt" in args.methods and "ilp_tsp" not in args.methods:
         raise SystemExit("normalization needs ilp_tsp in --methods")
+    state = evaluation.git_state()
+    evaluation.check_status(args.status, state)
+    files = evaluation.file_hashes(CONFIG_FILES)
+    inputs = evaluation.file_hashes([args.d_plan, *map(str, sorted(Path(args.plans).glob("joint_opt_n*.json")))])
+    stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
     manifest = parts.load_yaml("configs/split_v1.yaml")
     tasks = []
     for method in args.methods:
@@ -103,7 +113,7 @@ def main() -> None:
             for split in args.splits:
                 variants = [v["variant_id"] for v in manifest["variants"] if v["split"] == split]
                 for seed in (range(args.seeds) if method in STOCHASTIC else [0]):
-                    run_id = f"p001{args.tag}-{method}-n{n}-{split}-s{seed}-{ENV_VERSION}"
+                    run_id = evaluation.new_run_id(f"p001{args.tag}-{method}-n{n}-{split}-s{seed}-{ENV_VERSION}", stamp)
                     tasks.append({"method": method, "n": n, "split": split, "seed": seed, "variants": variants,
                                   "run_id": run_id, "d_plan": args.d_plan, "joint_plans": str(joint_plans)})
     with ProcessPoolExecutor(args.workers) as pool:
@@ -118,7 +128,7 @@ def main() -> None:
     if args.supersede:
         n_sup = evaluation.mark_superseded(Path(args.registry), lambda r: r["plan"] == "001" and r["status"] != "superseded")
         print(f"marked {n_sup} earlier rows superseded")
-    rows, commit = [], evaluation.git_commit()
+    rows = []
     for out in outs:
         t, eps = out["task"], out["episodes"]
         summary = evaluation.aggregate(eps)
@@ -131,14 +141,15 @@ def main() -> None:
         }
         if t["method"] in OPEN_LOOP:
             extra["success_without_repair"] = round(float(np.mean([e["planner"]["success_without_repair"] for e in eps])), 4)
-        cfg = {k: t[k] for k in ("method", "n", "split", "seed")} | {"env": ENV_CONFIG, "parts": "configs/parts_v2.yaml",
-                                                                       "split_manifest": "configs/split_v1.yaml"}
-        prov = {"commit": commit, "config_hash": evaluation.config_hash(cfg), "env_version": ENV_VERSION,
+        params = {k: t[k] for k in ("method", "n", "split", "seed")}
+        cfg = params | {"config_files": files}
+        prov = {**state, "config_hash": evaluation.config_hash(cfg), "inputs": inputs, "env_version": ENV_VERSION,
                 "split_version": "v1", "parts_version": "v2"}
         evaluation.write_run(Path(args.outputs) / t["run_id"], cfg, prov, eps, summary)
         seed = t["seed"] if t["method"] in STOCHASTIC else ""
-        rows.append(evaluation.registry_row(t["run_id"], t["method"], f"n{t['n']}", t["split"], seed, summary, extra,
-                                            ENV_VERSION, "v1", status=args.status))
+        rows.append(evaluation.registry_row(t["run_id"], t["method"], evaluation.config_ref(files, {"n": t["n"]}), t["split"],
+                                            seed, summary, extra, ENV_VERSION, "v1", evaluation.commit_label(state),
+                                            status=args.status))
         print(f"{t['run_id']:44s} success {summary['success_rate']:.3f} cycle {summary['cycle_time_to_95_s']:.1f}s "
               f"norm {summary['normalized_cycle_time']:.3f}")
     evaluation.append_registry(Path(args.registry), rows)
