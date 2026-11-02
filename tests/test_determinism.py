@@ -10,11 +10,11 @@ from test_env import synthetic
 def random_episode(e, seed):
     obs, info = e.reset(seed=seed)
     rng = np.random.default_rng(seed)
-    trace, done = [info["variant"]], False
+    trace, done = [info["agent"]["variant"]], False
     while not done:
         a = int(rng.choice(np.flatnonzero(e.action_masks())))
         obs, r, term, trunc, info = e.step(a)
-        trace.append((a, round(r, 9), round(info["cycle_time"], 9)))
+        trace.append((a, round(r, 9), round(info["agent"]["cycle_time"], 9)))
         done = term or trunc
     return trace
 
