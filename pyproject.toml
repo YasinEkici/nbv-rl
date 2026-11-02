@@ -15,8 +15,10 @@ dependencies = [
     "pyyaml>=6.0.3",
     "roboticstoolbox-python>=1.5.0",
     "rtree>=1.4.1",
+    "sb3-contrib>=2.9.2",
     "scipy>=1.18.1",
     "thingi10k>=1.5.0",
+    "torch>=2.11.0",
     "trimesh>=5.2.0",
 ]
 
@@ -27,6 +29,7 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "matplotlib>=3.11.2",
+    "psutil>=7.2.2",
     "pytest>=9.2.0",
 ]
 
@@ -34,3 +37,11 @@ dev = [
 testpaths = ["tests"]
 addopts = "-p no:dash"
 filterwarnings = ["ignore:builtin type (SwigPyPacked|SwigPyObject|swigvarlink) has no __module__ attribute:DeprecationWarning"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
