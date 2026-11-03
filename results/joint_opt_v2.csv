@@ -1,0 +1,12 @@
+base,split,n_candidates,ilp_passes,joint_passes,ilp_tsp_cost_s,joint_cost_s,joint_bound_s,joint_status,joint_wall_s,ilp_status,tsp,gap_min_pct,gap_max_pct
+271875,val,48,12,12,56.468,54.749,54.748,OPTIMAL,1.7,OPTIMAL,held_karp,3.04,3.05
+46262,train,48,8,8,37.813,37.289,37.288,OPTIMAL,0.3,OPTIMAL,held_karp,1.38,1.39
+124336,train,48,12,12,53.03,52.83,52.83,OPTIMAL,0.9,OPTIMAL,held_karp,0.38,0.38
+548863,train,48,9,9,34.89,34.234,34.235,OPTIMAL,0.5,OPTIMAL,held_karp,1.88,1.88
+37275,val,48,12,12,52.306,50.631,50.629,OPTIMAL,1.7,OPTIMAL,held_karp,3.2,3.21
+591247,val,48,11,11,49.644,48.829,48.829,OPTIMAL,0.8,OPTIMAL,held_karp,1.64,1.64
+65149,train,48,11,11,50.386,49.873,49.872,OPTIMAL,1.0,OPTIMAL,held_karp,1.02,1.02
+702389,train,48,6,6,29.314,29.314,29.314,OPTIMAL,0.3,OPTIMAL,held_karp,0.0,-0.0
+135365,train,48,14,14,59.167,58.794,58.794,OPTIMAL,2.3,OPTIMAL,held_karp,0.63,0.63
+124532,train,48,10,10,45.98,45.338,45.337,OPTIMAL,0.3,OPTIMAL,held_karp,1.4,1.4
+635751,train,48,8,8,36.257,36.257,36.257,OPTIMAL,0.2,OPTIMAL,held_karp,0.0,-0.0

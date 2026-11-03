@@ -24,14 +24,16 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
 
     uv run pytest -q
     uv run python scripts/prepare_parts.py --help
-    uv run python scripts/reachability.py   # scan passes, IK mask, PTP times -> results/reachability_v1.csv
+    uv run python scripts/reachability.py   # scan passes, IK mask, collision check, PTP times -> results/reachability_v2.csv
     uv run python scripts/visibility.py     # dual-occlusion visibility -> data/cache/visibility/, coverage columns
+    uv run python scripts/visibility.py --reuse-cache   # after a mask change: coverage columns only
+    uv run python scripts/base_check.py     # robot base position rule with collision masks -> results/base_check_v2.csv
     uv run python scripts/env_benchmark.py  # environment speed and a greedy step-by-step breakdown
-    uv run python scripts/d_plan.py         # planning difficulty per part -> results/d_plan_v1.csv
-    uv run python scripts/joint_opt.py      # joint-optimum plans (needed by run_baselines) -> data/cache/plans/, results/joint_opt_v1.csv
+    uv run python scripts/d_plan.py         # planning difficulty per part -> results/d_plan_v2.csv
+    uv run python scripts/joint_opt.py      # joint-optimum plans (needed by run_baselines) -> data/cache/plans/, results/joint_opt_v2.csv
     uv run python scripts/run_baselines.py  # canonical baseline set, train + val -> outputs/, results/registry.csv
     uv run python scripts/report.py         # per-part and summary tables from canonical registry rows
-    uv run python scripts/incidence_sensitivity.py  # 60/65/70 deg visibility sensitivity -> results/incidence_sensitivity_v1.csv
+    uv run python scripts/incidence_sensitivity.py  # 60/65/70 deg visibility sensitivity -> results/incidence_sensitivity_v2.csv
     uv run python scripts/collision_diagnostic.py   # robot-part/table clearance per pass -> results/collision_v1.csv
     uv run python scripts/bootstrap_coverage.py     # coverage of the hierarchical bootstrap interval (simulation)
 
