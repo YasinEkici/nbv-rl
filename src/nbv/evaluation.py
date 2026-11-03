@@ -119,8 +119,47 @@ def new_run_id(prefix: str, stamp: str | None = None) -> str:
     return f"{prefix}-{stamp}-{secrets.token_hex(3)}"
 
 
+def _text_bytes(path: Path) -> bytes:
+    """File bytes with CRLF normalized to LF, so a checkout on any OS gives the same hash (D-037)."""
+    return path.read_bytes().replace(b"\r\n", b"\n")
+
+
 def file_hashes(paths: list[str]) -> dict[str, str]:
-    return {p: hashlib.sha256(Path(p).read_bytes()).hexdigest()[:12] for p in paths}
+    return {p: hashlib.sha256(_text_bytes(Path(p))).hexdigest()[:12] for p in paths}
+
+
+def code_hash(roots: tuple[str, ...] = ("src/nbv", "scripts")) -> str:
+    """One hash over all .py files under `roots` (relative paths and line-ending-normalized contents)."""
+    h = hashlib.sha256()
+    for root in roots:
+        for f in sorted(Path(root).rglob("*.py")):
+            h.update(f.as_posix().encode())
+            h.update(_text_bytes(f))
+    return h.hexdigest()[:16]
+
+
+def cache_manifest(dirs: list[str], skip_prefixes: tuple[str, ...] = ("points_", "timing")) -> dict[str, dict]:
+    """Content hash per cache directory (D-037): array names, dtypes, shapes and bytes of every .npz,
+    line-ending-normalized bytes of every .json; zip metadata is ignored, so rewriting a file with the
+    same arrays keeps the hash. Files created on demand (nominal point caches, timing) are skipped."""
+    out = {}
+    for d in dirs:
+        h, n = hashlib.sha256(), 0
+        for f in sorted(Path(d).rglob("*")):
+            if not f.is_file() or f.name.startswith(skip_prefixes) or ".tmp" in f.name or f.suffix not in (".npz", ".json"):
+                continue
+            h.update(f.relative_to(d).as_posix().encode())
+            if f.suffix == ".npz":
+                with np.load(f) as z:
+                    for k in sorted(z.files):
+                        a = np.ascontiguousarray(z[k])
+                        h.update(f"{k}|{a.dtype}|{a.shape}".encode())
+                        h.update(a.tobytes())
+            else:
+                h.update(_text_bytes(f))
+            n += 1
+        out[d] = {"files": n, "sha256": h.hexdigest()[:16]}
+    return out
 
 
 def config_hash(obj: dict) -> str:

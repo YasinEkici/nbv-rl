@@ -1,11 +1,14 @@
-"""Robot-part and robot-table clearance of every reachable pass (diagnostic, D-042; masks unchanged).
+"""Robot-part and robot-table clearance of every IK-reachable pass (diagnostic, D-042).
 
     uv run python scripts/collision_diagnostic.py
     uv run python scripts/collision_diagnostic.py --figure-part 46262 --figure scratch/collision/46262.png
 
-Nominal mesh per base part, train and val parts only, all 5 IK samples of each reachable pass.
-Transfers between passes are not checked. Writes one row per pass to results/collision_v1.csv and
-prints a summary per part.
+Scans the IK-only mask (IK + DH-frame table clearance, before the collision check), so the result does
+not depend on the collision masks of ENV v4: the IK solutions are recomputed with the robot config
+without its `collision` section. Nominal mesh per base part, train and val parts only, all 5 IK samples
+of each pass; transfers between passes are not checked. Writes one row per pass to
+results/collision_v2.csv (column `reachable_v4` = the pass survives the collision masks) and prints a
+summary per part. results/collision_v1.csv is the D-042 evidence from before the masks: never overwrite it.
 """
 
 import argparse
@@ -19,7 +22,16 @@ import numpy as np
 from nbv import collision, parts, robot
 
 FIELDS = ["base", "split", "n_candidates", "pass", "u_x", "u_y", "u_z", "elevation_deg", "side", "height",
-          "part_clearance_mm", "part_body", "table_clearance_mm", "table_body"]
+          "part_clearance_mm", "part_body", "table_clearance_mm", "table_body", "reachable_v4"]
+PROTECTED = {"results/collision_v1.csv"}  # D-042 evidence from before the collision masks
+
+
+def ik_only_plan(rc: dict, z) -> robot.RobotPlan:
+    """IK-only plan (no collision check) for the cached nominal passes."""
+    from nbv.candidates import ScanPasses
+
+    rc = {k: v for k, v in rc.items() if k != "collision"}
+    return robot.plan_passes(ScanPasses.from_cache(z), rc, 100.0)
 
 
 def part_rows(task: dict) -> list[dict]:
@@ -32,10 +44,11 @@ def part_rows(task: dict) -> list[dict]:
     box = geom.box_points()
     arm = robot.make_robot(rc)
     z = np.load(Path(args["robot_cache"]) / f"{fid}_n{n}.npz")
+    plan = ik_only_plan(rc, z)
     rows = []
-    for i in np.flatnonzero(z["reachable"]):
+    for i in np.flatnonzero(plan.reachable):
         best_p, best_t = (np.inf, ""), (np.inf, "")
-        for q in z["q"][i]:
+        for q in plan.q[i]:
             for body, (cp, ct) in collision.pose_clearance(arm, q, part, geom, box).items():
                 best_p = min(best_p, (cp, body))
                 best_t = min(best_t, (ct, body))
@@ -48,6 +61,7 @@ def part_rows(task: dict) -> list[dict]:
             "height": "low" if el < 45 else "high",
             "part_clearance_mm": round(best_p[0], 2), "part_body": best_p[1],
             "table_clearance_mm": round(best_t[0], 2), "table_body": best_t[1],
+            "reachable_v4": bool(z["reachable"][i]),
         })
     return rows
 
@@ -106,7 +120,8 @@ def figure(fid: int, n: int, rows: list[dict], args: dict, out: str) -> None:
     ax.set_box_aspect((1, 1, 0.8))
     ax2 = fig.add_subplot(1, 2, 2, projection="3d")
     ax2.scatter(*pts.T, s=0.3, c="0.6")
-    q = z["q"][worst][len(z["q"][worst]) // 2]
+    q_ik = ik_only_plan(rc, z).q[worst]
+    q = q_ik[len(q_ik) // 2]
     for name, r, a, b in collision.capsule_axes(arm, q, geom):
         ax2.plot(*np.c_[a, b], lw=max(r / 6, 1), alpha=0.5, solid_capstyle="round")
     T = arm.fkine(q).A.copy()
@@ -133,10 +148,12 @@ def main() -> None:
     ap.add_argument("--robot-cache", default="data/cache/robot/nominal")
     ap.add_argument("--sizes", type=int, nargs="+", default=[48, 128])
     ap.add_argument("--workers", type=int, default=11)
-    ap.add_argument("--out", default="results/collision_v1.csv")
+    ap.add_argument("--out", default="results/collision_v2.csv")
     ap.add_argument("--figure-part", type=int, help="train part to draw (default: most colliding train part at 48)")
     ap.add_argument("--figure", default="scratch/collision/collisions.png")
     args = ap.parse_args()
+    if Path(args.out).as_posix() in PROTECTED:
+        raise SystemExit(f"{args.out} is the D-042 evidence from before the collision masks; write elsewhere")
     a = {k: getattr(args, k) for k in ("parts", "robot", "collision", "robot_cache")}
     manifest = parts.load_yaml(args.manifest)
     tasks = [{"fid": p["file_id"], "split": p["split"], "n": n, "args": a}

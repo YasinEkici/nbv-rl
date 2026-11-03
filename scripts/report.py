@@ -1,6 +1,6 @@
 """Result tables from the registry (D-039): per-part table first, then the split summary.
 
-    uv run python scripts/report.py                                   # canonical rows, val, 48 candidates
+    uv run python scripts/report.py --split train val --out results/baselines_v1.md   # canonical rows, 48 candidates
     uv run python scripts/report.py --status exploratory --env-version v2 --split train
 
 Reads the selected registry rows and their outputs/<run_id>/episodes.jsonl. Per part: the mean over
@@ -87,24 +87,28 @@ def main() -> None:
     ap.add_argument("--status", default="canonical")
     ap.add_argument("--env-version", default=ENV_VERSION)
     ap.add_argument("--plan", default="001")
-    ap.add_argument("--split", default="val", choices=["train", "val", "test"])
+    ap.add_argument("--split", nargs="+", default=["val"], choices=["train", "val", "test"])
     ap.add_argument("--n", type=int, default=48)
     ap.add_argument("--diagnostic", action="store_true", help="add greedy-oracle")
     ap.add_argument("--n-boot", type=int, default=5000)
     ap.add_argument("--out", help="write the markdown here instead of stdout")
     args = ap.parse_args()
-    rows = [r for r in csv.DictReader(open(args.registry, encoding="utf-8"))
-            if r["status"] == args.status and r["env_version"] == args.env_version and r["plan"] == args.plan
-            and r["part_split"] == args.split and json.loads(r["extra_json"]).get("n_candidates") == args.n]
-    rows = list({r["run_id"]: r for r in rows}.values())  # pre-D-037 rows repeat run_ids
-    if not rows:
-        raise SystemExit(f"no registry rows with status={args.status}, env {args.env_version}, split {args.split}, n {args.n}")
-    recs = load(rows, Path(args.outputs))
+    registry = list(csv.DictReader(open(args.registry, encoding="utf-8")))
     methods = MAIN + APPENDIX + (DIAGNOSTIC if args.diagnostic else [])
-    head = (f"## {args.split}, {args.n} candidates, {args.status}, ENV {args.env_version}: "
-            f"{len(rows)} runs, {len(recs)} episodes, {len({r['part'] for r in recs})} parts\n\n"
-            f"Main table: {', '.join(MAIN)}. Appendix: {', '.join(APPENDIX)}.\n\n")
-    text = head + tables(recs, [m for m in methods if any(r["method"] == m for r in recs)], args.n_boot)
+    sections = []
+    for split in args.split:
+        rows = [r for r in registry
+                if r["status"] == args.status and r["env_version"] == args.env_version and r["plan"] == args.plan
+                and r["part_split"] == split and json.loads(r["extra_json"]).get("n_candidates") == args.n]
+        rows = list({r["run_id"]: r for r in rows}.values())  # pre-D-037 rows repeat run_ids
+        if not rows:
+            raise SystemExit(f"no registry rows with status={args.status}, env {args.env_version}, split {split}, n {args.n}")
+        recs = load(rows, Path(args.outputs))
+        head = (f"## {split}, {args.n} candidates, {args.status}, ENV {args.env_version}: "
+                f"{len(rows)} runs, {len(recs)} episodes, {len({r['part'] for r in recs})} parts\n\n"
+                f"Main table: {', '.join(MAIN)}. Appendix: {', '.join(APPENDIX)}.\n\n")
+        sections.append(head + tables(recs, [m for m in methods if any(r["method"] == m for r in recs)], args.n_boot))
+    text = "\n\n".join(sections)
     if args.out:
         Path(args.out).write_text(text + "\n", encoding="utf-8")
     print(text)

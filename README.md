@@ -34,7 +34,7 @@ Requires [uv](https://docs.astral.sh/uv/). Python 3.14 is pinned in `.python-ver
     uv run python scripts/run_baselines.py  # canonical baseline set, train + val -> outputs/, results/registry.csv
     uv run python scripts/report.py         # per-part and summary tables from canonical registry rows
     uv run python scripts/incidence_sensitivity.py  # 60/65/70 deg visibility sensitivity -> results/incidence_sensitivity_v2.csv
-    uv run python scripts/collision_diagnostic.py   # robot-part/table clearance per pass -> results/collision_v1.csv
+    uv run python scripts/collision_diagnostic.py   # clearance of every IK-reachable pass -> results/collision_v2.csv (collision_v1.csv: D-042 evidence, never overwritten)
     uv run python scripts/bootstrap_coverage.py     # coverage of the hierarchical bootstrap interval (simulation)
 
 ## Data
