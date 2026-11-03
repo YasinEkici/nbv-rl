@@ -114,9 +114,9 @@ def check_status(status: str, state: dict) -> None:
 
 
 def new_run_id(prefix: str, stamp: str | None = None) -> str:
-    """`<prefix>-<YYYYmmddTHHMMSS>-<6 hex>`: unique, so an output folder is never reused (D-037)."""
+    """`<prefix>-<YYYYmmddTHHMMSS>-<8 hex>`: unique with high probability; a clash is refused by `write_run` and `append_registry`, never overwritten (D-037)."""
     stamp = stamp or datetime.now().strftime("%Y%m%dT%H%M%S")
-    return f"{prefix}-{stamp}-{secrets.token_hex(3)}"
+    return f"{prefix}-{stamp}-{secrets.token_hex(4)}"
 
 
 def _text_bytes(path: Path) -> bytes:
