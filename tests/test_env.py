@@ -255,3 +255,24 @@ def test_repair_of_empty_plan_is_closed_loop_greedy_cost():
         seq.append(a)
         done = term or trunc
     assert [s["pass"] for s in res["steps"]] == seq
+
+
+def test_policy_returning_none_ends_the_episode_censored():
+    """D-014 / PROTOCOL: a policy (or repair) that returns no action ends the episode early, censored."""
+    from nbv import evaluation
+
+    e = make_env()
+    calls = []
+
+    def one_pass_then_stop(obs, nominal, mask):
+        calls.append(int(obs["step"][0]))
+        return int(np.flatnonzero(mask)[0]) if not calls[:-1] else None
+
+    res = nbv_env.evaluate_policy(e, e.variants[0], lambda env: one_pass_then_stop)
+    assert res["passes_executed"] == 1 < e.k_max and calls == [0, 1]
+    assert res["censored"] and not res["success"] and res["passes_to_target"] is None
+    st = res["steps"][0]
+    assert st["t_home"] > 0  # the arm returns home when the episode is cut
+    assert np.isclose(res["cycle_time"], st["t_move"] + st["t_scan"] + st["t_home"])
+    m = evaluation.episode_metrics(res)
+    assert not m["success"] and m["passes_to_95"] is None and np.isclose(m["cycle_time"], res["cycle_time"])

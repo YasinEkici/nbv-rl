@@ -106,3 +106,23 @@ def test_config_ref_names_files_and_hashes_contents(tmp_path):
     assert ref.startswith(f"{a};n=48 sha256:")
     a.write_text("x: 2\n", encoding="utf-8")
     assert evaluation.config_ref(evaluation.file_hashes([str(a)]), {"n": 48}) != ref
+
+
+def test_file_hashes_ignore_line_endings(tmp_path):
+    a, b = tmp_path / "a.yaml", tmp_path / "b.yaml"
+    a.write_bytes(b"x: 1\ny: 2\n")
+    b.write_bytes(b"x: 1\r\ny: 2\r\n")
+    assert evaluation.file_hashes([str(a)])[str(a)] == evaluation.file_hashes([str(b)])[str(b)]
+
+
+def test_cache_manifest_follows_content_not_zip_bytes(tmp_path):
+    d = tmp_path / "cache"
+    d.mkdir()
+    np.savez_compressed(d / "x.npz", a=np.arange(5), b=np.ones((2, 3)))
+    np.savez_compressed(d / "points_1.npz", a=np.arange(3))  # created on demand: skipped
+    m1 = evaluation.cache_manifest([str(d)])[str(d)]
+    np.savez(d / "x.npz", b=np.ones((2, 3)), a=np.arange(5))  # same arrays, other zip bytes
+    (d / "points_1.npz").unlink()
+    assert evaluation.cache_manifest([str(d)])[str(d)] == m1 and m1["files"] == 1
+    np.savez_compressed(d / "x.npz", a=np.arange(5) + 1, b=np.ones((2, 3)))
+    assert evaluation.cache_manifest([str(d)])[str(d)]["sha256"] != m1["sha256"]

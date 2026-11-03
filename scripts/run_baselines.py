@@ -109,6 +109,8 @@ def main() -> None:
     evaluation.check_status(args.status, state)
     files = evaluation.file_hashes(CONFIG_FILES)
     inputs = evaluation.file_hashes([args.d_plan, *map(str, sorted(Path(args.plans).glob("joint_opt_n*.json")))])
+    caches = evaluation.cache_manifest(["data/cache/robot/nominal", "data/cache/visibility", args.plans])
+    code = evaluation.code_hash()
     stamp = datetime.now().strftime("%Y%m%dT%H%M%S")
     manifest = parts.load_yaml("configs/split_v1.yaml")
     tasks = []
@@ -148,7 +150,7 @@ def main() -> None:
             extra["success_without_repair"] = round(float(np.mean([e["planner"]["success_without_repair"] for e in eps])), 4)
         params = {k: t[k] for k in ("method", "n", "split", "seed")}
         cfg = params | {"config_files": files}
-        prov = {**state, "config_hash": evaluation.config_hash(cfg), "inputs": inputs, "env_version": ENV_VERSION,
+        prov = {**state, "config_hash": evaluation.config_hash(cfg), "inputs": inputs, "caches": caches, "code_sha256": code, "env_version": ENV_VERSION,
                 "split_version": "v1", "parts_version": "v2"}
         evaluation.write_run(Path(args.outputs) / t["run_id"], cfg, prov, eps, summary)
         seed = t["seed"] if t["method"] in STOCHASTIC else ""
