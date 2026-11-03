@@ -160,13 +160,15 @@ def solve_sweep(
 
 @dataclass(frozen=True)
 class RobotPlan:
-    reachable: np.ndarray     # (N,) bool
+    reachable: np.ndarray     # (N,) bool: IK, table clearance of the DH frames, and collision clearance (D-042)
     q: np.ndarray             # (N, k, 6) rad; NaN where unreachable
     scan_time: np.ndarray     # (N,) s, sweep length / scan speed
     # movej times with per-joint differences wrapped to [-pi, pi): planner approximation only (D-024).
     ptp_pi: np.ndarray        # (N, N) s, end of pass i -> start of pass j; 0 on the diagonal, inf if unreachable
     from_home_pi: np.ndarray  # (N,) s, q_home -> start of pass j
     to_home_pi: np.ndarray    # (N,) s, end of pass i -> q_home
+    ik_reachable: np.ndarray  # (N,) bool, before the collision check
+    min_clearance: np.ndarray  # (N,) mm, smallest body clearance to part or table over the sweep (NaN: no IK; inf: not checked)
 
     def leading_dq(self, wrapped: bool = False) -> np.ndarray:
         """Leading-axis |dq| (rad) of every PTP move i -> j between distinct reachable passes."""
@@ -176,8 +178,20 @@ class RobotPlan:
         return d[~np.eye(len(r), dtype=bool)]
 
 
-def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotPlan:
-    """IK for every pass and the PTP time matrix (D-021, D-022)."""
+def sweep_clearance(robot: rtb.DHRobot, sweep: np.ndarray, part, geom, box: np.ndarray) -> float:
+    """Smallest clearance (mm) of any body to the part or the table over the IK samples of a sweep (D-042)."""
+    from nbv import collision
+
+    return min(min(cp, ct) for q in sweep for cp, ct in collision.pose_clearance(robot, q, part, geom, box).values())
+
+
+def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float, part_mesh=None) -> RobotPlan:
+    """IK for every pass, the collision check, and the PTP time matrix (D-021, D-022, D-042).
+
+    With a `collision` section in `cfg`, a pass whose bodies (link capsules, sensor head box) come
+    closer than `min_clearance_mm` to the part (`part_mesh`, the nominal mesh) or the table at any
+    IK sample is unreachable.
+    """
     robot = make_robot(cfg)
     solve = IKSolver.from_robot(robot, cfg)
     ik, motion = cfg["ik"], cfg["motion"]
@@ -192,6 +206,18 @@ def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotP
         sol = solve_sweep(robot, solve, poses, home, starts, ik)
         if sol is not None:
             q[i] = sol
+    ik_reachable = ~np.isnan(q[:, 0, 0])
+    clearance = np.where(ik_reachable, np.inf, np.nan)
+    if "collision" in cfg:
+        if part_mesh is None:
+            raise ValueError("robot config has a collision section: pass the nominal part mesh")
+        from nbv import collision, parts
+
+        geom = collision.ArmGeometry.from_config(parts.load_yaml(cfg["collision"]["geometry"]))
+        part, box = collision.PartDistance(part_mesh), geom.box_points()
+        for i in np.flatnonzero(ik_reachable):
+            clearance[i] = sweep_clearance(robot, q[i], part, geom, box)
+        q[ik_reachable & (clearance < cfg["collision"]["min_clearance_mm"])] = np.nan
     reachable = ~np.isnan(q[:, 0, 0])
     v, a = motion["v_rad_s"], motion["a_rad_s2"]
     start, end = q[:, 0], q[:, -1]
@@ -202,4 +228,4 @@ def plan_passes(passes: ScanPasses, cfg: dict, scan_speed_mm_s: float) -> RobotP
     np.fill_diagonal(ptp, 0.0)
     from_home = np.where(reachable, movej_time(wrap_pi(start - home), v, a), np.inf)
     to_home = np.where(reachable, movej_time(wrap_pi(end - home), v, a), np.inf)
-    return RobotPlan(reachable, q, passes.length / scan_speed_mm_s, ptp, from_home, to_home)
+    return RobotPlan(reachable, q, passes.length / scan_speed_mm_s, ptp, from_home, to_home, ik_reachable, clearance)

@@ -64,7 +64,7 @@ def main() -> None:
     ap.add_argument("--vis-cache", default="data/cache/visibility")
     ap.add_argument("--sizes", type=int, nargs="+", default=[48, 128])
     ap.add_argument("--workers", type=int, default=11)
-    ap.add_argument("--out", default="results/incidence_sensitivity_v1.csv")
+    ap.add_argument("--out", default="results/incidence_sensitivity_v2.csv")
     args = ap.parse_args()
     a = {k: getattr(args, k) for k in ("parts", "sensor", "visibility", "robot_cache", "vis_cache", "sizes")}
     manifest = parts.load_yaml(args.manifest)

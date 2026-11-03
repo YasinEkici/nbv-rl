@@ -3,7 +3,7 @@
     uv run python scripts/joint_opt.py              # train + val parts, 48 candidates, 300 s each
 
 Writes plans to data/cache/plans/joint_opt_n{n}.json (used by scripts/run_baselines.py) and the
-planner-objective comparison with ILP + TSP to results/joint_opt_v1.csv. Test parts are not run.
+planner-objective comparison with ILP + TSP to results/joint_opt_v2.csv. Test parts are not run.
 """
 
 import argparse
@@ -42,7 +42,7 @@ def main() -> None:
     ap.add_argument("--time-limit", type=float, default=300.0)
     ap.add_argument("--parallel", type=int, default=3)
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--out", default="results/joint_opt_v1.csv")
+    ap.add_argument("--out", default="results/joint_opt_v2.csv")
     ap.add_argument("--plans", default="data/cache/plans")
     args = ap.parse_args()
     manifest = parts.load_yaml("configs/split_v1.yaml")

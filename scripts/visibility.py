@@ -4,6 +4,11 @@
 
 Needs the nominal robot plans from scripts/reachability.py. Both the nominal and the variant
 visibility use the nominal passes (D-029): the plan comes from the CAD, the measurement from the part.
+
+Visibility is computed for all passes, reachable or not, so a change of the reachability masks only
+changes the coverage columns: `--reuse-cache` loads the cached visibility and recomputes those.
+
+    uv run python scripts/visibility.py --reuse-cache
 """
 
 import argparse
@@ -43,7 +48,8 @@ def main() -> None:
     ap.add_argument("--visibility", default="configs/visibility_v1.yaml")
     ap.add_argument("--robot-cache", default="data/cache/robot/nominal")
     ap.add_argument("--cache", default="data/cache/visibility")
-    ap.add_argument("--report", default="results/reachability_v1.csv")
+    ap.add_argument("--report", default="results/reachability_v2.csv")
+    ap.add_argument("--reuse-cache", action="store_true", help="load cached visibility, recompute only the coverage columns")
     args = ap.parse_args()
 
     pc, manifest = parts.load_yaml(args.parts), parts.load_yaml(args.manifest)
@@ -57,6 +63,8 @@ def main() -> None:
     values, timing = {}, []
 
     def run(mesh, p, nrm, plans, out_name):
+        if args.reuse_cache:
+            return {n: visibility.Visibility.load(cache / f"{out_name}_n{n}.npz") for n in sizes}
         t0 = time.perf_counter()
         scene = visibility.make_scene(mesh, mesh.vertices[:, 2].min() - vc["table_offset_mm"])
         out = {}
@@ -71,7 +79,8 @@ def main() -> None:
     for fid in dict.fromkeys(v["base"] for v in manifest["variants"]):
         nominal = parts.load_base(Path(pc["paths"]["raw"]) / f"{fid}.ply", geo["longest_mm"], geo["max_edge_mm"])
         samples = visibility.sample_surface(nominal, vc["n_samples"], [vc["sample_seed"], fid])
-        np.savez_compressed(cache / f"samples_{fid}.npz", face=samples.face, bary=samples.bary)
+        if not args.reuse_cache:
+            np.savez_compressed(cache / f"samples_{fid}.npz", face=samples.face, bary=samples.bary)
         plans = {}
         for n in sizes:
             z = np.load(robot_cache / f"{fid}_n{n}.npz")
@@ -80,8 +89,8 @@ def main() -> None:
         nom_union = {n: visibility.union(nom[n].measured(), plans[n][1]) for n in sizes}
         for var in (v for v in manifest["variants"] if v["base"] == fid):
             vid = var["variant_id"]
-            mesh = trimesh.load(Path(pc["paths"]["variants"]) / f"{vid}.ply", process=False)
-            real = run(mesh, *samples.on(mesh), plans, vid)
+            mesh = None if args.reuse_cache else trimesh.load(Path(pc["paths"]["variants"]) / f"{vid}.ply", process=False)
+            real = run(mesh, *(samples.on(mesh) if mesh is not None else (None, None)), plans, vid)
             ref = visibility.union(real[dense].measured(), plans[dense][1])  # NSC reference (D-028)
             for n in sizes:
                 rep = visibility.coverage_report(real[n], plans[n][1], ref)
@@ -91,7 +100,8 @@ def main() -> None:
             print(vid, {n: round(values[(vid, str(n))]["observable_reachable_over_all"], 3) for n in sizes})
     t_total = time.perf_counter() - t_total
     update_csv(Path(args.report), values)
-    (cache / "timing.json").write_text(json.dumps({"total_s": t_total, "per_mesh": timing}, indent=1), encoding="utf-8")
+    if not args.reuse_cache:
+        (cache / "timing.json").write_text(json.dumps({"total_s": t_total, "per_mesh": timing}, indent=1), encoding="utf-8")
     print(f"total {t_total:.1f} s; wrote {args.report}")
 
 

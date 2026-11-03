@@ -1,4 +1,4 @@
-"""Scan passes + IK + PTP times per base part, from the nominal CAD (D-029); cache and report.
+"""Scan passes + IK + collision check + PTP times per base part, from the nominal CAD (D-029, D-042).
 
     uv run python scripts/reachability.py
     uv run python scripts/reachability.py --base-x -450 --split train --sizes 48 \\
@@ -27,12 +27,12 @@ def main() -> None:
     ap.add_argument("--manifest", default="configs/split_v1.yaml")
     ap.add_argument("--sensor", default="configs/sensor_v1.yaml")
     ap.add_argument("--candidates", default="configs/candidates_v1.yaml")
-    ap.add_argument("--robot", default="configs/robot_v1.yaml")
+    ap.add_argument("--robot", default="configs/robot_v2.yaml")
     ap.add_argument("--base-x", type=float, help="override robot base x (mm); diagnostic sweeps only")
     ap.add_argument("--split", choices=["train", "val", "test"], help="only variants of this split")
     ap.add_argument("--sizes", type=int, nargs="+", help="candidate-set sizes (default: main + sensitivity)")
     ap.add_argument("--cache", default="data/cache/robot/nominal")
-    ap.add_argument("--out", default="results/reachability_v1.csv")
+    ap.add_argument("--out", default="results/reachability_v2.csv")
     args = ap.parse_args()
 
     pc, manifest = parts.load_yaml(args.parts), parts.load_yaml(args.manifest)
@@ -53,18 +53,21 @@ def main() -> None:
             passes = candidates.make_passes(
                 mesh.vertices, n, cc["min_elevation_deg"], candidates.standoff_offset(sensor), cc["sweep_margin_mm"]
             )
-            plan = robot.plan_passes(passes, rc, sensor["scan_speed_mm_s"])
+            plan = robot.plan_passes(passes, rc, sensor["scan_speed_mm_s"], part_mesh=mesh)
             np.savez_compressed(
                 cache / f"{fid}_n{n}.npz",
                 center=passes.center, direction=passes.direction, view=passes.view, sweep=passes.sweep,
                 standoff=passes.standoff, length=passes.length, reachable=plan.reachable, q=plan.q,
                 scan_time=plan.scan_time, ptp_pi=plan.ptp_pi, from_home_pi=plan.from_home_pi, to_home_pi=plan.to_home_pi,
+                ik_reachable=plan.ik_reachable, min_clearance=plan.min_clearance,
             )
             far = passes.direction[:, 0] > 0
             dq = np.degrees(plan.leading_dq())
             dq_pi = np.degrees(plan.leading_dq(wrapped=True))
             part_rows.append({
                 "base_x_mm": rc["base_xyz_mm"][0], "n_candidates": n,
+                "n_ik_reachable": int(plan.ik_reachable.sum()),
+                "n_collision_masked": int((plan.ik_reachable & ~plan.reachable).sum()),
                 "n_reachable": int(plan.reachable.sum()), "reachable_ratio": round(float(plan.reachable.mean()), 4),
                 "unreachable_far": int((~plan.reachable & far).sum()),
                 "unreachable_robot_side": int((~plan.reachable & ~far).sum()),

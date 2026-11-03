@@ -134,3 +134,31 @@ def test_reachable_midpoints_are_wrapped_towards_home(rc, plan):
     shifted = plan.q[plan.reachable] - 2 * np.pi * np.sign(mid - home)[:, None, :]
     shifted_closer &= (shifted.max(1) <= lim) & (shifted.min(1) >= -lim)
     assert not shifted_closer.any()
+
+
+@pytest.fixture(scope="module")
+def box_mesh():
+    m = trimesh.creation.box(extents=[200.0, 120.0, 80.0])
+    m.apply_translation([0.0, 0.0, 40.0])
+    return m
+
+
+def test_collision_check_masks_close_passes(passes, box_mesh):
+    rc2 = parts.load_yaml("configs/robot_v2.yaml")
+    plan = robot.plan_passes(passes, rc2, 100.0, part_mesh=box_mesh)
+    margin = rc2["collision"]["min_clearance_mm"]
+    assert np.all(plan.ik_reachable >= plan.reachable)
+    assert np.all(plan.min_clearance[plan.reachable] >= margin)
+    masked = plan.ik_reachable & ~plan.reachable
+    assert np.all(plan.min_clearance[masked] < margin)
+    assert np.all(np.isnan(plan.q[masked])) and np.all(np.isinf(plan.ptp_pi[masked][:, plan.reachable]))
+    assert np.all(np.isnan(plan.min_clearance[~plan.ik_reachable]))
+
+
+def test_collision_config_needs_the_part_mesh(passes):
+    with pytest.raises(ValueError):
+        robot.plan_passes(passes, parts.load_yaml("configs/robot_v2.yaml"), 100.0)
+
+
+def test_without_collision_section_nothing_is_masked(plan):
+    assert np.array_equal(plan.reachable, plan.ik_reachable) and np.all(np.isinf(plan.min_clearance[plan.reachable]))

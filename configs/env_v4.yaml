@@ -1,0 +1,14 @@
+# NBV environment v4 (D-030, D-036, D-038, D-042). Changing anything here bumps ENV_VERSION (src/nbv/env.py).
+# v4 = v3 + collision masks in the robot plans (configs/robot_v2.yaml); the settings below are unchanged.
+coverage_target: 0.95          # primary coverage of the variant's real reachable union (D-023, D-028)
+k_max: {48: 24, 128: 40}       # pass budget per episode, by candidate-set size; reaching it ends the episode
+
+reward:                        # the objective only: -(t_move + t_scan) per pass, -t_home at the end, +B at success
+  success_bonus_s: 250.0       # once, at the step that reaches coverage_target
+# Coverage shaping is an agent-side wrapper (nbv.shaping.PotentialShaping), not part of the environment.
+
+pose_id: 0                     # part pose on the table; only 0 (as loaded) is precomputed (Plan 003)
+
+paths:
+  robot: data/cache/robot/nominal
+  visibility: data/cache/visibility

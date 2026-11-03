@@ -35,9 +35,9 @@ CANONICAL_SIZES = [48]
 INFO = {"random": "none", "fixed": "nominal", "greedy_ig": "nominal", "greedy_cost": "nominal",
         "greedy_oracle": "real", "ilp_tsp": "nominal", "random_tsp": "nominal", "mcts": "nominal",
         "joint_opt": "nominal (solver-based upper reference, not an oracle)"}
-ENV_CONFIG = "configs/env_v3.yaml"
+ENV_CONFIG = "configs/env_v4.yaml"
 # Every config the run or its precomputed caches depend on; hashed into the registry `config` column.
-CONFIG_FILES = [ENV_CONFIG, "configs/robot_v1.yaml", "configs/parts_v2.yaml", "configs/split_v1.yaml",
+CONFIG_FILES = [ENV_CONFIG, "configs/robot_v2.yaml", "configs/collision_v1.yaml", "configs/parts_v2.yaml", "configs/split_v1.yaml",
                 "configs/candidates_v1.yaml", "configs/sensor_v1.yaml", "configs/visibility_v1.yaml"]
 
 
@@ -93,7 +93,7 @@ def main() -> None:
     ap.add_argument("--status", default="exploratory", choices=["exploratory", "canonical"])
     ap.add_argument("--tag", default="s5", help="run-id tag, e.g. s5 (exploratory) or s6 (canonical)")
     ap.add_argument("--supersede", action="store_true", help="mark all earlier non-superseded plan 001 rows superseded")
-    ap.add_argument("--d-plan", default="results/d_plan_v1.csv")
+    ap.add_argument("--d-plan", default="results/d_plan_v2.csv")
     ap.add_argument("--plans", default="data/cache/plans")
     ap.add_argument("--outputs", default="outputs")
     ap.add_argument("--registry", default="results/registry.csv")

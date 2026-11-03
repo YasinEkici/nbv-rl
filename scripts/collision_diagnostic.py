@@ -128,7 +128,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--parts", default="configs/parts_v2.yaml")
     ap.add_argument("--manifest", default="configs/split_v1.yaml")
-    ap.add_argument("--robot", default="configs/robot_v1.yaml")
+    ap.add_argument("--robot", default="configs/robot_v2.yaml")
     ap.add_argument("--collision", default="configs/collision_v1.yaml")
     ap.add_argument("--robot-cache", default="data/cache/robot/nominal")
     ap.add_argument("--sizes", type=int, nargs="+", default=[48, 128])
