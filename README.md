@@ -7,8 +7,8 @@ Course project (Deep Reinforcement Learning, graduate). A robot-mounted line-las
 | Phase | Description | Status |
 |---|---|---|
 | 0 | Repository scaffold | ✅ |
-| 1 | Environment, precomputation, baselines (Plan 001) | 🔄 |
-| 2 | Phase 1: classical RL (Plan 002) | ⏳ |
+| 1 | Environment, precomputation, baselines (Plan 001) | ✅ |
+| 2 | Phase 1: classical RL (Plan 002) | 🔄 |
 | 3 | Phase 2: deep RL + ablations (Plan 003) | ⏳ |
 | 4 | Analysis and writing (Plan 004) | ⏳ |
 
