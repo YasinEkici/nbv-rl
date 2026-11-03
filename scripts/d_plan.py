@@ -21,7 +21,7 @@ def main() -> None:
     ap.add_argument("--robot-cache", default="data/cache/robot/nominal")
     ap.add_argument("--vis-cache", default="data/cache/visibility/nominal")
     ap.add_argument("--time-limit", type=float, default=60.0)
-    ap.add_argument("--out", default="results/d_plan_v1.csv")
+    ap.add_argument("--out", default="results/d_plan_v2.csv")
     args = ap.parse_args()
     manifest = parts.load_yaml(args.manifest)
     rows = []

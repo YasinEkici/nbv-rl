@@ -27,7 +27,7 @@ import numpy as np
 
 from nbv import parts, robot, visibility
 
-ENV_VERSION = "v3"  # v2: K_max 40 at 128 candidates (D-036); v3: objective-only reward, end at K_max (D-038)
+ENV_VERSION = "v4"  # v2: K_max 40 (D-036); v3: objective-only reward, end at K_max (D-038); v4: collision masks (D-042)
 
 
 @dataclass(frozen=True)
@@ -107,8 +107,8 @@ class NBVEnv(gym.Env):
         self,
         variants: list[str],
         n_candidates: int = 48,
-        env_config: str = "configs/env_v3.yaml",
-        robot_config: str = "configs/robot_v1.yaml",
+        env_config: str = "configs/env_v4.yaml",
+        robot_config: str = "configs/robot_v2.yaml",
         parts_config: str = "configs/parts_v2.yaml",
         candidates_config: str = "configs/candidates_v1.yaml",
         loader: Callable[[str], EpisodeData] | None = None,
