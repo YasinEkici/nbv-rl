@@ -28,6 +28,43 @@ SECONDARY = [("cycle_time", "cycle time (s)"), ("passes_to_95", "passes to 95%")
              ("repair_passes", "repair passes")]
 
 
+def feature_check_table(registry: list[dict]) -> str:
+    """D-046 exploratory selection table; every displayed result comes from registry fields."""
+    selected = {}
+    for row in registry:
+        extra = json.loads(row["extra_json"])
+        if (row["status"] == "exploratory" and row["plan"] == "002" and row["env_version"] == ENV_VERSION
+                and row["part_split"] == "val" and extra.get("feature_check")):
+            key = (int(row["seed"]), extra["feature_count"])
+            if key in selected:
+                raise ValueError("multiple feature-check rows per setting/seed; select one predeclared invocation")
+            selected[key] = (extra["selection_normalized_cycle_time"], float(row["success_rate"]))
+    seeds = (1000, 1001, 1002)
+    if set(selected) != {(s, d) for s in seeds for d in (16, 11)}:
+        raise ValueError("expected the six D-046 feature-check registry rows")
+    out = ["## Plan 002 exploratory feature check (D-046)", "",
+           "VAL normalized cycle time; mean of evaluations at 190000 and 200000 steps using the running tail mean.", "",
+           "| seed | 16 features | 11 features | improvement (11 minus 16) |", "|---|---|---|---|"]
+    for seed in seeds:
+        a, b = selected[seed, 16][0], selected[seed, 11][0]
+        out.append(f"| {seed} | {a:.6f} | {b:.6f} | {b-a:.6f} |")
+    a, b = (float(np.mean([selected[s, d][0] for s in seeds])) for d in (16, 11))
+    out += [f"| Mean | {a:.6f} | {b:.6f} | {b-a:.6f} |", "",
+            f"D-046 rule (improvement >= 0.01): {'retain 16' if b-a >= .01 else 'select 11; drop features 9 and 13–16'}.", ""]
+    for d in (16, 11):
+        success = np.mean([selected[s, d][1] for s in seeds])
+        out.append(f"Final tail-policy success rate, {d} features: {success:.4f}.")
+    for method in ("greedy_cost", "mcts"):
+        values = [json.loads(r["extra_json"])["normalized_cycle_time"] for r in registry
+                  if r["plan"] == "001" and r["status"] == "canonical" and r["env_version"] == ENV_VERSION
+                  and r["part_split"] == "val" and r["method"] == method
+                  and json.loads(r["extra_json"]).get("n_candidates") == 48]
+        if values:
+            out.append(f"Canonical val reference, {method}: {np.mean(values):.3f}.")
+    out += ["", "These exploratory results select features only; they are not official method comparisons."]
+    return "\n".join(out)
+
+
 def load(rows: list[dict], outputs: Path) -> list[dict]:
     recs = []
     for r in rows:
@@ -92,8 +129,15 @@ def main() -> None:
     ap.add_argument("--diagnostic", action="store_true", help="add greedy-oracle")
     ap.add_argument("--n-boot", type=int, default=5000)
     ap.add_argument("--out", help="write the markdown here instead of stdout")
+    ap.add_argument("--feature-check", action="store_true", help="D-046 exploratory table from registry scores")
     args = ap.parse_args()
     registry = list(csv.DictReader(open(args.registry, encoding="utf-8")))
+    if args.feature_check:
+        text = feature_check_table(registry)
+        if args.out:
+            Path(args.out).write_text(text + "\n", encoding="utf-8")
+        print(text)
+        return
     methods = MAIN + APPENDIX + (DIAGNOSTIC if args.diagnostic else [])
     sections = []
     for split in args.split:

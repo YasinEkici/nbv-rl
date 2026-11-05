@@ -30,6 +30,34 @@ REGISTRY_FIELDS = [
 AUC_HORIZON_S = 180.0  # PROTOCOL: [0, 180 s], step function, divided by 180
 
 
+def evaluate_weights(env, variants: list[str], weights: np.ndarray, reference_times: dict[str, float],
+                     *, reduced: bool = False, feature_cache: dict | None = None) -> list[dict]:
+    """Greedy fixed-weight evaluation on explicitly supplied variants; no learning or randomness."""
+    from nbv.env import evaluate_policy
+    from nbv.features import ActionFeatures
+
+    cache, records = feature_cache if feature_cache is not None else {}, []
+
+    def make_policy(base):
+        key = id(base.nominal)
+        if key not in cache:
+            cache[key] = ActionFeatures(base.nominal, base.k_max, reduced=reduced, target=base.target)
+        feature = cache[key]
+
+        def policy(obs, nominal, mask):
+            idx = np.flatnonzero(mask)
+            return int(idx[np.argmax(feature(obs, mask)[idx] @ weights)]) if len(idx) else None
+        return policy
+
+    for vid in variants:
+        result = evaluate_policy(env, vid, make_policy)
+        records.append({"variant": vid, "part": int(vid.split("_")[0]), "censored": result["censored"],
+                        "sequence": [s["pass"] for s in result["steps"]],
+                        "normalized_cycle_time": result["cycle_time"] / reference_times[vid],
+                        **episode_metrics(result)})
+    return records
+
+
 # --- Episode metrics -------------------------------------------------------------
 
 

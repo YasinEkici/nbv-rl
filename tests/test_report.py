@@ -37,3 +37,15 @@ def test_report_tables_list_every_part_and_method():
 def test_bootstrap_coverage_runs():
     r = load("bootstrap_coverage").coverage(3, reps=10, n_boot=100, rng=np.random.default_rng(0))
     assert 0.0 <= r["coverage_of_true_mean"] <= 1.0 and r["median_width"] > 0
+
+
+def test_feature_check_table_uses_registry_scores_and_predeclared_threshold():
+    import json
+    rows = []
+    for seed in (1000, 1001, 1002):
+        for d, value in ((16, 1.1), (11, 1.12)):
+            rows.append({"status": "exploratory", "plan": "002", "env_version": "v4", "part_split": "val",
+                         "seed": str(seed), "success_rate": "1.0", "extra_json": json.dumps({"feature_check": True,
+                         "feature_count": d, "selection_normalized_cycle_time": value})})
+    text = load("report").feature_check_table(rows)
+    assert "1000" in text and "Mean" in text and "retain 16" in text and "0.020000" in text
