@@ -11,7 +11,7 @@ import numpy as np
 
 from nbv.env import NominalModel
 from nbv.robot import movej_time, wrap_pi
-from nbv.shaping import _classes, measured_share
+from nbv.shaping import _classes
 
 FEATURE_NAMES = ("bias", "gain", "gain_rel", "t_move", "t_scan", "rate_rel", "finishes", "t_home",
                  "next_rate", "remaining", "needed", "step_frac", "gain_needed", "finishes_home",
@@ -34,7 +34,8 @@ class ActionFeatures:
     def __init__(self, nominal: NominalModel, k_max: int = 24, *, reduced: bool = False, target: float = .95):
         self.nominal, self.k_max, self.reduced, self.target = nominal, k_max, reduced, target
         vis, self.classes = _classes(nominal)
-        self.total = max(int(nominal.union.sum()), 1)
+        self.n_union = int(nominal.union.sum())
+        self.total = max(self.n_union, 1)
         # Counts are integers <= 20000 in PROTOCOL v1, exactly representable in float32.
         # Single-precision BLAS speeds up overlap counts without approximating a feature.
         self.vis = vis.astype(np.float32 if self.total < 2**24 else np.float64)
@@ -64,7 +65,9 @@ class ActionFeatures:
         gain = counts / self.total
         rate = gain / (move + nom.scan_time[idx])
         best_gain, best_rate = gain.max(), rate.max()
-        share = measured_share(obs, nom)  # exactly the same C as linear Phi; never clipped
+        # Counts already partition the nominal union: avoid a second full-sample reduction.
+        # This is exactly shaping.measured_share, including an empty union; never clipped.
+        share = (self.n_union - float(left.sum())) / self.total
         remaining, needed = 1 - share, max(0., self.target - share) / self.target
         finishes = gain >= max(0., self.target - share)
         out[idx, 0] = 1
