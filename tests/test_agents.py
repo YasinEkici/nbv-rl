@@ -18,6 +18,60 @@ from test_env import make_env
 # --- Small problems ----------------------------------------------------------------------------
 
 
+def test_tail_mean_and_divergence_fallback():
+    from nbv.agents.linear import TailAverage
+    tail = TailAverage(budget=20)
+    last = np.array([0., 1.])
+    for step in range(1, 19):
+        last = np.array([step, 1.])
+        tail.observe(step, last, diverged=False)
+    np.testing.assert_array_equal(tail.policy(last), last)  # before the window
+    tail.observe(19, np.array([19., 1.]), diverged=False)
+    tail.observe(20, np.array([20., 1.]), diverged=False)
+    np.testing.assert_array_equal(tail.policy(last), [19.5, 1.])
+    early = TailAverage(budget=20)
+    early.observe(19, last, diverged=True)
+    np.testing.assert_array_equal(early.policy(last), last)
+    inside = TailAverage(budget=20)
+    inside.observe(19, np.array([19., 1.]), diverged=False)
+    inside.observe(20, np.array([999., 1.]), diverged=True)
+    np.testing.assert_array_equal(inside.policy(last), [19., 1.])
+
+
+@pytest.mark.parametrize("lam", [.5, .9, 1.])
+def test_linear_shaping_equals_initial_values_for_true_online_sarsa(lam):
+    from nbv import features, shaping
+    shaped, plain = shaping.PotentialShaping(make_env(), phi="linear"), make_env()
+    a = TrueOnlineSarsaAgent(16, .03 / 16, lam, rng=agents.agent_rng(1000))
+    b = TrueOnlineSarsaAgent(16, .03 / 16, lam, rng=agents.agent_rng(1000))
+    offset = np.zeros(16)
+    offset[[0, 9]] = [.5, -.5]  # .01 * 50 * (bias - remaining)
+    b.w[:] = offset
+    steps = 0
+    for seed in agents.env_seeds(1000, 1000):
+        oa, _ = shaped.reset(seed=int(seed))
+        ob, _ = plain.reset(seed=int(seed))
+        fa = features.ActionFeatures(shaped.unwrapped.nominal, shaped.unwrapped.k_max)
+        fb = features.ActionFeatures(plain.nominal, plain.k_max)
+        a.epsilon = b.epsilon = .2
+        aa = a.start(fa(oa, shaped.unwrapped.action_masks()), shaped.unwrapped.action_masks())
+        ab = b.start(fb(ob, plain.action_masks()), plain.action_masks())
+        while True:
+            assert aa == ab
+            oa, ra, done, _, _ = shaped.step(aa)
+            ob, rb, db, _, _ = plain.step(ab)
+            assert done == db
+            aa = a.step(.01 * ra, fa(oa, shaped.unwrapped.action_masks()), shaped.unwrapped.action_masks(), done)
+            ab = b.step(.01 * rb, fb(ob, plain.action_masks()), plain.action_masks(), done)
+            np.testing.assert_allclose(b.w - a.w, offset, atol=1e-9, rtol=0)
+            steps += 1
+            if done:
+                break
+        if steps >= 3000:
+            break
+    assert steps >= 3000
+
+
 def run_fixed_episode(agent, xs, rewards):
     """Feed one episode with a single action per state; xs[t] is phi(S_t, A_t) of shape (d,)."""
     only = np.ones(1, bool)
