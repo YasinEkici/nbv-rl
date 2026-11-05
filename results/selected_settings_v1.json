@@ -1,0 +1,53 @@
+{
+  "sarsa": {
+    "grid_id": "sarsa-05",
+    "setting": {
+      "alpha": 0.03,
+      "lam": 0.5,
+      "epsilon": "constant"
+    },
+    "scores": [
+      1.1710450034940503,
+      1.1661462006633174,
+      1.148830783894771
+    ],
+    "diverged": 0,
+    "success_rate": 1.0,
+    "mean": 1.162007329350713,
+    "spread": 0.009529448389351745
+  },
+  "regq": {
+    "grid_id": "regq-01",
+    "setting": {
+      "alpha": 0.01,
+      "eta": 0.001,
+      "epsilon": "constant"
+    },
+    "scores": [
+      1.1820292516380146,
+      1.1817976872174372,
+      1.1817976872174372
+    ],
+    "diverged": 0,
+    "success_rate": 1.0,
+    "mean": 1.1818748753576296,
+    "spread": 0.00010916051471457948
+  },
+  "myopic": {
+    "grid_id": "myopic-07",
+    "setting": {
+      "alpha": 0.03,
+      "phi_alpha": 50.0,
+      "epsilon": "constant"
+    },
+    "scores": [
+      1.2262920490821072,
+      1.2229100667699435,
+      1.223390206764189
+    ],
+    "diverged": 0,
+    "success_rate": 1.0,
+    "mean": 1.22419744087208,
+    "spread": 0.0014940261641291671
+  }
+}

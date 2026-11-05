@@ -73,10 +73,10 @@ def test_grid_report_is_registry_only_and_reports_success_alongside_time(tmp_pat
                          "selection_normalized_cycle_time": 1.2, "diverged": False,
                          "history": [{"success_rate": 1.}] * 20}
                 records.append(dict(plan="002", env_version="v4", status="exploratory", part_split="val",
-                                    method=method, seed=seed, extra_json=json.dumps(extra)))
+                                    method=method, seed=seed, success_rate="1.0", extra_json=json.dumps(extra)))
     for method in ("greedy_cost", "mcts", "ilp_tsp"):
         records.append(dict(plan="001", env_version="v4", status="canonical", part_split="val", method=method,
-                            seed="", extra_json=json.dumps({"n_candidates": 48, "normalized_cycle_time": 1.})))
+                            seed="", success_rate="0.9", extra_json=json.dumps({"n_candidates": 48, "normalized_cycle_time": 1.})))
     registry = tmp_path / "registry.csv"
     with registry.open("w", newline="", encoding="utf-8") as stream:
         writer = csv.DictWriter(stream, fieldnames=list(records[0]))
@@ -86,4 +86,5 @@ def test_grid_report_is_registry_only_and_reports_success_alongside_time(tmp_pat
     choices = tuning_report(str(registry), str(out), str(selected))
     assert set(choices) == set(METHODS)
     assert "success rate" in out.read_text(encoding="utf-8")
+    assert "0.9000" in out.read_text(encoding="utf-8")  # reference success is read from the registry too
     assert all(c["success_rate"] == 1. for c in choices.values())
