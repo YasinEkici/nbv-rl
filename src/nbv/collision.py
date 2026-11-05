@@ -1,4 +1,6 @@
-"""Robot–part and robot–table clearance of scan passes (diagnostic only, D-042; masks are unchanged).
+"""Robot–part and robot–table geometry, clearance and diagnostic functions (D-042).
+
+Since ENV v4, robot.plan_passes uses these clearances to mask colliding scan passes.
 
 The UR5 is approximated by capsules along its links and the sensor head by a box. The DH model
 collapses the lateral joint offsets of the real arm onto the joint-2/3/4 axis line; the capsules

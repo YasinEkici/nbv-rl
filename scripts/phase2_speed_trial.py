@@ -8,12 +8,7 @@ CPU for PPO without a CNN); cnn3d uses a minimal 32^3 occupancy grid of the meas
 on CUDA (the real voxel design belongs to Plan 003). Reports steps/s, CPU and GPU utilization, VRAM.
 """
 
-import os
-
-# Before numpy is imported: OpenBLAS commits per-thread buffers for all 24 cores in every process
-# (~1.8 GB commit per env worker); single-threaded BLAS brings a worker down to ~0.36 GB.
-for _v in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS"):
-    os.environ.setdefault(_v, "1")
+import nbv  # establish thread defaults before NumPy in every spawned worker (D-047)
 
 import argparse  # noqa: E402
 import json  # noqa: E402
