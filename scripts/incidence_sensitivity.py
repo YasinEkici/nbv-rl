@@ -16,6 +16,7 @@ import csv
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
+import nbv  # establish thread defaults before NumPy in every spawned worker
 import numpy as np
 import trimesh
 

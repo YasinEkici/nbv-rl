@@ -142,9 +142,11 @@ def _solve(model: cp_model.CpModel, time_limit_s: float, workers: int = 8) -> tu
 def set_cover(vis: np.ndarray, ref: np.ndarray, rows: np.ndarray, fraction: float, time_limit_s: float = 60.0) -> SolverResult:
     """Fewest passes (among `rows`) covering >= `fraction` of the `ref` samples (partial set cover).
 
-    Two stages so the result is both optimal and reproducible (D-033): (1) minimize the number of
-    passes; (2) with that number fixed, minimize a tie-break with distinct seeded weights per pass,
-    whose optimum is unique. With several workers, a single-stage solve returned a different optimal
+    Two stages (D-033): (1) minimize the number of passes; (2) with that number fixed, minimize
+    a tie-break with distinct seeded weights per pass. This discourages ties but does not guarantee
+    a unique optimum: distinct subsets can have equal weight sums. Reproducibility is checked by
+    tests/test_baselines.py::test_ilp_tsp_plan_is_reproducible.
+    With several workers, a single-stage solve returned a different optimal
     cover on repeated runs; with one worker, the 95% cover at 128 candidates was not solved to
     optimality within the time limit.
     """
@@ -166,7 +168,7 @@ def set_cover(vis: np.ndarray, ref: np.ndarray, rows: np.ndarray, fraction: floa
             m.Minimize(sum(x))
         else:
             m.Add(sum(x) == count)
-            tie = np.random.default_rng(0).permutation(len(rows)) + 1  # distinct weights -> unique optimum
+            tie = np.random.default_rng(0).permutation(len(rows)) + 1  # seeded tie-break; subset sums can still tie
             m.Minimize(sum(int(tie[i]) * x[i] for i in range(len(rows))))
         return m, x
 
