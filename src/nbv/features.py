@@ -34,8 +34,10 @@ class ActionFeatures:
     def __init__(self, nominal: NominalModel, k_max: int = 24, *, reduced: bool = False, target: float = .95):
         self.nominal, self.k_max, self.reduced, self.target = nominal, k_max, reduced, target
         vis, self.classes = _classes(nominal)
-        self.vis = vis.astype(float)
         self.total = max(int(nominal.union.sum()), 1)
+        # Counts are integers <= 20000 in PROTOCOL v1, exactly representable in float32.
+        # Single-precision BLAS speeds up overlap counts without approximating a feature.
+        self.vis = vis.astype(np.float32 if self.total < 2**24 else np.float64)
         self.ends = np.nan_to_num(nominal.q_plan[:, -1])
         self.future_time = nominal.ptp_pi + nominal.scan_time[None, :]
 
@@ -55,9 +57,10 @@ class ActionFeatures:
             if distance.min() > 1e-7:
                 raise ValueError("feature observation must be at home or a nominal pass end modulo 2*pi")
             move = nom.ptp_pi[last, idx]
-        left = np.bincount(self.classes[~obs["covered"].astype(bool)[nom.union]], minlength=self.vis.shape[1])
+        left = np.bincount(self.classes[~obs["covered"].astype(bool)[nom.union]],
+                           minlength=self.vis.shape[1]).astype(self.vis.dtype)
         V = self.vis[idx]
-        counts = V @ left
+        counts = (V @ left).astype(float)
         gain = counts / self.total
         rate = gain / (move + nom.scan_time[idx])
         best_gain, best_rate = gain.max(), rate.max()
