@@ -98,11 +98,13 @@ def tuning_report(registry: str = "results/registry.csv", out: str = "results/tu
         text.append(f"| {method} | {choice['mean']:.6f} | {choice['spread']:.6f} | {choice['success_rate']:.4f} |")
     all_rows = list(csv.DictReader(open(registry, encoding="utf-8")))
     for method in ("greedy_cost", "mcts", "ilp_tsp"):
-        refs = [json.loads(r["extra_json"])["normalized_cycle_time"] for r in all_rows
+        ref_rows = [r for r in all_rows
                 if r["plan"] == "001" and r["status"] == "canonical" and r["env_version"] == ENV_VERSION
                 and r["part_split"] == "val" and r["method"] == method
                 and json.loads(r["extra_json"]).get("n_candidates") == 48]
-        text.append(f"| {method} (reference) | {np.mean(refs):.3f} | — | 1.0000 |")
+        refs = [json.loads(r["extra_json"])["normalized_cycle_time"] for r in ref_rows]
+        success = np.mean([float(r["success_rate"]) for r in ref_rows])
+        text.append(f"| {method} (reference) | {np.mean(refs):.3f} | — | {success:.4f} |")
     Path(out).write_text("\n".join(text) + "\n", encoding="utf-8")
     Path(settings_out).write_text(json.dumps(selected, indent=2) + "\n", encoding="utf-8")
     print("\n".join(text), flush=True)
