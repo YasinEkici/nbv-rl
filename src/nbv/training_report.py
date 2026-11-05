@@ -72,8 +72,8 @@ def tuning_report(registry: str = "results/registry.csv", out: str = "results/tu
             "Spread is population standard deviation across seeds 1000–1002. No test-part evaluation.", ""]
     selected = {}
     for method in METHODS:
-        text += [f"## {method}", "", "| point | setting | seed 1000 | seed 1001 | seed 1002 | mean | spread | diverged |",
-                 "|---|---|---|---|---|---|---|---|"]
+        text += [f"## {method}", "", "| point | setting | seed 1000 | seed 1001 | seed 1002 | mean | spread | success rate | diverged |",
+                 "|---|---|---|---|---|---|---|---|---|"]
         points = []
         for i, setting in enumerate(grid_settings(method)):
             name = f"{method}-{i:02d}"
@@ -81,27 +81,28 @@ def tuning_report(registry: str = "results/registry.csv", out: str = "results/tu
             scores = [e["selection_normalized_cycle_time"] for e in extras if e is not None]
             values = [f"{e['selection_normalized_cycle_time']:.6f}" if e else "pending" for e in extras]
             diverged = sum(e["diverged"] for e in extras if e is not None)
+            success = float(np.mean([h["success_rate"] for e in extras if e is not None for h in e["history"][-2:]])) if scores else float("nan")
             stats = f"{np.mean(scores):.6f} | {np.std(scores):.6f}" if len(scores) == 3 else "pending | pending"
             text.append(f"| {name} | {json.dumps(setting, sort_keys=True)} | " + " | ".join(values)
-                        + f" | {stats} | {diverged}/{len(scores)} |")
+                        + f" | {stats} | {success:.4f} | {diverged}/{len(scores)} |")
             if len(scores) == 3:
-                points.append({"grid_id": name, "setting": setting, "scores": scores, "diverged": diverged})
+                points.append({"grid_id": name, "setting": setting, "scores": scores, "diverged": diverged, "success_rate": success})
         if len(points) == 12:
             choice = select_setting(points)
             selected[method] = choice | {"mean": float(np.mean(choice["scores"])), "spread": float(np.std(choice["scores"]))}
             text += ["", f"Selected: {choice['grid_id']}, {json.dumps(choice['setting'], sort_keys=True)}.",
                      "Rule: within 0.005 of the minimum mean, lowest seed spread, then smallest alpha.", ""]
     text += ["## Selected settings and canonical VAL references", "",
-             "| method | VAL selection score | seed spread |", "|---|---|---|"]
+             "| method | VAL selection score | seed spread | success rate |", "|---|---|---|---|"]
     for method, choice in selected.items():
-        text.append(f"| {method} | {choice['mean']:.6f} | {choice['spread']:.6f} |")
+        text.append(f"| {method} | {choice['mean']:.6f} | {choice['spread']:.6f} | {choice['success_rate']:.4f} |")
     all_rows = list(csv.DictReader(open(registry, encoding="utf-8")))
     for method in ("greedy_cost", "mcts", "ilp_tsp"):
         refs = [json.loads(r["extra_json"])["normalized_cycle_time"] for r in all_rows
                 if r["plan"] == "001" and r["status"] == "canonical" and r["env_version"] == ENV_VERSION
                 and r["part_split"] == "val" and r["method"] == method
                 and json.loads(r["extra_json"]).get("n_candidates") == 48]
-        text.append(f"| {method} (reference) | {np.mean(refs):.3f} | — |")
+        text.append(f"| {method} (reference) | {np.mean(refs):.3f} | — | 1.0000 |")
     Path(out).write_text("\n".join(text) + "\n", encoding="utf-8")
     Path(settings_out).write_text(json.dumps(selected, indent=2) + "\n", encoding="utf-8")
     print("\n".join(text), flush=True)

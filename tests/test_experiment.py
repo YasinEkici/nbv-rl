@@ -59,3 +59,31 @@ def test_smoke_estimate_includes_all_seventy_seeds():
                     for m in ("sarsa", "regq", "myopic")
                     for p in ("none", "linear", "convex", "value_estimate") for d in (11, 16)}
     assert official_hours(measurements) == pytest.approx(70 * (2000 + 2) / 20 / 3600)
+
+
+def test_grid_report_is_registry_only_and_reports_success_alongside_time(tmp_path):
+    import csv
+    from nbv.experiment import METHODS, grid_settings
+    from nbv.training_report import tuning_report
+    records = []
+    for method in METHODS:
+        for point, setting in enumerate(grid_settings(method)):
+            for seed in (1000, 1001, 1002):
+                extra = {"tag": "p002t", "grid_id": f"{method}-{point:02d}",
+                         "selection_normalized_cycle_time": 1.2, "diverged": False,
+                         "history": [{"success_rate": 1.}] * 20}
+                records.append(dict(plan="002", env_version="v4", status="exploratory", part_split="val",
+                                    method=method, seed=seed, extra_json=json.dumps(extra)))
+    for method in ("greedy_cost", "mcts", "ilp_tsp"):
+        records.append(dict(plan="001", env_version="v4", status="canonical", part_split="val", method=method,
+                            seed="", extra_json=json.dumps({"n_candidates": 48, "normalized_cycle_time": 1.})))
+    registry = tmp_path / "registry.csv"
+    with registry.open("w", newline="", encoding="utf-8") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(records[0]))
+        writer.writeheader()
+        writer.writerows(records)
+    out, selected = tmp_path / "grid.md", tmp_path / "settings.json"
+    choices = tuning_report(str(registry), str(out), str(selected))
+    assert set(choices) == set(METHODS)
+    assert "success rate" in out.read_text(encoding="utf-8")
+    assert all(c["success_rate"] == 1. for c in choices.values())

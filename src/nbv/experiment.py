@@ -170,6 +170,8 @@ def run_tasks(tasks: list[dict], *, status: str, tag: str, workers: int = 20,
     if workers == 1:
         for task in tasks:
             rows.append(persist(run_one(task), ctx, status, tag, registry, outputs))
+            if tag == "p002t" and sum(r["method"] == "regq" and json.loads(r["extra_json"])["diverged"] for r in rows) > 18:
+                raise StopRun("RegQ softmax fallback triggered: more than 18 of 36 tuning runs diverged")
         return rows
     pool = ProcessPoolExecutor(workers)
     try:
