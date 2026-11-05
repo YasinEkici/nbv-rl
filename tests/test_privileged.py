@@ -96,6 +96,13 @@ def test_runtime_planners_and_repair_never_touch_the_real_part():
     assert baselines.repair_policy(e.v, e.a)(obs, nom, e.action_masks()) is not None
 
 
+def test_runtime_action_features_never_touch_the_real_part():
+    e, obs = poisoned_env()
+    for reduced in (False, True):
+        x = features.ActionFeatures(e.nominal, e.k_max, reduced=reduced)(obs, e.action_masks())
+        assert np.isfinite(x).all() and x.shape == (len(e.action_masks()), 11 if reduced else 16)
+
+
 def test_greedy_oracle_is_the_only_privileged_baseline():
     e, _ = poisoned_env()
     oracle = baselines.greedy_oracle_policy(e.data.real)

@@ -17,6 +17,28 @@ import numpy as np
 WEIGHT_LIMIT = 1e4
 
 
+class TailAverage:
+    """Post-update mean over the last 10% of a step budget, with D-046 divergence fallback."""
+
+    def __init__(self, budget: int):
+        if budget < 1:
+            raise ValueError("budget must be positive")
+        self.start = budget - max(1, budget // 10)
+        self.count = 0
+        self.mean: np.ndarray | None = None
+
+    def observe(self, step: int, weights: np.ndarray, *, diverged: bool) -> None:
+        if step > self.start and not diverged and np.isfinite(weights).all():
+            self.count += 1
+            if self.mean is None:
+                self.mean = weights.copy()
+            else:
+                self.mean += (weights - self.mean) / self.count
+
+    def policy(self, last_finite: np.ndarray) -> np.ndarray:
+        return (last_finite if self.mean is None else self.mean).copy()
+
+
 @dataclass(frozen=True)
 class EpsilonSchedule:
     """Exploration rate as a function of the environment step."""
