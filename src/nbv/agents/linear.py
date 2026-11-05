@@ -70,6 +70,7 @@ class LinearAgent:
         self.w = np.zeros(d)
         self.epsilon = 0.0
         self.diverged = False
+        self.divergence_reason: str | None = None
         self._x = np.zeros(d)
 
     # --- action selection --------------------------------------------------------------------
@@ -113,5 +114,6 @@ class LinearAgent:
             return
         if not np.isfinite(w_new).all() or np.linalg.norm(w_new) > self.weight_limit:
             self.diverged = True
+            self.divergence_reason = "nonfinite" if not np.isfinite(w_new).all() else "weight_limit"
             return
         self.w = w_new

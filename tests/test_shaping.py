@@ -7,6 +7,24 @@ from nbv import shaping
 from test_env import make_env, synthetic
 
 
+def test_cached_value_estimate_matches_uncached_and_reuses_legal_states():
+    cached = shaping.PotentialShaping(make_env(), phi="value_estimate", cache_value=True, cache_capacity=8)
+    plain = shaping.PotentialShaping(make_env(), phi="value_estimate", cache_value=False)
+    for _ in range(3):
+        oa, ia = cached.reset(options={"variant": "1_v0"})
+        ob, ib = plain.reset(options={"variant": "1_v0"})
+        assert ia["agent"]["potential"] == ib["agent"]["potential"]
+        done = False
+        while not done:
+            action = int(np.flatnonzero(plain.unwrapped.action_masks())[0])
+            oa, ra, done, _, ia = cached.step(action)
+            ob, rb, db, _, ib = plain.step(action)
+            assert done == db and ra == rb and ia["agent"]["potential"] == ib["agent"]["potential"]
+    assert cached.cache_hits > 0 and len(cached._values) <= 8
+    changed = dict(oa, covered=np.zeros_like(oa["covered"]))
+    assert cached.potential(changed) == plain.potential(changed)  # arbitrary external observations bypass cache
+
+
 def run(env, seed, k_max=None):
     """Random episode; returns per-step (env reward, shaped reward, info) and the reset info."""
     base = env.unwrapped

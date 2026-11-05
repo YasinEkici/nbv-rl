@@ -130,7 +130,16 @@ def main() -> None:
     ap.add_argument("--n-boot", type=int, default=5000)
     ap.add_argument("--out", help="write the markdown here instead of stdout")
     ap.add_argument("--feature-check", action="store_true", help="D-046 exploratory table from registry scores")
+    ap.add_argument("--training-speed", action="store_true", help="Slice 3 smoke table and official-time gate")
+    ap.add_argument("--tuning", action="store_true", help="Slice 4 full grid and selected settings")
     args = ap.parse_args()
+    if args.training_speed or args.tuning:
+        from nbv.training_report import smoke_report, tuning_report
+        if args.training_speed:
+            smoke_report(args.registry, args.out or "results/training_speed_v1.md")
+        else:
+            tuning_report(args.registry, args.out or "results/tuning_v1.md")
+        return
     registry = list(csv.DictReader(open(args.registry, encoding="utf-8")))
     if args.feature_check:
         text = feature_check_table(registry)

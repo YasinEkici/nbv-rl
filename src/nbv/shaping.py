@@ -15,6 +15,7 @@ Phi is computed from the observation and the nominal model only (never the real 
 
 from __future__ import annotations
 
+from collections import OrderedDict
 import gymnasium as gym
 import numpy as np
 
@@ -75,13 +76,17 @@ class PotentialShaping(gym.Wrapper):
     """
 
     def __init__(self, env: gym.Env, phi: str = "linear", alpha: float = 50.0, discount: float = 1.0,
-                 exponent: float = 2.0):
+                  exponent: float = 2.0, cache_value: bool = True, cache_capacity: int = 100000):
         super().__init__(env)
         if phi not in PHIS:
             raise ValueError(f"phi must be one of {PHIS}")
         self.phi, self.alpha, self.discount, self.exponent = phi, alpha, discount, exponent
         self._classes: dict[int, tuple[np.ndarray, np.ndarray]] = {}
         self._phi = 0.0
+        self.cache_value, self.cache_capacity = cache_value, cache_capacity
+        self._values: OrderedDict[tuple, float] = OrderedDict()
+        self.cache_hits = self.cache_misses = 0
+        self._variant, self._last_pass, self._observation = None, None, None
 
     def potential(self, obs: dict) -> float:
         base = self.env.unwrapped
@@ -92,20 +97,38 @@ class PotentialShaping(gym.Wrapper):
             return self.alpha * measured_share(obs, nominal)
         if self.phi == "convex":
             return self.alpha * measured_share(obs, nominal) ** self.exponent
+        # Only wrapper-produced observations have the variant/used/last-pass correspondence.
+        # External hypothetical observations remain supported, but bypass this cache.
+        value_key = None
+        if self.cache_value and self.cache_capacity > 0 and obs is self._observation:
+            bits = int.from_bytes(np.packbits(obs["used"].astype(bool)).tobytes(), "little")
+            value_key = (self._variant, bits, self._last_pass)
+            if value_key in self._values:
+                self.cache_hits += 1
+                self._values.move_to_end(value_key)
+                return self._values[value_key]
         key = id(nominal)
         if key not in self._classes:
             self._classes[key] = _classes(nominal)
         k_left = base.k_max - int(obs["step"][0])
-        return -remaining_time(obs, nominal, base.q_home, base.v, base.a, base.target, k_left, self._classes[key])
+        value = -remaining_time(obs, nominal, base.q_home, base.v, base.a, base.target, k_left, self._classes[key])
+        self.cache_misses += 1
+        if value_key is not None:
+            self._values[value_key] = value
+            if len(self._values) > self.cache_capacity:
+                self._values.popitem(last=False)
+        return value
 
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
+        self._variant, self._last_pass, self._observation = info["agent"]["variant"], None, obs
         self._phi = self.potential(obs)
         info["agent"]["potential"] = self._phi
         return obs, info
 
     def step(self, action):
         obs, reward, terminated, truncated, info = self.env.step(action)
+        self._last_pass, self._observation = info["agent"]["pass"], obs
         phi_next = 0.0 if terminated else self.potential(obs)
         f = self.discount * phi_next - self._phi
         self._phi = phi_next

@@ -190,6 +190,23 @@ def cache_manifest(dirs: list[str], skip_prefixes: tuple[str, ...] = ("points_",
     return out
 
 
+def selected_cache_manifest(paths: list[str]) -> dict:
+    """D-037 content hashes for explicit eligible inputs only; never enumerate other variants."""
+    h = hashlib.sha256()
+    for name in sorted(set(paths)):
+        path = Path(name)
+        h.update(path.as_posix().encode())
+        if path.suffix == ".npz":
+            with np.load(path) as z:
+                for key in sorted(z.files):
+                    a = np.ascontiguousarray(z[key])
+                    h.update(f"{key}|{a.dtype}|{a.shape}".encode())
+                    h.update(a.tobytes())
+        else:
+            h.update(_text_bytes(path))
+    return {"files": sorted(set(paths)), "sha256": h.hexdigest()}
+
+
 def config_hash(obj: dict) -> str:
     return hashlib.sha256(json.dumps(obj, sort_keys=True, default=str).encode()).hexdigest()[:12]
 

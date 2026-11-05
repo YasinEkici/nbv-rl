@@ -53,3 +53,12 @@ def test_weight_evaluation_reads_only_requested_variants_and_normalizes():
     assert calls == ["1_v0"] and len(rows) == 1
     assert rows[0]["normalized_cycle_time"] == rows[0]["cycle_time"] / 10.
     assert "censored" in rows[0]
+
+
+def test_training_emits_twenty_points_and_keeps_last_two_for_selection():
+    from nbv.agents.train import train
+    a = TrueOnlineSarsaAgent(11, .03 / 11, .9, rng=agent_rng(1000))
+    r = train(a, make_env(), seed=1000, budget=200, eval_every=10, reduced=True,
+              schedule=EpsilonSchedule.constant(.05), evaluate=lambda w: {"normalized_cycle_time": 1.})
+    assert len(r.history) == 20 and [h["step"] for h in r.history[-2:]] == [190, 200]
+    assert r.learning_s > 0 and r.evaluation_s >= 0 and r.wall_s >= r.evaluation_s
