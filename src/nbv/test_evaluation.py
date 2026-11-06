@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import yaml
 
 from nbv import evaluation
 from nbv.env import ENV_VERSION
@@ -54,7 +55,7 @@ def checkpoint_complete(directory):
     directory = Path(directory)
     try:
         provenance = json.loads((directory / 'provenance.json').read_text(encoding='utf-8'))
-        config = json.loads((directory / 'config.json').read_text(encoding='utf-8'))
+        config = yaml.safe_load((directory / 'config.yaml').read_text(encoding='utf-8'))
         training = json.loads((directory / 'training.json').read_text(encoding='utf-8'))
         if (provenance['dirty'] or provenance['env_version'] != ENV_VERSION or provenance['split_version'] != 'v1'
                 or config['budget'] != 2000000 or config['features'] != 11):
