@@ -133,7 +133,16 @@ def main() -> None:
     ap.add_argument("--training-speed", action="store_true", help="Slice 3 smoke table and official-time gate")
     ap.add_argument("--tuning", action="store_true", help="Slice 4 full grid and selected settings")
     ap.add_argument("--official-val", action="store_true", help="Slice 5a VAL table and exported learning curves")
+    ap.add_argument('--pretest',action='store_true',help='Pretest curve diagnosis and recorded predictions')
+    ap.add_argument('--frozen-train',action='store_true',help='Frozen canonical train evaluation table')
+    ap.add_argument('--phase1-test',action='store_true',help='Single-opening test report and hypotheses')
     args = ap.parse_args()
+    if args.pretest or args.frozen_train or args.phase1_test:
+        from nbv.phase1_report import pretest_report, train_report, test_report
+        if args.pretest: pretest_report(args.registry)
+        elif args.frozen_train: train_report(args.registry)
+        else: test_report(args.registry,n_boot=10000)
+        return
     if args.official_val:
         from nbv.official_report import report
         report(args.registry)
