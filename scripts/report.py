@@ -132,7 +132,12 @@ def main() -> None:
     ap.add_argument("--feature-check", action="store_true", help="D-046 exploratory table from registry scores")
     ap.add_argument("--training-speed", action="store_true", help="Slice 3 smoke table and official-time gate")
     ap.add_argument("--tuning", action="store_true", help="Slice 4 full grid and selected settings")
+    ap.add_argument("--official-val", action="store_true", help="Slice 5a VAL table and exported learning curves")
     args = ap.parse_args()
+    if args.official_val:
+        from nbv.official_report import report
+        report(args.registry)
+        return
     if args.training_speed or args.tuning:
         from nbv.training_report import smoke_report, tuning_report
         if args.training_speed:

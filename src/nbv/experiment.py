@@ -93,14 +93,21 @@ def run_one(task: dict) -> dict:
     wrapper = shaping.PotentialShaping(NBVEnv(task["train"]), phi=task["phi"],
         alpha=setting.get("phi_alpha", 50.), cache_value=task.get("cache_value", True))
     val_env, feature_cache, latest = NBVEnv(task["val"]), {}, []
+    evaluations_done = 0
 
     def assess(weights):
-        nonlocal latest
+        nonlocal latest, evaluations_done
         latest = evaluation.evaluate_weights(val_env, task["val"], weights, task["reference"],
                                              reduced=d == 11, feature_cache=feature_cache)
         summary = evaluation.aggregate(latest)
         if not np.isfinite(summary["normalized_cycle_time"]) or not np.isfinite(summary["success_rate"]):
             raise StopRun("nonfinite validation score")
+        evaluations_done += 1
+        if task.get('_progress_path'):
+            path = Path(task['_progress_path'])
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps({'step': evaluations_done * (budget // 20),
+                                        'score': summary['normalized_cycle_time'], 'updated': time.time()}), encoding='utf-8')
         return summary
 
     agent = make_agent(method, d, setting, task["seed"])
@@ -161,23 +168,36 @@ def persist(result: dict, ctx: dict, status: str, tag: str, registry: str, outpu
 
 
 def run_tasks(tasks: list[dict], *, status: str, tag: str, workers: int = 20,
-              registry: str = "results/registry.csv", outputs: str = "outputs") -> list[dict]:
+              registry: str = "results/registry.csv", outputs: str = "outputs",
+              max_wall_s: float | None = None, completion_check=None) -> list[dict]:
+    started = time.perf_counter()
+    if max_wall_s is not None and max_wall_s <= 0:
+        raise StopRun("official deadline exceeded")
     if any(t["budget"] < 20 or t["budget"] % 20 or t["features"] not in (11, 16) for t in tasks):
         raise ValueError("budget must be divisible by 20 and features must be 11 or 16")
     ctx = context(status, registry, outputs)
     tasks = [t | {k: ctx[k] for k in ("train", "val", "reference")} for t in tasks]
-    rows = []
+    rows, completed = [], []
+    def accept(result):
+        if max_wall_s is not None and time.perf_counter() - started > max_wall_s:
+            raise StopRun("official deadline exceeded")
+        task = result['task']
+        rows.append(persist(result, ctx, task.get('_status', status), task.get('_tag', tag), registry, outputs))
+        completed.append(result)
+        if completion_check is not None:
+            completion_check(completed)
     if workers == 1:
         for task in tasks:
-            rows.append(persist(run_one(task), ctx, status, tag, registry, outputs))
+            accept(run_one(task))
             if tag == "p002t" and sum(r["method"] == "regq" and json.loads(r["extra_json"])["diverged"] for r in rows) > 18:
                 raise StopRun("RegQ softmax fallback triggered: more than 18 of 36 tuning runs diverged")
         return rows
     pool = ProcessPoolExecutor(workers)
     try:
         futures = {pool.submit(run_one, t): t for t in tasks}
-        for future in as_completed(futures):
-            rows.append(persist(future.result(), ctx, status, tag, registry, outputs))
+        remaining = None if max_wall_s is None else max(.001, max_wall_s - (time.perf_counter() - started))
+        for future in as_completed(futures, timeout=remaining):
+            accept(future.result())
             if tag == "p002t":
                 diverged = sum(r["method"] == "regq" and json.loads(r["extra_json"])["diverged"] for r in rows)
                 if diverged > 18:
