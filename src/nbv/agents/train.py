@@ -31,7 +31,8 @@ class TrainingResult:
 
 def train(agent: LinearAgent, env, *, seed: int, budget: int, eval_every: int,
           schedule: EpsilonSchedule, evaluate: Callable[[np.ndarray], dict],
-          reduced: bool = False, reward_scale: float = .01, stop_on_nonfinite: bool = False) -> TrainingResult:
+          reduced: bool = False, reward_scale: float = .01, stop_on_nonfinite: bool = False,
+          observe_features: Callable[[np.ndarray], None] | None = None) -> TrainingResult:
     if budget < 1 or eval_every < 1:
         raise ValueError("budget and evaluation interval must be positive")
     base = env.unwrapped
@@ -51,6 +52,8 @@ def train(agent: LinearAgent, env, *, seed: int, budget: int, eval_every: int,
             feature = cache[key]
             agent.epsilon = schedule(step)
             action = agent.start(feature(obs, base.action_masks()), base.action_masks())
+        if observe_features is not None:
+            observe_features(agent._x.copy())
         obs, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
         step += 1
