@@ -1,5 +1,6 @@
 # Pre-official diagnostics (exploratory)
 
+Correction (D-058/D-059): policy-summary columns of all three historical p002diag rows are invalid and must not be used. Feature statistics/vectors remain valid. Future diagnostic rows use n/a policy metrics.
 Saved tail weights reproduce all 36 recorded final policies and scores exactly. No new tuning or selection.
 Overlap = position-wise matches / longer sequence length, averaged equally over 15 VAL variants; suffixes disagree.
 
@@ -83,7 +84,7 @@ Same eta/epsilon; compare alpha pairs at the same seed (seed-noise comparisons s
 | regq-07 | regq-11 | 1000 | 0.01495364 | 1.000000 |
 | regq-07 | regq-11 | 1002 | 0.01384126 | 1.000000 |
 
-| Method | Samples | E[‖x‖²] | Effective alpha | alpha × E[‖x‖²] | Gram rank | Threshold |
+| Method | Samples | E[‖x‖²] | Effective alpha | alpha × E[‖x‖²] | Gram rank | Old v1 expression (NOT applicable to our eta I update) |
 |---|---:|---:|---:|---:|---:|---|
 | sarsa | 5000 | 3.614076 | 0.002727273 | 0.009857 | 11/11 | 9518570591096032.0 |
 | regq | 5000 | 3.266902 | 0.010000000 | 0.032669 | 11/11 | 1.7263564732965844e+16 |
@@ -92,6 +93,7 @@ Same eta/epsilon; compare alpha pairs at the same seed (seed-noise comparisons s
 All same-eta/epsilon comparisons: weight-difference range 0.00497664–0.60884179; overlap range 0.532845–1.000000.
 
 Samples replay the first 5000 actual selected-tuning transitions (seed 1000, original constant epsilon), through the existing loop. Empirical D=I/n, including repeated visits. No claim of stationary occupancy.
-A singular Gram matrix makes the user-specified inverse-based threshold undefined; no pseudoinverse is substituted. The current NeurIPS paper numbers contraction/uniqueness as Lemmas 3.2–3.3, unlike the cited older Lemma 3.1. Neither small eta nor identical discrete policies establishes its assumptions.
+The expression supplied in the earlier user instruction is from arXiv 2202.05404 v1 Lemma 3.1, whose regularizer is eta X^T D X. Our NeurIPS 2024 update uses eta I. The displayed approximately 1.73e16 RegQ value is NOT a theorem threshold for our implementation and cannot be applied to it (D-058).
+Uyguladığımız η·I biçimi için teorem koşulu değerlendirilmedi; RegQ'nun kararlılığı yalnızca ampirik olarak gözlendi (ıraksama 0/70). The 0/70 denominator is all official and exploratory learner runs; RegQ itself has 0/10 official divergent seeds.
 Test: test_regq_effective_alpha_changes_updates_on_identical_data; alpha enters every update. Tail weights are loaded explicitly and independently reproduce the saved evaluation.
 This supports explanation (i), not a claim of unique weights or theoretical convergence. Alpha-scale asymmetry remains a comparison limitation (Patterson et al. 2024).

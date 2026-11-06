@@ -14,6 +14,12 @@ from nbv.env import ENV_VERSION, NBVEnv, evaluate_policy
 from nbv.experiment import context, make_agent
 
 
+def diagnostic_only_summary():
+    """No policy was evaluated for the named replay method: registry metrics are n/a."""
+    return {key:float('nan') for key in ('success_rate','cycle_time_to_95_s','passes_to_95',
+                                        'coverage_at_5','coverage_at_10','auc_coverage_time')}
+
+
 def sequence_overlap(a, b):
     """Position-wise matches / longer length; unmatched suffixes count as disagreements."""
     return sum(x == y for x, y in zip(a, b)) / max(len(a), len(b), 1)
@@ -80,7 +86,7 @@ def run(registry='results/registry.csv', outputs='outputs'):
         stat = feature_statistics(samples)
         stat.update(effective_alpha=agent.alpha, normalized_step=agent.alpha * stat['mean_squared_norm'])
         stats[method] = stat
-        summary = evaluation.aggregate(evaluation.evaluate_weights(env, ctx['val'], weights[('regq-01', 1000)], ctx['reference'], reduced=True))
+        summary = diagnostic_only_summary()
         run_id = evaluation.new_run_id(f'p002diag-{method}-{ENV_VERSION}')
         extra = {'tag': 'p002diag', 'diagnostic_only': True, 'sample_method': method, 'feature_statistics': stat}
         if method == 'regq':
@@ -97,6 +103,7 @@ def report(registry='results/registry.csv', out='results/regq_diagnostic_v1.md')
             if json.loads(r['extra_json']).get('tag') == 'p002diag']
     regq = next(d for d in data if d['sample_method'] == 'regq')
     lines = ['# Pre-official diagnostics (exploratory)', '',
+             'Correction (D-058/D-059): policy-summary columns of all three historical p002diag rows are invalid and must not be used. Feature statistics/vectors remain valid. Future diagnostic rows use n/a policy metrics.',
              'Saved tail weights reproduce all 36 recorded final policies and scores exactly. No new tuning or selection.',
              'Overlap = position-wise matches / longer sequence length, averaged equally over 15 VAL variants; suffixes disagree.', '',
              '| Grid | Seed | Norm | Overlap with greedy-IG/cost | Tail-mean vector (11 coordinates) |', '|---|---:|---:|---:|---|']
@@ -107,14 +114,15 @@ def report(registry='results/registry.csv', out='results/regq_diagnostic_v1.md')
     for p in regq['comparisons']:
         if p['a'][1] == p['b'][1]:
             lines.append(f"| {p['a'][0]} | {p['b'][0]} | {p['a'][1]} | {p['weight_difference']:.8f} | {p['overlap']:.6f} |")
-    lines += ['', '| Method | Samples | E[‖x‖²] | Effective alpha | alpha × E[‖x‖²] | Gram rank | Threshold |', '|---|---:|---:|---:|---:|---:|---|']
+    lines += ['', '| Method | Samples | E[‖x‖²] | Effective alpha | alpha × E[‖x‖²] | Gram rank | Old v1 expression (NOT applicable to our eta I update) |', '|---|---:|---:|---:|---:|---:|---|']
     for d in data:
         s = d['feature_statistics']
         lines.append(f"| {d['sample_method']} | {s['n']} | {s['mean_squared_norm']:.6f} | {s['effective_alpha']:.9f} | {s['normalized_step']:.6f} | {s['rank']}/{s['dimension']} | {s['lemma_threshold']} |")
     pairs = regq['comparisons']
     lines += ['', f"All same-eta/epsilon comparisons: weight-difference range {min(p['weight_difference'] for p in pairs):.8f}–{max(p['weight_difference'] for p in pairs):.8f}; overlap range {min(p['overlap'] for p in pairs):.6f}–{max(p['overlap'] for p in pairs):.6f}.", '',
               'Samples replay the first 5000 actual selected-tuning transitions (seed 1000, original constant epsilon), through the existing loop. Empirical D=I/n, including repeated visits. No claim of stationary occupancy.',
-              'A singular Gram matrix makes the user-specified inverse-based threshold undefined; no pseudoinverse is substituted. The current NeurIPS paper numbers contraction/uniqueness as Lemmas 3.2–3.3, unlike the cited older Lemma 3.1. Neither small eta nor identical discrete policies establishes its assumptions.',
+              'The expression supplied in the earlier user instruction is from arXiv 2202.05404 v1 Lemma 3.1, whose regularizer is eta X^T D X. Our NeurIPS 2024 update uses eta I. The displayed approximately 1.73e16 RegQ value is NOT a theorem threshold for our implementation and cannot be applied to it (D-058).',
+              'Uyguladığımız η·I biçimi için teorem koşulu değerlendirilmedi; RegQ\'nun kararlılığı yalnızca ampirik olarak gözlendi (ıraksama 0/70). The 0/70 denominator is all official and exploratory learner runs; RegQ itself has 0/10 official divergent seeds.',
               'Test: test_regq_effective_alpha_changes_updates_on_identical_data; alpha enters every update. Tail weights are loaded explicitly and independently reproduce the saved evaluation.',
               'This supports explanation (i), not a claim of unique weights or theoretical convergence. Alpha-scale asymmetry remains a comparison limitation (Patterson et al. 2024).']
     Path(out).write_text('\n'.join(lines) + '\n', encoding='utf-8')
