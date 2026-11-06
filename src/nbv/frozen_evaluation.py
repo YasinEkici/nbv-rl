@@ -27,6 +27,7 @@ def save_evaluation(method,seed,records,params,extra,split,provenance,registry,o
         if not all(np.isfinite(e[k]) for k in ('normalized_cycle_time','cycle_time')):
             raise ValueError('nonfinite frozen evaluation')
     run_id=evaluation.new_run_id(f'{tag}-{method}-{split}-s{seed}')
+    params=params|{'run_id':run_id}
     records=[e|{'method':method,'seed':seed,'split':split,'run_id':run_id} for e in records]
     summary=evaluation.aggregate(records)
     evaluation.write_run(Path(outputs)/run_id,params,provenance,records,summary)
