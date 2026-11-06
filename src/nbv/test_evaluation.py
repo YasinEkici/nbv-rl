@@ -49,18 +49,35 @@ def claim_opening(path, state):
         json.dump(state, stream, indent=2)
 
 
+def checkpoint_complete(directory):
+    """Validate actual final-step artifacts, not just a declared registry budget."""
+    directory = Path(directory)
+    try:
+        provenance = json.loads((directory / 'provenance.json').read_text(encoding='utf-8'))
+        config = json.loads((directory / 'config.json').read_text(encoding='utf-8'))
+        training = json.loads((directory / 'training.json').read_text(encoding='utf-8'))
+        if (provenance['dirty'] or provenance['env_version'] != ENV_VERSION or provenance['split_version'] != 'v1'
+                or config['budget'] != 2000000 or config['features'] != 11):
+            return False
+        if [h['step'] for h in training['history']] != list(range(100000, 2000001, 100000)):
+            return False
+        if not all(np.isfinite(h['weight_norm']) and np.isfinite(h['normalized_cycle_time']) for h in training['history']):
+            return False
+        with np.load(directory / 'weights.npz') as weights:
+            for kind, key in [('tail', 'policy_weights'), ('final', 'final_weights')]:
+                if (weights[kind].shape != (11,) or not np.isfinite(weights[kind]).all()
+                        or not np.array_equal(weights[kind], training[key])):
+                    return False
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    return True
+
+
 def open_test(*, understand=False, registry='results/registry.csv', outputs='outputs'):
     state = evaluation.git_state()
     rows = load_rows(registry)
     def valid_weights(row):
-        directory = Path(outputs) / row['run_id']
-        if not (directory / 'weights.npz').exists() or not (directory / 'provenance.json').exists():
-            return False
-        provenance = json.loads((directory / 'provenance.json').read_text())
-        if provenance['dirty']:
-            return False
-        with np.load(directory / 'weights.npz') as weights:
-            return all(weights[k].shape == (11,) and np.isfinite(weights[k]).all() for k in ('tail', 'final'))
+        return checkpoint_complete(Path(outputs) / row['run_id'])
     selected = validate_opening(understand, state, rows, valid_weights)
     # Claim before any test cache is opened: even an interrupted partial evaluation cannot be rerun.
     claim_opening(Path(outputs) / 'p002-test-opened.json', state | {'official_runs': [r['run_id'] for r in selected]})

@@ -61,3 +61,24 @@ def test_future_joint_reference_keeps_ilp_hint_and_solver_bound(monkeypatch):
     monkeypatch.setattr(baselines, 'joint_opt_plan', solve)
     plan, info = prepare_joint(nominal)
     assert plan == [4, 3] and info['joint_bound_s'] == 4.
+
+
+@pytest.mark.parametrize('damage', [None, 'missing_history', 'partial', 'dirty', 'shape', 'nonfinite', 'mismatched_weights', 'budget'])
+def test_checkpoint_guard_checks_actual_completion_without_real_caches(tmp_path, damage):
+    import numpy as np
+    from nbv.test_evaluation import checkpoint_complete
+    training = {'history': [{'step': s, 'weight_norm': 0., 'normalized_cycle_time': 1.}
+                             for s in range(100000, 2000001, 100000)],
+                'policy_weights': [0.] * 11, 'final_weights': [0.] * 11}
+    provenance = {'dirty': damage == 'dirty', 'env_version': 'v4', 'split_version': 'v1'}
+    config = {'budget': 200000 if damage == 'budget' else 2000000, 'features': 11}
+    if damage == 'partial': training['history'].pop()
+    tail = np.zeros(16 if damage == 'shape' else 11)
+    if damage == 'nonfinite': tail[0] = np.nan
+    if damage == 'mismatched_weights': tail[0] = 1.
+    np.savez(tmp_path / 'weights.npz', tail=tail, final=np.zeros(11))
+    (tmp_path / 'provenance.json').write_text(json.dumps(provenance))
+    (tmp_path / 'config.json').write_text(json.dumps(config))
+    if damage != 'missing_history':
+        (tmp_path / 'training.json').write_text(json.dumps(training))
+    assert checkpoint_complete(tmp_path) == (damage is None)
