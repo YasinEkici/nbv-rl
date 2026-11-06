@@ -133,6 +133,10 @@ def run_one(task: dict) -> dict:
             "effective_alpha": agent.alpha}
 
 
+def training_payload(result, identity):
+    return {k:result[k] for k in ('history','policy_weights','final_weights','episode_seeds','secondary','tail_count')} | {'identity':identity}
+
+
 def persist(result: dict, ctx: dict, status: str, tag: str, registry: str, outputs: str) -> dict:
     task = result["task"]
     params = task | {"effective_alpha": result["effective_alpha"], "reward_scale": .01, "gamma": 1.,
@@ -149,8 +153,7 @@ def persist(result: dict, ctx: dict, status: str, tag: str, registry: str, outpu
                for e in result["episodes"]]
     out = Path(outputs) / run_id
     evaluation.write_run(out, params, ctx["provenance"], records, result["summary"])
-    (out / "training.json").write_text(json.dumps({k: result[k] for k in
-        ("history", "policy_weights", "final_weights", "episode_seeds", "secondary", "tail_count")}, indent=1), encoding="utf-8")
+    (out / "training.json").write_text(json.dumps(training_payload(result,params), indent=1), encoding="utf-8")
     np.savez_compressed(out / "weights.npz", tail=np.asarray(result["policy_weights"]), final=np.asarray(result["final_weights"]))
     with open(out / "curve.csv", "w", newline="", encoding="utf-8") as stream:
         fields = ["step", "normalized_cycle_time", "success_rate", "weight_norm", "diverged"]
