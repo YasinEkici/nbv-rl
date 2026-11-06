@@ -67,6 +67,14 @@ def open_test(*, understand=False, registry='results/registry.csv', outputs='out
     return execute(selected, state, registry, outputs)
 
 
+def prepare_joint(nominal):
+    """D-035: ILP hint and unchanged solver settings; retain the reference bound."""
+    from nbv import baselines
+    hint, ilp_info = baselines.ilp_tsp_plan(nominal)
+    plan, info = baselines.joint_opt_plan(nominal, hint=hint, time_limit_s=300, workers=8)
+    return plan, info | {'ilp_hint': hint, 'ilp_info': ilp_info}
+
+
 def execute(selected, state, registry, outputs):
     """Real test access lives entirely behind validate_opening + exclusive claim. NOT run in Slice 5a."""
     from nbv import baselines, parts
@@ -84,15 +92,19 @@ def execute(selected, state, registry, outputs):
                           'test_variants': variants}
     # Prepare nominal-only joint plans once inside this one-time opening, using D-035 settings.
     env = NBVEnv(variants)
-    joint = {}
+    joint, joint_info = {}, {}
     for vid in variants:
         fid = vid.split('_')[0]
         if fid not in joint:
             env.reset(options={'variant': vid})
-            joint[fid] = baselines.joint_opt_plan(env.nominal)[0]
+            joint[fid], joint_info[fid] = prepare_joint(env.nominal)
     plans_path = Path(outputs) / 'p002-test-joint-plans.json'
     with plans_path.open('x', encoding='utf-8') as stream:
         json.dump(joint, stream)
+    info_path = Path(outputs) / 'p002-test-joint-info.json'
+    with info_path.open('x', encoding='utf-8') as stream:
+        json.dump(joint_info, stream, indent=2)
+    provenance['joint_plans'] = evaluation.file_hashes([str(plans_path), str(info_path)])
     completed = []
     for method in entry.CANONICAL:
         for seed in (range(10) if method in entry.STOCHASTIC else [0]):
@@ -115,6 +127,9 @@ def execute(selected, state, registry, outputs):
     for result in completed:
         task = result['task']
         records = [r | {'normalized_cycle_time': r['cycle_time'] / reference[r['variant']]} for r in result['episodes']]
+        if task['method'] == 'joint_opt':
+            for record in records:
+                record['planner'].update(joint_info[str(record['part'])])
         save(task['method'], task['seed'], records, task, {'baseline': True})
     feature_cache = {}
     for row in selected:

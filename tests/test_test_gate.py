@@ -47,3 +47,17 @@ def test_refused_opening_never_loads_an_environment(monkeypatch):
     monkeypatch.setattr(test_evaluation, 'execute', lambda *a, **kw: pytest.fail('evaluation opened'))
     with pytest.raises(ValueError):
         test_evaluation.open_test(understand=False)
+
+
+def test_future_joint_reference_keeps_ilp_hint_and_solver_bound(monkeypatch):
+    from nbv import baselines
+    from nbv.test_evaluation import prepare_joint
+    nominal = object()
+    monkeypatch.setattr(baselines, 'ilp_tsp_plan', lambda n: ([3, 4], {'ilp_status': 'OPTIMAL'}))
+    def solve(n, **kwargs):
+        assert n is nominal and kwargs['hint'] == [3, 4]
+        assert kwargs['time_limit_s'] == 300 and kwargs['workers'] == 8
+        return [4, 3], {'joint_bound_s': 4., 'joint_obj_s': 5.}
+    monkeypatch.setattr(baselines, 'joint_opt_plan', solve)
+    plan, info = prepare_joint(nominal)
+    assert plan == [4, 3] and info['joint_bound_s'] == 4.
