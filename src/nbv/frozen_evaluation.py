@@ -10,7 +10,7 @@ from nbv.feature_check import CONFIG_FILES
 BASELINES=('random','fixed','greedy_ig','greedy_cost','ilp_tsp','mcts','joint_opt')
 METRICS=('part','variant','success','censored','normalized_cycle_time','cycle_time','passes_to_95',
          'coverage_at_5','coverage_at_10','auc_coverage_time','total_joint_motion','repair_passes',
-         'nsc_at_5','nsc_at_10','raw_at_5','raw_at_10')
+         'nsc_at_5','nsc_at_10','raw_at_5','raw_at_10','success_without_repair')
 
 
 def campaign_complete(keys):
@@ -28,7 +28,8 @@ def save_evaluation(method,seed,records,params,extra,split,provenance,registry,o
             raise ValueError('nonfinite frozen evaluation')
     run_id=evaluation.new_run_id(f'{tag}-{method}-{split}-s{seed}')
     params=params|{'run_id':run_id}
-    records=[e|{'method':method,'seed':seed,'split':split,'run_id':run_id} for e in records]
+    records=[e|{'method':method,'seed':seed,'split':split,'run_id':run_id,
+                'success_without_repair':e.get('planner',{}).get('success_without_repair')} for e in records]
     summary=evaluation.aggregate(records)
     evaluation.write_run(Path(outputs)/run_id,params,provenance,records,summary)
     extra=extra|{'tag':tag,'n_candidates':48,'normalized_cycle_time':summary['normalized_cycle_time'],

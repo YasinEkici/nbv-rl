@@ -36,5 +36,8 @@ def test_complete_hypothesis_report_uses_only_synthetic_registry(tmp_path):
     assert not result['H1']['supported']
     assert result['H-forward']['supported']
     assert not result['H-shaping']['supported']
-    text=out.read_text()
+    text=out.read_text(encoding='utf-8')
     assert 'hierarchical bootstrap interval' in text and 'Appendix: final weights' in text
+    assert 'Train−test raw seconds' in text
+    assert 'NSC@5' in text and 'Raw coverage@10' in text
+    assert 'Success without repair' in text

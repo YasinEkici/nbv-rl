@@ -43,6 +43,8 @@ def record_groups(registry,split,kind='tail',outputs='outputs'):
             records=extra['episode_metrics']
         else:
             records=[json.loads(line) for line in (Path(outputs)/row['run_id']/'episodes.jsonl').read_text(encoding='utf-8').splitlines()]
+        records=[e|{'success_without_repair':e.get('success_without_repair',e.get('planner',{}).get('success_without_repair'))}
+                 for e in records]
         groups.setdefault(label,[]).extend(records)
     return groups
 
@@ -163,11 +165,17 @@ def test_report(registry='results/registry.csv',out='results/test_v1.md',n_boot=
     text+='\n| Phi | VAL learning-curve area | Test normalized time minus linear |\n|---|---:|---:|\n'
     for p in phis: text+=f"| {p} | {shaping['auc'][p]:.6f} | {shaping['final_difference'][p]:.6f} |\n"
     text+='\nPBRS preserves the objective/optimal policy under its assumptions, not learning speed. None versus linear compares initial values (D-038/Wiewiora).\n'
-    text+='\nSecondary metrics (tail policy; passes to 95% conditional on success):\n\n| Arm | Passes | Coverage@5 | Coverage@10 | Coverage AUC | Joint motion rad | Repair passes | Train−test normalized time | Train−test success |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|\n'
+    text+='\nSecondary metrics (tail policy; passes to 95% conditional on success):\n\n| Arm | Passes | Coverage@5 | Coverage@10 | Coverage AUC | Joint motion rad | Repair passes | Train−test normalized time | Train−test raw seconds | Train−test success |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n'
     for label in [*ARMS,*BASELINES]:
         records=primary[label]
         values=[mean(records,k) for k in ('passes_to_95','coverage_at_5','coverage_at_10','auc_coverage_time','total_joint_motion','repair_passes')]
-        values += [mean(training[label],'normalized_cycle_time')-mean(records,'normalized_cycle_time'),mean(training[label],'success')-mean(records,'success')]
+        values += [mean(training[label],'normalized_cycle_time')-mean(records,'normalized_cycle_time'),
+                   mean(training[label],'cycle_time')-mean(records,'cycle_time'),
+                   mean(training[label],'success')-mean(records,'success')]
+        text+='| '+label+' | '+' | '.join(fmt(x) for x in values)+' |\n'
+    text+='\nSecondary coverage references and open-loop repair:\n\n| Arm | NSC@5 | NSC@10 | Raw coverage@5 | Raw coverage@10 | Success without repair |\n|---|---:|---:|---:|---:|---:|\n'
+    for label in [*ARMS,*BASELINES]:
+        values=[mean(primary[label],k) for k in ('nsc_at_5','nsc_at_10','raw_at_5','raw_at_10','success_without_repair')]
         text+='| '+label+' | '+' | '.join(fmt(x) for x in values)+' |\n'
     regq=[json.loads(r['extra_json']) for r in source if json.loads(r['extra_json']).get('tag')=='p002' and r['method']=='regq']
     text+=f"\nRegQ training divergence: {sum(e['diverged'] for e in regq)}/{len(regq)}; descriptive only. Primary method remains true online SARSA(lambda). Alpha-scale asymmetry and Phi-setting inheritance remain limitations.\n"
