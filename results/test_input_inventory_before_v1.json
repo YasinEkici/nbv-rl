@@ -1,0 +1,2588 @@
+{
+  "inputs": [
+    {
+      "path": "data/cache/visibility/nominal/points_178195.npz",
+      "role": "nominal_points",
+      "part": null,
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "data/cache/robot/nominal/178195_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 25454
+    },
+    {
+      "path": "data/cache/visibility/nominal/178195_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 283546
+    },
+    {
+      "path": "data/cache/robot/nominal/178195_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 105501
+    },
+    {
+      "path": "data/cache/visibility/nominal/178195_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 674282
+    },
+    {
+      "path": "data/cache/visibility/nominal/points_486859.npz",
+      "role": "nominal_points",
+      "part": null,
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "data/cache/robot/nominal/486859_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 26958
+    },
+    {
+      "path": "data/cache/visibility/nominal/486859_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 359026
+    },
+    {
+      "path": "data/cache/robot/nominal/486859_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 110405
+    },
+    {
+      "path": "data/cache/visibility/nominal/486859_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 861569
+    },
+    {
+      "path": "data/cache/visibility/nominal/points_79729.npz",
+      "role": "nominal_points",
+      "part": null,
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "data/cache/robot/nominal/79729_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 26988
+    },
+    {
+      "path": "data/cache/visibility/nominal/79729_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 371307
+    },
+    {
+      "path": "data/cache/robot/nominal/79729_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 115779
+    },
+    {
+      "path": "data/cache/visibility/nominal/79729_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 894635
+    },
+    {
+      "path": "data/cache/visibility/486859_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 358815
+    },
+    {
+      "path": "data/cache/visibility/486859_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 862291
+    },
+    {
+      "path": "data/cache/visibility/486859_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 359498
+    },
+    {
+      "path": "data/cache/visibility/486859_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 870483
+    },
+    {
+      "path": "data/cache/visibility/486859_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 358990
+    },
+    {
+      "path": "data/cache/visibility/486859_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 863268
+    },
+    {
+      "path": "data/cache/visibility/486859_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 359006
+    },
+    {
+      "path": "data/cache/visibility/486859_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 861109
+    },
+    {
+      "path": "data/cache/visibility/486859_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 359015
+    },
+    {
+      "path": "data/cache/visibility/486859_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 861699
+    },
+    {
+      "path": "data/cache/visibility/178195_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 284564
+    },
+    {
+      "path": "data/cache/visibility/178195_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 676258
+    },
+    {
+      "path": "data/cache/visibility/178195_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 283076
+    },
+    {
+      "path": "data/cache/visibility/178195_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 672808
+    },
+    {
+      "path": "data/cache/visibility/178195_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 283532
+    },
+    {
+      "path": "data/cache/visibility/178195_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 673545
+    },
+    {
+      "path": "data/cache/visibility/178195_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 283550
+    },
+    {
+      "path": "data/cache/visibility/178195_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 675821
+    },
+    {
+      "path": "data/cache/visibility/178195_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 284071
+    },
+    {
+      "path": "data/cache/visibility/178195_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 676239
+    },
+    {
+      "path": "data/cache/visibility/79729_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 373308
+    },
+    {
+      "path": "data/cache/visibility/79729_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 896962
+    },
+    {
+      "path": "data/cache/visibility/79729_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 372486
+    },
+    {
+      "path": "data/cache/visibility/79729_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 894334
+    },
+    {
+      "path": "data/cache/visibility/79729_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 373334
+    },
+    {
+      "path": "data/cache/visibility/79729_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 896615
+    },
+    {
+      "path": "data/cache/visibility/79729_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 374570
+    },
+    {
+      "path": "data/cache/visibility/79729_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 897753
+    },
+    {
+      "path": "data/cache/visibility/79729_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 373321
+    },
+    {
+      "path": "data/cache/visibility/79729_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "exists": true,
+      "size_bytes": 896868
+    },
+    {
+      "path": "data/cache/visibility/samples_178195.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "178195",
+      "exists": true,
+      "size_bytes": 514923
+    },
+    {
+      "path": "data/raw/parts/178195.ply",
+      "role": "nominal_CAD",
+      "part": "178195",
+      "exists": true,
+      "size_bytes": 272276
+    },
+    {
+      "path": "data/cache/plans/test_178195_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "178195",
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "data/cache/visibility/samples_486859.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "486859",
+      "exists": true,
+      "size_bytes": 513828
+    },
+    {
+      "path": "data/raw/parts/486859.ply",
+      "role": "nominal_CAD",
+      "part": "486859",
+      "exists": true,
+      "size_bytes": 556329
+    },
+    {
+      "path": "data/cache/plans/test_486859_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "486859",
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "data/cache/visibility/samples_79729.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "79729",
+      "exists": true,
+      "size_bytes": 513402
+    },
+    {
+      "path": "data/raw/parts/79729.ply",
+      "role": "nominal_CAD",
+      "part": "79729",
+      "exists": true,
+      "size_bytes": 61463
+    },
+    {
+      "path": "data/cache/plans/test_79729_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "79729",
+      "exists": false,
+      "size_bytes": null
+    },
+    {
+      "path": "configs/env_v4.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 926
+    },
+    {
+      "path": "configs/robot_v2.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 1372
+    },
+    {
+      "path": "configs/collision_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 1623
+    },
+    {
+      "path": "configs/parts_v2.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2601
+    },
+    {
+      "path": "configs/split_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 10302
+    },
+    {
+      "path": "configs/candidates_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 391
+    },
+    {
+      "path": "configs/sensor_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 593
+    },
+    {
+      "path": "configs/visibility_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 607
+    },
+    {
+      "path": "results/d_plan_v2.csv",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 1354
+    },
+    {
+      "path": "results/selected_settings_v1.json",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 1104
+    },
+    {
+      "path": "results/pretest_manifest_v1.json",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 142240
+    },
+    {
+      "path": "results/registry.csv",
+      "role": "configuration_or_reference",
+      "part": null,
+      "exists": true,
+      "size_bytes": 5896465
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2599865
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2600312
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2604111
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2602284
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 580
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2597711
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2601279
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2600874
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9718
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2599347
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 576
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2600683
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2597743
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 325
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9717
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2725873
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9642
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2727108
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9642
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2728150
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9643
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2727937
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9642
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2724697
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9641
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2726820
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9643
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 576
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2727760
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9641
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2724670
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9642
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2724727
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9641
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 576
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2722401
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 316
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9643
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2549071
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2537821
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2552656
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9674
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2627008
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9690
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2538875
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2538756
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2557450
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9669
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2627305
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9688
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2556584
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2545282
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9680
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2555789
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9670
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 576
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2629249
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9693
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2548501
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2542959
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2561266
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2628512
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9690
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2544743
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9687
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2526636
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2557126
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9666
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2626107
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9692
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2555193
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2531752
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2552073
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9675
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2625490
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9688
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2545227
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9687
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2551864
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9680
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2563734
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9669
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2628006
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9692
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2551752
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 580
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2548824
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9678
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2557934
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9669
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2625315
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9694
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2550443
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9676
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 577
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2541797
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9680
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2570526
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9680
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2624292
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9695
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2544432
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9687
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2540591
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 328
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9680
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 579
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2554234
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 332
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9669
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 578
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 2623927
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 348
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9693
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "exists": true,
+      "size_bytes": 9679
+    },
+    {
+      "path": "outputs/p002-test-opened.json",
+      "role": "original_opening_claim",
+      "part": null,
+      "exists": true,
+      "size_bytes": 3435
+    },
+    {
+      "path": "outputs/p002-test-incident-1.json",
+      "role": "incident_record",
+      "part": null,
+      "exists": true,
+      "size_bytes": 7605
+    }
+  ],
+  "missing": [
+    "data/cache/visibility/nominal/points_178195.npz",
+    "data/cache/visibility/nominal/points_486859.npz",
+    "data/cache/visibility/nominal/points_79729.npz",
+    "data/cache/plans/test_178195_n48.json",
+    "data/cache/plans/test_486859_n48.json",
+    "data/cache/plans/test_79729_n48.json"
+  ]
+}
