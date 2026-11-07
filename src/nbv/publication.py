@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 import numpy as np
 from nbv.phase1_report import rows,record_groups,mean,ARMS,BASELINES
+from nbv.report_common import model_limitations
 
 
 def reference_table(keys,literature='docs/LITERATURE.md'):
@@ -83,6 +84,7 @@ def report(registry='results/registry.csv'):
         'hypotheses':test_text.split('Hypotheses and pretest predictions:\n\n',1)[1].split('\nH1',1)[0],
         'cross_split':finding,'planning':planning,'raw_ceiling':ceiling,
         'secondary':test_text.split('Secondary metrics (tail policy; passes to 95% conditional on success):\n\n',1)[1].split('\n\nSecondary coverage',1)[0],
+        'model_limitations':model_limitations().strip().replace('## Model limitations','### Model limitations',1),
     }
     reference_keys=['thingi10k','vanseijen2016','regq','ng1999','grzes2017','wiewiora2003','canonaco2024',
         'patterson2024','smith_winkler2006','eimer2023','zhang2023_sarsa','saravanan2020',
@@ -95,10 +97,13 @@ def report(registry='results/registry.csv'):
     import matplotlib.pyplot as plt
     destination=Path('results/figures'); destination.mkdir(exist_ok=True)
     def save(fig,name):
-        for ext in ('png','pdf'): fig.savefig(destination/f'{name}.{ext}',dpi=180,metadata={'Creator':'NBV-RL registry report'})
+        for ext in ('png','pdf'):
+            metadata={'Creator':'NBV-RL registry report'}
+            if ext=='pdf': metadata|={'CreationDate':None,'ModDate':None}
+            fig.savefig(destination/f'{name}.{ext}',dpi=180,metadata=metadata)
         plt.close(fig)
     labels=[*ARMS,*BASELINES]
-    fig,axes=plt.subplots(1,3,figsize=(18,7),sharey=True,layout='constrained')
+    fig,axes=plt.subplots(1,3,figsize=(18,7),sharey=True,sharex=True,layout='constrained')
     for ax,part in zip(axes,sorted({str(e['part']) for e in test['sarsa/linear']})):
         values=[mean([e for e in test[label] if str(e['part'])==part],'normalized_cycle_time') for label in labels]
         ax.barh(labels,values,color=['#2166ac' if '/' in label else '#888888' for label in labels])
@@ -116,5 +121,5 @@ def report(registry='results/registry.csv'):
     ax.bar(x-.2,[mean(test[label],'normalized_cycle_time') for label in ARMS],.4,label='Tail mean')
     ax.bar(x+.2,[mean(final[label],'normalized_cycle_time') for label in ARMS],.4,label='Final weights (secondary)')
     ax.set(xticks=x,xticklabels=ARMS,ylabel='Test normalized cycle time',title='Fixed tail versus final policies; success reported separately')
-    ax.tick_params(axis='x',rotation=15); ax.legend(); save(fig,'phase1_tail_vs_final_v1')
+    ax.tick_params(axis='x',rotation=15); ax.legend(loc='upper left',bbox_to_anchor=(1.01,1)); save(fig,'phase1_tail_vs_final_v1')
     return blocks
