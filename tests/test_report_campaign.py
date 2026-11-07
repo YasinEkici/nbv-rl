@@ -32,7 +32,12 @@ def test_complete_hypothesis_report_uses_only_synthetic_registry(tmp_path):
     curves.write_text(json.dumps({f'sarsa/{phi}/11':{'steps':[100000,2000000],'mean':[1.2,1.2]}
                                  for phi in ('linear','none','convex','value_estimate')}))
     out=tmp_path/'report.md'
-    result=test_report(str(registry),str(out),n_boot=20,predictions_path=str(predictions),curves_path=str(curves))
+    incident=tmp_path/'incident.json'
+    incident.write_text(json.dumps({'opening_commit':'4850144'}))
+    resumed=tmp_path/'resumed.json'
+    resumed.write_text(json.dumps({'commit':'synthetic-resume'}))
+    result=test_report(str(registry),str(out),n_boot=20,predictions_path=str(predictions),curves_path=str(curves),
+                       incident_path=str(incident),resume_path=str(resumed))
     assert not result['H1']['supported']
     assert result['H-forward']['supported']
     assert not result['H-shaping']['supported']
@@ -41,3 +46,4 @@ def test_complete_hypothesis_report_uses_only_synthetic_registry(tmp_path):
     assert 'Train−test raw seconds' in text
     assert 'NSC@5' in text and 'Raw coverage@10' in text
     assert 'Success without repair' in text
+    assert 'Incident 1' in text and '4850144' in text and 'synthetic-resume' in text

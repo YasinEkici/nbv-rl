@@ -131,7 +131,8 @@ def train_report(registry='results/registry.csv',out='results/train_v1.md'):
 
 
 def test_report(registry='results/registry.csv',out='results/test_v1.md',n_boot=10000,
-                predictions_path='results/pretest_predictions_v1.json',curves_path='results/val_curves_v1.json'):
+                predictions_path='results/pretest_predictions_v1.json',curves_path='results/val_curves_v1.json',
+                incident_path='outputs/p002-test-incident-1.json',resume_path='outputs/p002-test-resumed-1.json'):
     source=rows(registry)
     primary=record_groups(source,'test')
     secondary=record_groups(source,'test','final')
@@ -145,7 +146,12 @@ def test_report(registry='results/registry.csv',out='results/test_v1.md',n_boot=
     shaping=hypotheses.shaping({p:list(zip(curves[f'sarsa/{p}/11']['steps'],curves[f'sarsa/{p}/11']['mean'])) for p in phis},
                                {p:data('sarsa/'+p) for p in phis})
     verdicts={'H1':h1,'H-forward':forward,'H-shaping':shaping}
-    text='# Single-opening test evaluation\n\nPrimary: final-10% tail policies. Equal part/variant/seed weights; censored times retained with success. Exploratory 16-feature arm excluded.\n'
+    text='# Single-opening test evaluation\n\n'
+    if Path(incident_path).is_file() and Path(resume_path).is_file():
+        incident=json.loads(Path(incident_path).read_text(encoding='utf-8'))
+        resumed=json.loads(Path(resume_path).read_text(encoding='utf-8'))
+        text+=(f"Incident 1: the opening at {incident['opening_commit']} stopped while hashing a missing nominal point cache, before environment construction or test performance. D-062 records the evidence and the user's authorization for exactly one continuation. The original claim was preserved; nominal-only helpers/plans and committed SHA-256 manifests were verified before the exclusive continuation at {resumed['commit']}. No settings, methods, hypotheses or primary-method choice changed.\n\n")
+    text+='Primary: final-10% tail policies. Equal part/variant/seed weights; censored times retained with success. Exploratory 16-feature arm excluded.\n'
     text+='\nPer part: mean [bootstrap interval over variants, then seeds].\n\n'+table(primary,True,n_boot)
     text+='\n\nSplit summary: mean [hierarchical bootstrap interval over parts, variants, seeds]. No significance tests.\n\n'+table(primary,False,n_boot)
     text+='\n\nHypotheses and pretest predictions:\n\n| Hypothesis | Pretest prediction | Test verdict | Prediction comparison |\n|---|---|---|---|\n'

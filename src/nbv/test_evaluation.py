@@ -284,6 +284,7 @@ def execute(selected, state, registry, outputs):
                         d_plan='results/d_plan_v2.csv', joint_plans=str(plans_path))
             if frozen_ilp: task['ilp_plans']=str(ilp_path)
             completed.append(entry.run_task(task))
+            print(f'Test baseline completed: {method}, seed {seed}',flush=True)
     reference = {r['variant']: r['cycle_time'] for o in completed if o['task']['method'] == 'ilp_tsp' for r in o['episodes']}
 
     keys, written = [], []

@@ -2,9 +2,11 @@
 import json
 from pathlib import Path
 import numpy as np
+import pytest
 
 
-def test_full_test_campaign_is_complete_on_synthetic_parts(tmp_path,monkeypatch):
+@pytest.mark.parametrize('prepared',[False,True])
+def test_full_test_campaign_is_complete_on_synthetic_parts(tmp_path,monkeypatch,prepared):
     from nbv import test_evaluation as module, env as envmod, parts, evaluation, baselines
     from test_env import synthetic
     from test_test_gate import synthetic_rows
@@ -41,7 +43,16 @@ def test_full_test_campaign_is_complete_on_synthetic_parts(tmp_path,monkeypatch)
         np.savez(d/'weights.npz',tail=np.zeros(11),final=np.zeros(11))
         (d/'training.json').write_text('{}')
     registry=tmp_path/'registry.csv'
-    result=module.execute(selected,dict(commit='synthetic',dirty=False),str(registry),str(outputs))
+    state=dict(commit='synthetic',dirty=False)
+    if prepared:
+        plan_dir=tmp_path/'plans'; plan_dir.mkdir()
+        for fid in (1,2,3):
+            joint,info=module.prepare_joint(fixture[f'{fid}_v0'].nominal)
+            (plan_dir/f'test_{fid}_n48.json').write_text(json.dumps(dict(joint_plan=joint,joint_info=info,
+                ilp_plan=info['ilp_hint'],ilp_info=info['ilp_info'])))
+        monkeypatch.setattr(module,'prepare_joint',lambda *a:pytest.fail('re-solved frozen plan'))
+        state['prepared_plan_dir']=str(plan_dir)
+    result=module.execute(selected,state,str(registry),str(outputs))
     assert result['run_count']==145 and len(set(result['evaluation_runs']))==145
     written=module.load_rows(registry)
     assert len(written)==145
