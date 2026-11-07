@@ -1,0 +1,42 @@
+{
+  "evaluation_commit": "60f6f33",
+  "registry_rows": 145,
+  "learner_rows": 120,
+  "baseline_rows": 25,
+  "episodes": 2175,
+  "variants": [
+    "178195_v0",
+    "178195_v1",
+    "178195_v2",
+    "178195_v3",
+    "178195_v4",
+    "486859_v0",
+    "486859_v1",
+    "486859_v2",
+    "486859_v3",
+    "486859_v4",
+    "79729_v0",
+    "79729_v1",
+    "79729_v2",
+    "79729_v3",
+    "79729_v4"
+  ],
+  "original_source_checkpoints_unchanged": 60,
+  "original_claim_sha256": "559a43c9f852ad806bd5493154b656feea9fc5c6c9d9e1a21164b35fd77e584f",
+  "incident_sha256": "45fd353636f50a2985682632b8ee738db0c3825ee3fbbd70df9d8d77a5b29576",
+  "continuation_claim_sha256": "03a0a7a8768c21045768727c2160495d1c2878729bc8eba5dd35ced348378b7f",
+  "completion_sha256": "59a79ef41cff47cf8c3366814836f906d08f31afd318e6a054cf768e310665c6",
+  "pretest_manifest_sha256": "210b4328be90390d11d8fa588a1ffc2d8c67713dc5d65cab53ef927523ea6315",
+  "test_input_manifest_sha256": "ccc0b6d7e9f571a596b3d4464738284c3209ab763e4e8704a60eac49dfe3720e",
+  "continuation_claims": [
+    "outputs\\p002-test-resumed-1.json"
+  ],
+  "pytest": {
+    "returncode": 0,
+    "output": "........................................................................ [ 26%]\n........................................................................ [ 53%]\n........................................................................ [ 80%]\n.....................................................                    [100%]\n269 passed in 29.32s\n"
+  },
+  "all_campaign_keys_exact": true,
+  "inputs_unchanged_except_append_only_registry": true,
+  "registry_note": "The input manifest pins the pre-execution registry; the campaign then appends its 145 evaluation rows.",
+  "no_new_training_or_selection": true
+}
