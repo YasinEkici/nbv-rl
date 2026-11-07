@@ -254,11 +254,17 @@ def execute(selected, state, registry, outputs):
     # Prepare nominal-only joint plans once inside this one-time opening, using D-035 settings.
     env = NBVEnv(variants)
     joint, joint_info = {}, {}
+    frozen_ilp = {}
     for vid in variants:
         fid = vid.split('_')[0]
         if fid not in joint:
-            env.reset(options={'variant': vid})
-            joint[fid], joint_info[fid] = prepare_joint(env.nominal)
+            if state.get('prepared_plan_dir'):
+                frozen=json.loads((Path(state['prepared_plan_dir'])/f'test_{fid}_n48.json').read_text(encoding='utf-8'))
+                joint[fid],joint_info[fid]=frozen['joint_plan'],frozen['joint_info']
+                frozen_ilp[fid]={'plan':frozen['ilp_plan'],'info':frozen['ilp_info']}
+            else:
+                env.reset(options={'variant': vid})
+                joint[fid], joint_info[fid] = prepare_joint(env.nominal)
     plans_path = Path(outputs) / 'p002-test-joint-plans.json'
     with plans_path.open('x', encoding='utf-8') as stream:
         json.dump(joint, stream)
@@ -266,12 +272,17 @@ def execute(selected, state, registry, outputs):
     with info_path.open('x', encoding='utf-8') as stream:
         json.dump(joint_info, stream, indent=2)
     provenance['joint_plans'] = evaluation.file_hashes([str(plans_path), str(info_path)])
+    ilp_path=Path(outputs)/'p002-test-ilp-plans.json'
+    if frozen_ilp:
+        with ilp_path.open('x',encoding='utf-8') as stream: json.dump(frozen_ilp,stream,indent=2)
+        provenance['ilp_plans']=evaluation.file_hashes([str(ilp_path)])
     completed = []
     for method in entry.CANONICAL:
         for seed in (range(10) if method in entry.STOCHASTIC else [0]):
             task = dict(method=method, n=48, split='test', seed=seed, variants=variants,
                         run_id=evaluation.new_run_id(f'p002test-{method}-s{seed}'),
                         d_plan='results/d_plan_v2.csv', joint_plans=str(plans_path))
+            if frozen_ilp: task['ilp_plans']=str(ilp_path)
             completed.append(entry.run_task(task))
     reference = {r['variant']: r['cycle_time'] for o in completed if o['task']['method'] == 'ilp_tsp' for r in o['episodes']}
 

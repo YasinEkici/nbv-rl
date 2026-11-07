@@ -53,6 +53,7 @@ def run_task(task: dict) -> dict:
     repair = baselines.repair_policy(env.v, env.a)
     kplan = d_plan95(task["d_plan"], n)
     joint = json.loads(Path(task["joint_plans"]).read_text()) if method == "joint_opt" else {}
+    frozen_ilp = json.loads(Path(task['ilp_plans']).read_text(encoding='utf-8')) if task.get('ilp_plans') else {}
     plans: dict[int, tuple[list[int], dict]] = {}
     episodes, t0 = [], time.perf_counter()
     for vid in variants:
@@ -66,7 +67,11 @@ def run_task(task: dict) -> dict:
                 plan = joint[str(fid)]
             else:  # deterministic, depends only on the nominal CAD
                 if fid not in plans:
-                    plans[fid] = (baselines.fixed_pattern(env.nominal), {}) if method == "fixed" else baselines.ilp_tsp_plan(env.nominal)
+                    if method == 'ilp_tsp' and str(fid) in frozen_ilp:
+                        saved=frozen_ilp[str(fid)]
+                        plans[fid]=(saved['plan'],saved['info'])
+                    else:
+                        plans[fid] = (baselines.fixed_pattern(env.nominal), {}) if method == "fixed" else baselines.ilp_tsp_plan(env.nominal)
                 plan, info = plans[fid]
             res = evaluate_sequence(env, vid, plan, repair)
             info = {**info, "plan": plan, "success_without_repair": evaluate_sequence(env, vid, plan)["success"]}
