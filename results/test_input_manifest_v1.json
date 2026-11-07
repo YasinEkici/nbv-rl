@@ -1,0 +1,2581 @@
+{
+  "version": 1,
+  "inputs": [
+    {
+      "path": "data/cache/visibility/nominal/points_178195.npz",
+      "role": "nominal_points",
+      "part": null,
+      "size_bytes": 770024,
+      "sha256": "5ee0303aa5f55b494b096046ae605cf152ea15bb952234cd450aa6ceea8fe51a"
+    },
+    {
+      "path": "data/cache/robot/nominal/178195_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 25454,
+      "sha256": "1785f1b2cb00bbc4bc1ea010fd2dc63a13c91872d325663b49ba2efea009b4f5"
+    },
+    {
+      "path": "data/cache/visibility/nominal/178195_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 283546,
+      "sha256": "720f0592df36b75b2f2f024a8cb392b84b2dfcacc362ca7c4bd5c58423800ea2"
+    },
+    {
+      "path": "data/cache/robot/nominal/178195_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 105501,
+      "sha256": "304b8745003c1a3549181b395541c2b55ade06c631d51c0d0cffdb6f79defec7"
+    },
+    {
+      "path": "data/cache/visibility/nominal/178195_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 674282,
+      "sha256": "56a07b3c5354b7b1ceeadb994bcd95d6855e9e3c813ea1a7ca34f48afd2c6f03"
+    },
+    {
+      "path": "data/cache/visibility/nominal/points_486859.npz",
+      "role": "nominal_points",
+      "part": null,
+      "size_bytes": 863672,
+      "sha256": "21d3f5caca207eb749f28678ef2aa3a68d5e58e94eeaec974700804951803945"
+    },
+    {
+      "path": "data/cache/robot/nominal/486859_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 26958,
+      "sha256": "c4e83741c2082098b3a4b60f88efd7ce06caec1ea59f6f4f01407bd7c5ec4e5f"
+    },
+    {
+      "path": "data/cache/visibility/nominal/486859_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 359026,
+      "sha256": "8bca8aefce3124c048102280f84450c7853b4509c791de2f83caf6d9989f4d04"
+    },
+    {
+      "path": "data/cache/robot/nominal/486859_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 110405,
+      "sha256": "9424876391fca1e862885d8702ab810c7e1bdca0e5f24472191f01779240e3c3"
+    },
+    {
+      "path": "data/cache/visibility/nominal/486859_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 861569,
+      "sha256": "2ce4604d48934f8c76f3035f647bbf977baaa5de78c8a65eafb205a71d14f756"
+    },
+    {
+      "path": "data/cache/visibility/nominal/points_79729.npz",
+      "role": "nominal_points",
+      "part": null,
+      "size_bytes": 531782,
+      "sha256": "b80a06066449e9a38abd45fe2de953071d8c7797a866285c14952cdf94a3fffe"
+    },
+    {
+      "path": "data/cache/robot/nominal/79729_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 26988,
+      "sha256": "381b44e18fbe43c25c37db0cb19bfafd80708f6875a7174f9216ddad92bff8ed"
+    },
+    {
+      "path": "data/cache/visibility/nominal/79729_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 371307,
+      "sha256": "9fc8eeaf6236312762fb29ee2bc33e00ea9c73de153d47551e811d11b21c8787"
+    },
+    {
+      "path": "data/cache/robot/nominal/79729_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 115779,
+      "sha256": "962cd6f15559fe19a8924594be02b7569ff4a34949a8bfe275c6b50eff90c88e"
+    },
+    {
+      "path": "data/cache/visibility/nominal/79729_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 894635,
+      "sha256": "6013e114e0a19cc1da3c716c724bb8b5f96126e3f983d967f8789c83f4183f96"
+    },
+    {
+      "path": "data/cache/visibility/486859_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 358815,
+      "sha256": "84c987b5551871d38c207989fcf7b7e6a19b2b4b6f16e403caa3d3b5d7ce1ec2"
+    },
+    {
+      "path": "data/cache/visibility/486859_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 862291,
+      "sha256": "f3f8047b42e32e52a92bed6f3686d9838b7cb7a2795f3893810b6e1020d90518"
+    },
+    {
+      "path": "data/cache/visibility/486859_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 359498,
+      "sha256": "4f749d678da98ee7128f0c5e512e5fd39143535d096ea3df5e3170079219c63d"
+    },
+    {
+      "path": "data/cache/visibility/486859_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 870483,
+      "sha256": "7c36f129f73bbe0fdea622f0cc316873cf27e4c169d784aae668ae356c9a243c"
+    },
+    {
+      "path": "data/cache/visibility/486859_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 358990,
+      "sha256": "780d57770b7c7e47e224f70e3b54b5c2895b26b23ee3ecc2a237529fe65d6419"
+    },
+    {
+      "path": "data/cache/visibility/486859_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 863268,
+      "sha256": "de177da662f8b3e71b50fce4559593f5c96eff8d154f14690c0ed5467a96eb81"
+    },
+    {
+      "path": "data/cache/visibility/486859_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 359006,
+      "sha256": "9e9274c8fef1881ea34bbae174901838015092e85cbb8adc4f8d5246bc930278"
+    },
+    {
+      "path": "data/cache/visibility/486859_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 861109,
+      "sha256": "d2027c914d04771c294c51461fe761b1ac9a3181b705ca566e108be87a782dd5"
+    },
+    {
+      "path": "data/cache/visibility/486859_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 359015,
+      "sha256": "bc8faa9f4f684b79476a5ed3df8e471e8e4d9044a636e57bd393eeed6f3332bf"
+    },
+    {
+      "path": "data/cache/visibility/486859_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 861699,
+      "sha256": "0ff1722f207827997a4c85faaa5ace643c57c8e0b1d9b0998b912c1585639f30"
+    },
+    {
+      "path": "data/cache/visibility/178195_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 284564,
+      "sha256": "a967922ecf99255aee98b872bdc4b7bff1655d5bee10cea39db78d04d6a0f900"
+    },
+    {
+      "path": "data/cache/visibility/178195_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 676258,
+      "sha256": "fd6fa59c51c6a5b34b501f4064efb394497a84a11bce0b29235173ce7b94e8c7"
+    },
+    {
+      "path": "data/cache/visibility/178195_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 283076,
+      "sha256": "c2c9dc9520d3498b63afdd0fa2a3f94f925143b1ed6620305287bf8d17e1eb84"
+    },
+    {
+      "path": "data/cache/visibility/178195_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 672808,
+      "sha256": "720fc0fa728507a636f6034a3133a7360bd2a6679faa1e349a31b293adc83fb6"
+    },
+    {
+      "path": "data/cache/visibility/178195_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 283532,
+      "sha256": "13a041deb8bb58ed788ae4634aa31299b72a34cbaf46edc1ec4eb90ee5a14176"
+    },
+    {
+      "path": "data/cache/visibility/178195_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 673545,
+      "sha256": "e5e194a13b495c3e60e442ca94a14f292400088bd5be5aecd4a03b33a200757e"
+    },
+    {
+      "path": "data/cache/visibility/178195_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 283550,
+      "sha256": "cfe72d59af1609c1e899062ce250bbfd76dcfe55e17e616469ae540d645dea0c"
+    },
+    {
+      "path": "data/cache/visibility/178195_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 675821,
+      "sha256": "4a46be2aadf1d98e2838c57e94c12a09fa30f7b1286651d55231b5e3f06d5b63"
+    },
+    {
+      "path": "data/cache/visibility/178195_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 284071,
+      "sha256": "99057a22021d721a769c5a3b26d54fed3f042bc9f1f376663b6171c0e1bc6fde"
+    },
+    {
+      "path": "data/cache/visibility/178195_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 676239,
+      "sha256": "d4b2e2b27483427b822aac1e6bd6cb8f3328d27fe25a17f41ca2490998b88733"
+    },
+    {
+      "path": "data/cache/visibility/79729_v0_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 373308,
+      "sha256": "76d1cf5425eed6acd3ac297d1458036340915dd4775fa7d728f99bbd12700162"
+    },
+    {
+      "path": "data/cache/visibility/79729_v0_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 896962,
+      "sha256": "cc63f1cab8bd1704f2eac64a6528a8b95baa7b8fb4fb32b71ef08864ec532979"
+    },
+    {
+      "path": "data/cache/visibility/79729_v1_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 372486,
+      "sha256": "3a9b4c2c5a6cb343169d24aa7add439902fbe6f0027546222cfa355517a63d37"
+    },
+    {
+      "path": "data/cache/visibility/79729_v1_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 894334,
+      "sha256": "228fe0a4706d45cd4f8425139ac0cdc75a154aa7a1a8c512084b1dfcbbf618c2"
+    },
+    {
+      "path": "data/cache/visibility/79729_v2_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 373334,
+      "sha256": "a949a5f53098d7dd3b54471d94162a87dbe256b6f703b0aeddd4a7c3477dec7c"
+    },
+    {
+      "path": "data/cache/visibility/79729_v2_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 896615,
+      "sha256": "0cb688e7982fe5062677ca173aac00e61e46dd00ad9c877deb20d51d948b44e2"
+    },
+    {
+      "path": "data/cache/visibility/79729_v3_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 374570,
+      "sha256": "a15decf45df71d63222fe1542dda762354dcfed55957797020daf1b82c75ac5f"
+    },
+    {
+      "path": "data/cache/visibility/79729_v3_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 897753,
+      "sha256": "7f1b36002e1b16d85252b8e572393e675557313da8b168d0f39fd6f511a597d2"
+    },
+    {
+      "path": "data/cache/visibility/79729_v4_n48.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 373321,
+      "sha256": "84ab902a61393dee7a7587f4f15cc2bbada6917910f7ed6c0b46145d6d0e3208"
+    },
+    {
+      "path": "data/cache/visibility/79729_v4_n128.npz",
+      "role": "visibility_or_robot",
+      "part": null,
+      "size_bytes": 896868,
+      "sha256": "8f7ace328f80fb3ec83b99345929a26560f64c54312ad849a1a0496bcfa35db8"
+    },
+    {
+      "path": "data/cache/visibility/samples_178195.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "178195",
+      "size_bytes": 514923,
+      "sha256": "74be1e4143f54682bf0fd92ea0a231c764eab3f9620783fec5666dbb3de68d0b"
+    },
+    {
+      "path": "data/raw/parts/178195.ply",
+      "role": "nominal_CAD",
+      "part": "178195",
+      "size_bytes": 272276,
+      "sha256": "1665b5fae8175aaa93bfbd9b7033f5c92711c09aef7dd15bf5fa7959caf58edf"
+    },
+    {
+      "path": "data/cache/plans/test_178195_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "178195",
+      "size_bytes": 862,
+      "sha256": "1ccbe2ecce56551429e2bc98a4dfd3dc40a5dcf7457ea473bea0832a31f4b5c8"
+    },
+    {
+      "path": "data/cache/visibility/samples_486859.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "486859",
+      "size_bytes": 513828,
+      "sha256": "cf1d03512a5827d11754d35526ecbc7ea4f51729f02f0cc730ff8abf1a87212f"
+    },
+    {
+      "path": "data/raw/parts/486859.ply",
+      "role": "nominal_CAD",
+      "part": "486859",
+      "size_bytes": 556329,
+      "sha256": "b07abb5028d407253d7409db3f5eed38d471db5a942591535077ec193c11d0f3"
+    },
+    {
+      "path": "data/cache/plans/test_486859_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "486859",
+      "size_bytes": 890,
+      "sha256": "d1d1bf24833644ad7ea3078b2be01d9896a3a03ea1675831ec6f49b006dd1671"
+    },
+    {
+      "path": "data/cache/visibility/samples_79729.npz",
+      "role": "nominal_sample_correspondence",
+      "part": "79729",
+      "size_bytes": 513402,
+      "sha256": "e38a6c94cd39d39519af865bac273dc427ac3fda6a9d853a4dee1726c85687be"
+    },
+    {
+      "path": "data/raw/parts/79729.ply",
+      "role": "nominal_CAD",
+      "part": "79729",
+      "size_bytes": 61463,
+      "sha256": "f79a951406de55c8f0fe8982df5c447e3398d1fff40ad2ea18d477ca29147213"
+    },
+    {
+      "path": "data/cache/plans/test_79729_n48.json",
+      "role": "ilp_tsp_and_joint_plans_with_solver_info",
+      "part": "79729",
+      "size_bytes": 889,
+      "sha256": "5c35c2b6cdcef72550b4b1a31ec1fc61275d2ac92533d39767b8619660d3c91e"
+    },
+    {
+      "path": "configs/env_v4.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 926,
+      "sha256": "96e464f8764a7e4acbe8ad61057923fc382bad70a6410ca3cbfb14f9af5035c2"
+    },
+    {
+      "path": "configs/robot_v2.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 1372,
+      "sha256": "16f29f1d21912d0d9f42178fbc6e7281c7c6ad4bfbdf6bbc50973e58b46dd19c"
+    },
+    {
+      "path": "configs/collision_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 1623,
+      "sha256": "dc4d05c4217a2490843098b1b72ba2b0900516370bbe3c5dbe7b10489ce92ad0"
+    },
+    {
+      "path": "configs/parts_v2.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 2601,
+      "sha256": "d5c33943b2293603f5818d2df38b21f27f4f099a661374d9365b0c87dd5dd85b"
+    },
+    {
+      "path": "configs/split_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 10302,
+      "sha256": "cb8a35043ab2a1caf4d28373aaac300057bdb20f7958068a619e55ee121819e0"
+    },
+    {
+      "path": "configs/candidates_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 391,
+      "sha256": "79b44622a82faa98ba7b2025fad5241f5a589f8e8f7ba7b77a8323970ef1cd9f"
+    },
+    {
+      "path": "configs/sensor_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 593,
+      "sha256": "152e8497c6d82a1367731e6cd986a968f5c0919d3daa155056ee29762702c86e"
+    },
+    {
+      "path": "configs/visibility_v1.yaml",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 607,
+      "sha256": "6bd4c9df5e1003ae5dc529fb0bb8e863fe71de6aef789007f6ec0f1cc0636cfc"
+    },
+    {
+      "path": "results/d_plan_v2.csv",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 1354,
+      "sha256": "8db19929e5bfa8a52600c6e52b9260411e7ea8ed3a045795444e612dda3db358"
+    },
+    {
+      "path": "results/selected_settings_v1.json",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 1104,
+      "sha256": "7530b4a01afaf04eb598d7cd103a41d063e70836213f0c685e3e113720844f94"
+    },
+    {
+      "path": "results/pretest_manifest_v1.json",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 142240,
+      "sha256": "210b4328be90390d11d8fa588a1ffc2d8c67713dc5d65cab53ef927523ea6315"
+    },
+    {
+      "path": "results/registry.csv",
+      "role": "configuration_or_reference",
+      "part": null,
+      "size_bytes": 5896465,
+      "sha256": "cd9f1a16632685e4ad03df9392cb61e2bc0a3d5dc407b912e02d8dd9f6fd8455"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "205b17b633e2231e8e2398266117142453340a12eeb8a1720683b9759f8da5e2"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2599865,
+      "sha256": "f407d450f8684343ee096bbe73fa4451f7f887983cb336b1eec870a979eeca6d"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "1913a4588e1c051c67479ba901e6fd007201a055e01699bf345b594ce87e197f"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "04b18d142dd8a09486879821c7161976ed9894a3ef2c832bc105a735c96c4617"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s0-v4-20261106T144112-374d19c7/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "31ae7157791c278b0c18da19d65e5655057edb4016414d6dd7ba8e5aa896e3cb"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2600312,
+      "sha256": "ee316a1852efb63ec39a99424e203df5f8215382194af38224f1f1b3e1d448ab"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "94a65f2a7405603027e85811c7b2cc385c3d6f399760f437d24abf0850a86a87"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "ab2edc636f833a14c7edfc4412f153c5f567407b60cf34c374137f1daa338239"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s1-v4-20261106T144105-627ff363/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "7a598ec2770fc1329b252545d76d85f7d9641ac420461b3a11c9140590df2d64"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2604111,
+      "sha256": "e999caf696d4a1fa9dedd7a2808ad750abc92577ce68c70907e4f73b4a8e3356"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "da5edbb85bc041aacad486e20b8757b325193da4bd6c5a3dea89f60e239dcb6a"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "1d17d95db8642386f8e0d1581df2e0cd0b779945f65cccab82155e3d535eaed5"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s2-v4-20261106T144114-d218853d/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "cf2385bbfdf23602300441092ad12380c37bd98ddaed2e4c5c3b6362166f39ee"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2602284,
+      "sha256": "3bd4268bab2f4a39e632446623f7d2371507fd4d16e16771ba013f434fd488ac"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "e2e0509f61fcfa548e3a9eddaaa87ad81a7307811c949fe1c3c5d9ffa79fc5fb"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "6ce6c8542bef1aae166c7e7ca29989b04773dfaa2d99025c93c8e7745f7a40d1"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s3-v4-20261106T144119-7d08136b/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 580,
+      "sha256": "383a7489d77a58793280efbaa25dd52ebc4fb63ec0035845d430821d0a46b388"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2597711,
+      "sha256": "9d819abc076888852661ef58592be0303f38917f473a4dc07b8bc5711152fd57"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "a2a67d09e6b8557dec373bb1be2f653a4518cbd0c79e00ce315729e16b3b0366"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "b5b00e41f20b74a2ea8caf6790becb75daed041f28f915ed3f712435cbb75c9d"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "7b0a55269e139da1714d1f2f70b6124683b0587c6f858bfb424b02df4dfdb105"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2601279,
+      "sha256": "2f3c73fceb74e5988358917eb01d39adb798e1a39f3469dfc80bd984b1668f1f"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "54a43c57eb1e039fa75812c93a109e952d1065953b61b6b4700f9f6c517a58fc"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "975f933e07195893faa74fe5448f9b23537eb3dd6a99b060693e51066404b295"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s5-v4-20261106T144118-ecf39908/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "303fa2bc346d590afc402cdcaef891d0bb549ccca772d2e800408426bc5a74ef"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2600874,
+      "sha256": "95c3a90d3fa979934a5fe506846fa1d2f0df11c025ea07b666b5315d85423744"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "c704d75f4ab56a14b0f3fe2749d112eb60256af0ce62b8ed2dfe382fa6cad68c"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9718,
+      "sha256": "07708863d30989be43114f15aa0911efe296ddc6c88115f157de593b3fbfceba"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s6-v4-20261106T144115-25f2a9c7/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "b7ead76fb3eb6da2c6f3936e214538b9cc76ee0e0384cb7d4fdd9252bf97ada2"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2599347,
+      "sha256": "bf8b7202740ff625e2836610a8facd28e64ca8655d7bc426713e443e308108df"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "7a11d473efc204ece4004416bd2a5469bbad6e8957d4eec818ef3abba84f309c"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "91422bd28ebe7fa0db9c6e289b716c10e8fccb5d524ceaf60f3595be2bca3f24"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s7-v4-20261106T144118-bb7ab96d/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 576,
+      "sha256": "b6dedcc4c7080e1f6f55b899dc731792eeb8f621973881831a15979bc7145ff5"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2600683,
+      "sha256": "ecd7e1699a53fb36da64d3508814354f38b852f685b2d44a664778cfd9b680a5"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "10e967fe4a3b86ed31a399ed2ef017057c4f3d6eebf221fef6e6abdf361f2a06"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "a49c107e3d8bd9665be6bda6d49cdd2d9887eda6152f061ed85ac008b30c278a"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s8-v4-20261106T144117-19285cac/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "18bf28593fcf8efa9119e347fa29ef454a91df113d194d2f4730b91fa12ec27e"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2597743,
+      "sha256": "b430ee71ad6572df1b8b88cedac6083b1a11e0cb91fbe89fe56b02b00c3510c9"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 325,
+      "sha256": "b5dae0135cf8e73a339f3ee0fcab5a028eebd33249a559b315c386de7d7b7a1a"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9717,
+      "sha256": "d024f11e072408b2796223eeb70ab53e380830e94df44a938b1efe30346d04a4"
+    },
+    {
+      "path": "outputs/p002-myopic-val-s9-v4-20261106T144125-6b5814dc/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "394fb56170f325e0667f7ad7304af6977c4f65629e3ef26987ed5589835af3db"
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2725873,
+      "sha256": "be5c1a10c58f9371b06aae5bbc50b541d94e77d804a562e34ab178cce69f362f"
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "23698dd70a67ff77df6b3993010d615fff071c5399b6bc5ce31c24ecfb2bbbbc"
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9642,
+      "sha256": "bbce55e09a44a36d59b234affce9f2b2297908a48478ec2efffdc59efc2d4336"
+    },
+    {
+      "path": "outputs/p002-regq-val-s0-v4-20261106T142115-fff73794/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "7d119a27da55f94a91deab104c03ab2ce14621d1f337109dad276e09097fed68"
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2727108,
+      "sha256": "5601216653b5ec144e94002125f273a08cbdda318f128eab815b353b1f9ddc32"
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "e2e10c359645ade658b8a108ccf5e0f7f1e8f3178321a8eafa89094f2469fa0f"
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9642,
+      "sha256": "0292c9b0907d749359c9e31fb1db90f67b843bf74ddfd84b45e44e6073282a88"
+    },
+    {
+      "path": "outputs/p002-regq-val-s1-v4-20261106T142115-7b07948f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "8d56fb3670430f942965a554f26b7cea607b3a0b5458bb496e87b2590b250769"
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2728150,
+      "sha256": "5980915636e25e7b136876adb37df2ed230634c8860f942da7025dc5a77716c2"
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "425cdd68b51c0288b2ecaa11cf13dd4be2dab2e4596928a12b292ff731a55c7b"
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9643,
+      "sha256": "87d0c5e0c626491e6b898c8167084c43c4573c664d18d60e130c401908b582aa"
+    },
+    {
+      "path": "outputs/p002-regq-val-s2-v4-20261106T142118-1e5eb96e/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "7450df7f76f11f77f901cd10298c586eb5b0f1870863978d00693d50dbd90379"
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2727937,
+      "sha256": "485e5cc2aa57edd061ce3a950cd0c63f68b47907140565ae931961f65ccd8fb0"
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "8be9a5112c4e1c03d0c633a71d73dbe39497ca13105474d454a25d8faa579a4c"
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9642,
+      "sha256": "6a54d3aafde608531ed5039d3c4a62a2e9fbcfe562ad93e32a6a344ab9d81079"
+    },
+    {
+      "path": "outputs/p002-regq-val-s3-v4-20261106T142119-53d3fbd3/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "550d7b007ba502ddb0cf0dd00ed5438304006d57be68218c6e2d4357441f2bfe"
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2724697,
+      "sha256": "45617c82f7f0c961573ce282c9eebfeed00e68ea72cc17e7cccb1c514802756e"
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "a2af7444f2d86229d9135ae5a0aa6ab2a1bfac0f15fc6d0366a11f2f17aa7283"
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9641,
+      "sha256": "3abc460f5b8217d7ba9514ded0d0a98fe73ba0b7e86b30dafc6dbe7585310052"
+    },
+    {
+      "path": "outputs/p002-regq-val-s4-v4-20261106T142117-2a63975b/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "1fe87a64d1888866bdd4ac7c1f80b02eb69d5d4892a6e11aabcd0130e0e983da"
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2726820,
+      "sha256": "eb3f1d269764a74b6adc7d7cbe3cf15b141a3eb29502660373471a3882e7f9ee"
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "85b1abdd8f268d87598fe7e3570d4f8b2035d5f227049d8c8a31868172ae5157"
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9643,
+      "sha256": "145e6030ed475b905bfd5adf9007fc7d27d134d562a70e5addf7f1adc5c3d0bc"
+    },
+    {
+      "path": "outputs/p002-regq-val-s5-v4-20261106T142117-c4a77a5f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 576,
+      "sha256": "b9a1d818cda81b0dcd39e42c6639df1b3ecbb4ebf55bb3c00ebd7eaf24484510"
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2727760,
+      "sha256": "e88b6bfc1fda33254314e6c80bc76c9d1c649b84306ddee5192a9802acabe243"
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "30155c547a41e660a9cb2021ca5f057e051baa488a3f37812a9785fa060914d1"
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9641,
+      "sha256": "e9c914887a0cbcda2936b2fe7e027f70a6e3f603f32070113460d8d7f40fe7e5"
+    },
+    {
+      "path": "outputs/p002-regq-val-s6-v4-20261106T142121-cdbd492e/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "de3d00c31b8ca47e14ad64da1316c2cb0777adbf41f3993710ab5084dab3a04c"
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2724670,
+      "sha256": "66e1ed6f9a4405a8369039fc8b5e239210b996df5199d3ff8a419eecf2af525e"
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "73dd6be3298c7ee46293bc4e4b82a54f1ecaa0ebdd464f75fbed6e4a487cba3b"
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9642,
+      "sha256": "9293e949c7eddd0d2e9150e896e24760f8fc63762af53d7bea07c06026d8834a"
+    },
+    {
+      "path": "outputs/p002-regq-val-s7-v4-20261106T142115-425c3305/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "43d634aab691a49775d93d999e56a8493b5d7df6717708c139c582c6573d487e"
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2724727,
+      "sha256": "67108119180c0eac5fac62d64e0313f54678e2828dc4de448c80bfe2bf7074c1"
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "41cff1a11845b7fb6ece36a70b1bcc871092330d1098e22baff5ca7bfa9ba2c0"
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9641,
+      "sha256": "4c3dce1a7ddd5c04af6b33b83c7a40ae3f224fffa8c94d05e7ac19f416e4dad3"
+    },
+    {
+      "path": "outputs/p002-regq-val-s8-v4-20261106T142120-b915dbc4/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 576,
+      "sha256": "247447f2860bcf7dc1039f45527066b0063b96830f0966b8983b0d2c6346900b"
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2722401,
+      "sha256": "c8a4e006f35b9d5babe09aa4536b8ed96b17b3732e9a8d583e3a566348dd4be3"
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 316,
+      "sha256": "d5fccd7647a9db555e2fc4f61b95214f399e1e5b0180d726bfbc5a466e220534"
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9643,
+      "sha256": "31d70c960f249f5a7f464629ca7ca040250349fe4c5c13a17dabc20390775385"
+    },
+    {
+      "path": "outputs/p002-regq-val-s9-v4-20261106T142115-d762e122/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "cc494b577c58209b3d9f3c0b68de5bb2a14dd0b6e4d192f0a567398853b82ba6"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2549071,
+      "sha256": "6f81158773eb7e06205d189f7b28641e58158778481dfeb63afe2181887dc275"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "ac2934d09d5576fbba15d2f1442ec73744c6fc0a4faa77614ebce8c2610b8231"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "ad22dd4613ab3318742ec5047161074bdc5a7a0d9ee25ebf22f0b5dae916aa41"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T142107-41f52b15/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "78ae4bcc094ea357bd0fb5070e9660f3f0f04e9f80555e2aed63d50b7a9556fb"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2537821,
+      "sha256": "6d02e7d2e8808c86b62efd2589ed20dd9a2afe755341f5d1a4969b80c8a4bc88"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "92c41e7b30d958f107610c4f3727f9637df6a69a68e1156ac3e52c246d4bec97"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "e60b0fa581fc3751897d673bad6f8c5acb2fe1da4e9f1d0d907c36b3bb581c92"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T144012-f992deb1/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "73cc2af341b8d0c472090caac6f5ec0720d23953545388c52da32483a489e0f2"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2552656,
+      "sha256": "00b7c36c149a92c02ac0355c7f6b1e0c8a2249ab7a1134d8ff364d09cfcbecbc"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "69366502c3db38f025f34cb0ba23cb269c64a602faf035100378de1ea6c795f0"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9674,
+      "sha256": "4e9ac22432a83eb09051d54ef345e69dfe24b7123695e9f3f2fddff2250d24db"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T145823-20214692/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "1a94d9323dcddb411a3ea8958344a75c8c2301675b54272d4683ae15b791bb98"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2627008,
+      "sha256": "ed981d4052734b0e9069043e4b9fba3d19b081935aa48bdcedb3830c0ba65f81"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "b09ad22b3b3789a13a834e7bbf972a670e44f43daca55a1b3cf7a658a37909ad"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9690,
+      "sha256": "29f41d0b1db901d48bbdd17fc0e04dd7b230f0b4b9eb3b5b5bc394302b6ad53b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s0-v4-20261106T150038-99429658/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "2e3783209b9676ce624e4bb4349412aef9e55c4bfc3bf8bd4b267827ffefbaab"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2538875,
+      "sha256": "31c3c631f80c3d2e2ca8226adbc1a1cb0b558eb67e0e34ae2f8e46bbc3db4cfe"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "35bfa35ba3490dd9661d9a01b783b2954c3931cb7d2643f5d9ce8a4c33afa855"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "710e49e55ec7567395de7540aca2c5270147859da7bf1efa2ca5d84218c7e945"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "7ee47304ca947b2f729b96ac07908301987e65d7772af6c0f9afbf22999e4c1a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2538756,
+      "sha256": "5891fa2c4d8efa1ed589c5fbe5f5873fa4e0e0a72cedecc4fece2f54312413cc"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "66feefc40cabbd2f21bdc02ab198b47f5308a89c6daabed1a25f19310899c9d1"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "9a0bdb620aa478ff1b5ced9095e9020d508dab25d492b6ced4383dc16e32afa2"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "e3b2bb00d57cc08b7c4d676a290aa06327db670e48f876b98a196c8fe57e5836"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2557450,
+      "sha256": "dd71326e3b40bfdc4f0912bb8f2999b04e4da89a1baa446e9eab0fdac84166cd"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "952fe09375f81e73294f8d85636fbf5763e8929fef9f45b56842133316bb87bb"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9669,
+      "sha256": "30440e4a72231664f1fb879e3896c70cab3c303fb2439eb4f7ed6b993b7cc7e7"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T145829-23146c73/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "8e98be9f9bb6c4ddf3293ff928d3066b4f4fa4d59e8cbfc2bb7cb38957ee9858"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2627305,
+      "sha256": "3fe4712d018fb9d9a9e7131b78ae92a4b358b32e83bccc7b1eddeae02e7fe6a4"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "1f88a5109bcc74224f16c1b4104594d92be07aa17a966f1d490328b9246e5b73"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9688,
+      "sha256": "324e1d65c99c116120ac326244be7db51b447e6880cf85f946c0fcc4b4bb2547"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s1-v4-20261106T150056-01b54ba0/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "f01e8047891da61678b3cc4a31dd19a266809966b0aa1def94647a9063cce02d"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2556584,
+      "sha256": "87a4b32f08cdb66160b4330192d03cb066828dcc31bf50789e07ecb3272bc344"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "4f5cf7f04188a65ab0c3255c1b9bfb90126caf94a3894f53a6ef120a270da902"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "f0afc24044b409b06bb783da501acc2e64de50f5decdbe8c9fadf00434c5dd5b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T142110-2e569022/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "8d0c87179bda3ec05db6c755337e7675084251dea16a56b2cd1b5d2dfac7b51d"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2545282,
+      "sha256": "a4d9e73bbceec3835e5a57970e4ca9ee13262168b4eb6525f3610db9fec25e8a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "c2874f6be2010be7e417b91f937ca5ad31f7afaf171dd6f070fb7fbc3cb4b6fd"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9680,
+      "sha256": "f16c6e442437f9287f26ec14824daff60f192e460f77e25a55cbdd2504dce971"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "5446290865aa89cc07ebb004cd87a83e27b572e01f793420e573abe3f3cf6521"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2555789,
+      "sha256": "2215aa31aa449fae189734c45029ced7341e294d10b1d30657fc5ff882779c1a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "ae13527f0891fc2482e735dd067682e41bff2bc2abe6502f21501f07634b6a78"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9670,
+      "sha256": "b9f831a51cd062b1eaae293bbc96715edf6861fad4c8e0a592ddecbc8884e512"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 576,
+      "sha256": "4f18f144791b6091822c67f70607bed9507aac5f6ef9c00c7404ed0db9cfa89b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2629249,
+      "sha256": "bf53755df7b112f05ec9a7294f5fd16ca135a306b7113d2dbe02b5530ef3455e"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "b6b4bae7f74f8b56fe5d164ea3649d02586d0ce8edad21ae7b3596c4933ebbc8"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9693,
+      "sha256": "f38f47c90c290a1058ff3c5155b7dcbb0392934758a7b86b1366f35ea5d5a03a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s2-v4-20261106T150054-d0100639/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "be7986ea9d33ffd9218849909f0217978c2c675f3649a6149df164e628f78bbb"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2548501,
+      "sha256": "71d3707ed3a651ba3434e9ce5fa8988e86221aca6f159b4c9bab340428adb882"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "bcfbef3a88d30ac7ab0f2e19acea0b0ea6ebc2bfe69dbddf397bdbe691f5bb7c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "000aa3b7150a6367a5dd23abc14d6bb218f4845c64d6709505903154d2d0acf9"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T142106-deb645d5/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "806a53fb776f92c77df8d3be43a1c303d26ac13c6617ad91c03fe99a99ad3b52"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2542959,
+      "sha256": "d9face0c0d47bf6ab635f46c29af1d80f444812487c2ef493e372e4f04cd514d"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "0bc5aed14c9c92f3e7d6ec8e154f48aaa68dbff0fd0c926d9002e7529cf663ee"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "8c4babf9a306571a910ca567c7a92cda53670eccc92fc20db0c9d278be6a58d5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "a99be503c05fd7836ed3d47d739765c462d9bdcbe464ef91af201a67507e1e07"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2561266,
+      "sha256": "83a222652eebd0dede3c50f1e34cbdabceecc3dd4ed839bb188208f98b346759"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "c7a0e06e1afe975b3ee2b2af10ebb6eb31165578f403d92fae435bb07c9704f0"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "7da0c65ba005760587390b510b65877cbb3120350bca7580a5632e243e7c62e5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T145833-964fa1fb/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "e86fd8ce817d6000e80f1f71525dd5f3ec68f37145070ad9aafeebd377f289ee"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2628512,
+      "sha256": "517af033ad7d3bd969dd1091d489d92be07bc7117fc33366393a00d7b45eabda"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "19a365b655543b7556f10058bc7e0ce850f98f17abedbc15fb2631593dd8052f"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9690,
+      "sha256": "5b3837bacc65ffbf370cc9de9046cb3fc53646a7aecb3bcf3a4e8211924c01a2"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s3-v4-20261106T150056-4214122f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "635d0c98980d7c42b0bc71f44f75a52fd97d618da806dd2827193bff22f385cc"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2544743,
+      "sha256": "f8d473bc188ab5fc7005721e13ec14cb68a0cd5e3b99ebd5d17ba3f68058dbe7"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "c6c7279975ea1413d3716e92db30cb017a0f886cdccedb50a4709e99a3c7fbdb"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9687,
+      "sha256": "bd7a7167bf4f621dfc717239310f4ca7fe70ee48d730ffe467d8713c6232f14a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T142105-c05978f2/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "ac2bec00849c499e10a9f060263598e799c73c6f07a79e3b766ae155c90349c3"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2526636,
+      "sha256": "97274bbe6dbe92910c6b16ee015a591d4ca974859b4b8f1ac5ce34be8f38dfdb"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "552b2d2613d455499f599b2b447a79dc446280114b3e315a4257c7ee8633b29a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "ce2e00000f5a58c3b81a07e19a810fb2d6fe2c37995359569685c21c13bebacc"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T144012-0c7fb848/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "574c57203db648c6b4b003975839da0c4cb012f4fe3b5359280be851529ab3f5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2557126,
+      "sha256": "55a7ca1f951f53ea3933c4d146ef408e20fd2a67449218b4d2ef9fda1dacc20c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "84857ac367576e4c4a1f7d959c2ca125fc97380045ce6f75a6bbc6b231240586"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9666,
+      "sha256": "126c4bcc2b48f332cc460fc0f2900deced62134ca2d652850b06a1b8569a53f0"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "07b9706db50b376ccf4649954f0ddbb4ada7ceee55b6f172f9b057ef856434ef"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2626107,
+      "sha256": "14715bc2fc99482f57db8a9fa7b3a8b6067b63a672338a83cf2059896d902c36"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "e1dbb8f8128f83cf86e7ba9e726f296e604eece66734d6cdfc522684004b0818"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9692,
+      "sha256": "91e6ba6985f764d7c931663ef61c9dff190d5de09dfa207648964fec52030984"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "0456445b54da5c7fd048c7c0bb286f4ab966b10f23634fc13c39b08c2ab398d5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2555193,
+      "sha256": "b154de7168a4f460de0932646cebfae56b105d068f081a728bb8153e426909d7"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "b1baf44f50b7584434eb20a08d9fb8c7098eec4c9aa914bf31df92ab61365e11"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "03f5f1c00aeb2a26a399fa422268a376a3b8e27682275507f913bc5d93dea0e8"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "e33fe7fc5388cf620ecce8e17cbe6ad8cc194e8c8350f4725f5a873657a52673"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2531752,
+      "sha256": "4777d858a4ac44808c1d003976ff5822ae7ef16f3a86c216ee821f3571c4d315"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "acf04ec54fc00b9a06ae3f88b933901b458b1271ac8faf2185111812e13cfe99"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "21dab719e2c7710defac4824dab824bd4f2d4a55792c2578003bd5e862561e6a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T144009-23aa946a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "fba8b8f8c9c508196e054fed3bd454376d34e1bd8ebbcc08c2e9fc38668b8188"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2552073,
+      "sha256": "d8ae245486165d5c7e5a7267f027d28108edceb18269fe4f9a52e35bbba5144e"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "a83ea63ae5206e77ed670920370c196b081363b125d18a4201ed59392cbc3789"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9675,
+      "sha256": "40cb8a278f6fb782e5b94a247e7900674916e80b454c09b2ba832995ed34f394"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T145829-4337f795/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "45b411b8369136ba9c6dec7beb9cd3fc6484467f90350a9310e2dbae655a7951"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2625490,
+      "sha256": "5403dbceb2461a7d16f7f1536b20b406e8a082032a56655d41d9048e6c14a752"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "8f91daa24fa264012716ed6c0ee42b00bc6769f386a35a7fde94099547840cc3"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9688,
+      "sha256": "848fe740228eeff0cbc276c05992f6c9bbdc233e72951da3791d2b4b8f922ef4"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s5-v4-20261106T150100-f25f4b96/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "2671cf9e026cab8b6e5e598007c2e9cbba9b4d62f32c079652fc75d9fdc0ae0e"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2545227,
+      "sha256": "066c560bb4540d4d3c8e6c10d906e55b09d1ce33718c78a1d06e58eec20d87a1"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "bf8adc6d677ef847ac03e923290e8a5e80e9acebac54db3371326994816966d2"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9687,
+      "sha256": "760acaef6383b23114ab755230bc965bdb2076b7fc96aa111e32d5dd601ff4e6"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "46a1496185cf879bb64f26dd51eafd4a24c4c80c9ed75a2c8052a338d71dc2d0"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2551864,
+      "sha256": "6161987765f1b73f62d7c166a2e493f4cea059a3c3b007d243bba0b1015bec38"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "93a50ef0c117f2bb07b2ada6e28d0309024dad6e4b0fdef98f8b04851f71fc2a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9680,
+      "sha256": "952232da999f1c57b37444cb022e6a8fee643100fdf0eae0a1491cc86faf5ad3"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T144018-09c12454/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "249a75822d474ce2f4191a203dd640a41a620e4f18afc2bf8823abf1e593ef2d"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2563734,
+      "sha256": "49bdce9aee1aae987dcb91e740f2fd0ed0ae64922273902cae7aa906874ca410"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "5262f2e0248e20e42b1143b939de870695f1f9c55e3ed5c2dcd9b50877679059"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9669,
+      "sha256": "621a528be10882d7ae1c92076301926aeaf5f3389c0926ab3c4697d08af8723f"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T145836-2342d658/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "95aa8353eb53f0e122411dc2dc84fe8d11a786f55a5bfd5ae0180e978a99e932"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2628006,
+      "sha256": "6ae1103736e515b2c268e5c78db92cc71ff256fe0272ff435664e8c7c3f55c93"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "7d109d0acf2e76cfca112502c21467d9f4b935c851d7f303d0b14e7e176c3c40"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9692,
+      "sha256": "69fbff00d8857130dc168420aff6bde183a7caeba0640ffd7b465d76d8b76021"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s6-v4-20261106T150104-354ebe8a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "6f70bd9bea921b4bf544625427378be02df9a002358e7409ad2717e244e965bf"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2551752,
+      "sha256": "e04d9b731b2a60ebb8ddfab8cab592ca8e2b09283b3ee0be698a0d9ab720ff1c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "65508c717820c10fadd2b44f7d1baa95665d88e083a829a9ae0d69cd841af397"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "b4b05835060c1edf48c37f6465e411ee58645885e159bac2136f30ef1999b0bf"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T142111-74a6f497/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 580,
+      "sha256": "967dc490dd3b8db26bce117a66006537dd30f7f7d1920345570df40b3d07d9a5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2548824,
+      "sha256": "e71776974c9753cca871a314614004ec0de65bd13fb4f94bfb9ec2e5b0b12b52"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "b79ac098fd38a47ee57f4d72e8e9b3ea040d41f11d1cf7f72643b4a121ef0275"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9678,
+      "sha256": "95aa652d6a5476f7ad6410de0ae7d8b2eccde99a1b357e51be549df27b02433a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "fffc4576f311f0fbda88505245c42a25717bab4dae0de90ee5f65de9181d9b34"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2557934,
+      "sha256": "ece560e2f297a15d2537daf24b0e47507be2ca9e1e2c8ffa26a8f159aba146ae"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "d965d3c76a584edd3d6403cdc7e659c026efab19d66d267d714c5abd3317d919"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9669,
+      "sha256": "c20920b64fe8e3a4d2d8860ded755793043064b0ff03860c073803364d2d2aab"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T145839-55aa932a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "3c7f08210f0a3db635fe806047f2e5de0bba660724dd0dcfc553da81e4f7707a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2625315,
+      "sha256": "8d76ed37b4f554db9db386fc8516d4b99e19578c841be31250261e93f92e5ab4"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "f1cdcbd28b6a823fd5ee04aca5330409e69fb54c4d3912d3027cf972dee496f7"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9694,
+      "sha256": "f5c10b6b7252efd6ce069958a5dba418d0b9e4db5a201b898f29c1eb69face37"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s7-v4-20261106T150059-7379beca/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "c756b437846bfd35cda03d58e604d2ef3cfecd2de832f8a1f71dd7bc38e4de0b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2550443,
+      "sha256": "dc21eca9382b5cbb441676e64aeb876d9c6ce9997ccba65337c3d127fa008a2b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "4ad1a1aba0783fed1a749972daf1afb616491b0fed67d1c5ea1c59a55c2d37b6"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9676,
+      "sha256": "127fd9c3a2ed314b84c4e5aee5044873faa0f445370f5ba761528350b5e06f7c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T142113-5fcd130a/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 577,
+      "sha256": "3aae4f95ec47d2b68834c8f23a6d0816a0bb2bf4ea19d52bbcd58c81718b4056"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2541797,
+      "sha256": "463f94ca5476930b53c97db5acf6561c3fa01dc6c7b03338c52bd81c419bb7ab"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "fab79023f0424cf8acd67af3f40e7a43e9b7f417b96adb3ddddbe1a0b19c4dd5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9680,
+      "sha256": "4ae6202a8638725e444a79b5db3610a10e9d670127c5eaefe762448b47765b2a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T144015-d2562834/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "33db30114cda0cac01f24f26a1645cbbdb99228c0d5fbd34ce21a2198567683b"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2570526,
+      "sha256": "2183bd5ef5e4df03004c115d9db966ab3b7ed9c19dbfb0f6ec0afa01c1a45b49"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "33c77207efd8a9ee5a9aad99c13841a6b28ba85479dec832aab0e2541ce8348e"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9680,
+      "sha256": "a2ac262c3b226abdc578d5071dc7bebea10ab2f4e1955c05d45af911df67d685"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "a5973dd585f86b0bbca388de84c3b56f6fed295c5acc76dd8513913f5aeb6aa4"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2624292,
+      "sha256": "c69e9796e29f92a8699e0d2083f653ec07734d5e74fc798bf369da48d5d34997"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "41a24e48fda77ee3b19ee1efe451a70e2a1bdef1eb2b1a7d3a4ee2c9ba8760b1"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9695,
+      "sha256": "ca4a35ca237a1e3ab10d63bbc249ecd228894a5d20b094c76a8f00bddd73f5b5"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s8-v4-20261106T150108-9f87e655/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "936221c414e63d76dbdd9709871c5a4426b5e7c7f7b5e9c00dac712bbe7bff93"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2544432,
+      "sha256": "90237cfe0687e6cb8a820a198ac4fc3f866af282b695a7abdf2e425d8afce261"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "c992431d4dfe7be50008fe3d76cb4d8f68bc230a5364a3e82a913d4c5bb53e21"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9687,
+      "sha256": "9f3e3369622ec67d6d1508b8d17c5d5653c98f1c16ce49561dd1310f71239cce"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T142107-46d8b322/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "f2a5c31ad5fa75899d0713a9b3c3c335c994d75c71f4d7c4a706af232efac76c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2540591,
+      "sha256": "0685e9b07404e2d923673b778f3802db8d56a00a5a335ec149a340dbbb9e825c"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 328,
+      "sha256": "89fc970c8741c0ae15dda84d85d1f1be461f0a7b8f58a0d382eabffde50d487e"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9680,
+      "sha256": "6e3431de0cc071797cb3faa267cef180c3ae5a053ad1b4a2f8f083c7bf81bd16"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T144017-0eb8d194/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 579,
+      "sha256": "7d1b98c1e5f53942e23755a6f6994c07b704eddd9bc525fc063c616c249d59b2"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2554234,
+      "sha256": "3738baa80cb8a44083ba781cbcf84fdc82c515f556d655606e3a825e607a092a"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 332,
+      "sha256": "651d36fd68f6734f808b69536d4ef9fe13cd2c0abca829bc8d3e07211dd4dd42"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9669,
+      "sha256": "2a1c0e8ab0a0bdbae9ce3e7ff256a9410d9418e25f8b2afbdc886ff71623b374"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T145838-91bf1a30/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/weights.npz",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 578,
+      "sha256": "3a4dd2138ffb6046a89160167974d611f13183d45aa04356155ff175de4528a0"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/training.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 2623927,
+      "sha256": "fc152fecba7166564e0963d83289a51df990bdb9c551697749783fab8f291f58"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/config.yaml",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 348,
+      "sha256": "b8db7fd18d62a2585e92a94f9fe47eea1a3b1affde9b7497d72a5cd065e2f717"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/episodes.jsonl",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9693,
+      "sha256": "f343ceb18ab04d74cbc4c551c25f287bbe137d5511e33a1b8583d3bc771532f4"
+    },
+    {
+      "path": "outputs/p002-sarsa-val-s9-v4-20261106T150110-befbde38/provenance.json",
+      "role": "canonical_checkpoint",
+      "part": null,
+      "size_bytes": 9679,
+      "sha256": "535da889b3762796096ec09722ef88e82f64f8a2f4783c874b54c8262db75068"
+    },
+    {
+      "path": "outputs/p002-test-opened.json",
+      "role": "original_opening_claim",
+      "part": null,
+      "size_bytes": 3435,
+      "sha256": "559a43c9f852ad806bd5493154b656feea9fc5c6c9d9e1a21164b35fd77e584f"
+    },
+    {
+      "path": "outputs/p002-test-incident-1.json",
+      "role": "incident_record",
+      "part": null,
+      "size_bytes": 7605,
+      "sha256": "45fd353636f50a2985682632b8ee738db0c3825ee3fbbd70df9d8d77a5b29576"
+    }
+  ]
+}

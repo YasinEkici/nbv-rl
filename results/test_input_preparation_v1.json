@@ -1,0 +1,188 @@
+{
+  "generated": [
+    "data/cache/visibility/nominal/points_178195.npz",
+    "data/cache/visibility/nominal/points_486859.npz",
+    "data/cache/visibility/nominal/points_79729.npz",
+    "data\\cache\\plans\\test_79729_n48.json",
+    "data\\cache\\plans\\test_486859_n48.json",
+    "data\\cache\\plans\\test_178195_n48.json"
+  ],
+  "point_determinism": {
+    "train_part": 46262,
+    "original": "data/cache/visibility/nominal/points_46262.npz",
+    "regenerated": "scratch\\incident1-point-determinism\\nominal\\points_46262.npz",
+    "original_content_sha256": "198f453c83f5d3305ffb04d3c00092c52c6e8ee8e6c1774fcc29905efc51291d",
+    "regenerated_content_sha256": "198f453c83f5d3305ffb04d3c00092c52c6e8ee8e6c1774fcc29905efc51291d",
+    "exact_content_match": true
+  },
+  "note": "No real-variant content used; no environment, episode or test performance. Parallel CP-SAT uses frozen settings; wall-time-limited joint solutions are not claimed bitwise deterministic.",
+  "nominal_plans": {
+    "test_178195_n48": {
+      "part": "178195",
+      "n_candidates": 48,
+      "ilp_plan": [
+        3,
+        29,
+        26,
+        2,
+        7,
+        36,
+        46,
+        47,
+        32,
+        1,
+        9
+      ],
+      "ilp_info": {
+        "ilp_status": "OPTIMAL",
+        "ilp_gap": 0.0,
+        "ilp_passes": 11,
+        "ilp_wall_s": 0.09290880000000001,
+        "tsp": "held_karp",
+        "tsp_cost_s": 19.72240856169106
+      },
+      "joint_plan": [
+        1,
+        9,
+        40,
+        46,
+        2,
+        7,
+        36,
+        47,
+        42,
+        29,
+        3
+      ],
+      "joint_info": {
+        "joint_status": "OPTIMAL",
+        "joint_obj_s": 47.841,
+        "joint_bound_s": 47.841,
+        "joint_wall_s": 2.051667,
+        "joint_passes": 11
+      },
+      "settings": {
+        "set_cover_seconds_per_stage": 60,
+        "cp_sat_seed": 0,
+        "workers": 8,
+        "joint_seconds": 300,
+        "coverage": 0.95,
+        "tsp": "Held-Karp <=16; routing GLS 10 s otherwise"
+      }
+    },
+    "test_486859_n48": {
+      "part": "486859",
+      "n_candidates": 48,
+      "ilp_plan": [
+        11,
+        6,
+        1,
+        33,
+        9,
+        35,
+        36,
+        7,
+        15,
+        2,
+        18,
+        21,
+        16
+      ],
+      "ilp_info": {
+        "ilp_status": "OPTIMAL",
+        "ilp_gap": 0.0,
+        "ilp_passes": 13,
+        "ilp_wall_s": 0.1469725,
+        "tsp": "held_karp",
+        "tsp_cost_s": 23.227010359799053
+      },
+      "joint_plan": [
+        6,
+        11,
+        16,
+        21,
+        36,
+        7,
+        15,
+        2,
+        18,
+        40,
+        1,
+        33,
+        9
+      ],
+      "joint_info": {
+        "joint_status": "OPTIMAL",
+        "joint_obj_s": 55.597,
+        "joint_bound_s": 55.597,
+        "joint_wall_s": 0.7344762,
+        "joint_passes": 13
+      },
+      "settings": {
+        "set_cover_seconds_per_stage": 60,
+        "cp_sat_seed": 0,
+        "workers": 8,
+        "joint_seconds": 300,
+        "coverage": 0.95,
+        "tsp": "Held-Karp <=16; routing GLS 10 s otherwise"
+      }
+    },
+    "test_79729_n48": {
+      "part": "79729",
+      "n_candidates": 48,
+      "ilp_plan": [
+        35,
+        36,
+        23,
+        7,
+        2,
+        18,
+        34,
+        1,
+        6,
+        19,
+        24,
+        16,
+        3
+      ],
+      "ilp_info": {
+        "ilp_status": "OPTIMAL",
+        "ilp_gap": 0.0,
+        "ilp_passes": 13,
+        "ilp_wall_s": 0.0920601,
+        "tsp": "held_karp",
+        "tsp_cost_s": 19.527440352990013
+      },
+      "joint_plan": [
+        27,
+        36,
+        7,
+        15,
+        2,
+        10,
+        18,
+        34,
+        1,
+        6,
+        19,
+        3,
+        16
+      ],
+      "joint_info": {
+        "joint_status": "OPTIMAL",
+        "joint_obj_s": 40.042,
+        "joint_bound_s": 40.042,
+        "joint_wall_s": 0.7775351,
+        "joint_passes": 13
+      },
+      "settings": {
+        "set_cover_seconds_per_stage": 60,
+        "cp_sat_seed": 0,
+        "workers": 8,
+        "joint_seconds": 300,
+        "coverage": 0.95,
+        "tsp": "Held-Karp <=16; routing GLS 10 s otherwise"
+      }
+    }
+  }
+}
