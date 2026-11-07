@@ -468,3 +468,4 @@ p002test-sarsa-test-s8-20261107T165030-912f3739,p002test,canonical,test,sarsa,8,
 p002test-sarsa-test-s8-20261107T165030-6a541bd5,p002test,canonical,test,sarsa,8,2000000,60f6f33
 p002test-sarsa-test-s9-20261107T165030-fd496461,p002test,canonical,test,sarsa,9,2000000,60f6f33
 p002test-sarsa-test-s9-20261107T165030-ca43298a,p002test,canonical,test,sarsa,9,2000000,60f6f33
+p002planning-val-20261107T195454-241655b9,p002planning,exploratory,val,planning_timing,0,n/a,e7179ed
