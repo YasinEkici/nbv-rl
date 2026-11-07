@@ -77,8 +77,12 @@ def prove_point_determinism(destination):
     split=parts.load_yaml('configs/split_v1.yaml')
     fid=next(p['file_id'] for p in split['parts'] if p['split']=='train')
     destination=Path(destination)
-    (destination/'nominal').mkdir(parents=True,exist_ok=False)
-    shutil.copyfile(f'data/cache/visibility/samples_{fid}.npz',destination/f'samples_{fid}.npz')
+    (destination/'nominal').mkdir(parents=True,exist_ok=True)
+    sample=destination/f'samples_{fid}.npz'
+    source=Path(f'data/cache/visibility/samples_{fid}.npz')
+    if sample.exists() and sha256(sample)!=sha256(source):
+        raise ValueError('existing point-proof sample SHA-256 mismatch')
+    if not sample.exists(): shutil.copyfile(source,sample)
     _nominal_points(fid,destination,parts.load_yaml('configs/parts_v2.yaml'))
     original=f'data/cache/visibility/nominal/points_{fid}.npz'
     regenerated=destination/'nominal'/f'points_{fid}.npz'
@@ -110,12 +114,22 @@ def solve_nominal(fid):
                               joint_seconds=300,coverage=.95,tsp='Held-Karp <=16; routing GLS 10 s otherwise'))
 
 
-def prepare_missing():
+def prepare_missing(*,point_output='scratch/incident1-point-determinism',manifest_path='results/test_input_manifest_v1.json'):
     report=dry_run()
+    if Path(manifest_path).is_file():
+        manifest=json.loads(Path(manifest_path).read_text(encoding='utf-8'))
+        # The frozen pre-execution registry intentionally gained evaluation rows afterwards.
+        fixed=lambda e:e['path']!='results/registry.csv'
+        frozen={'inputs':[e for e in manifest['inputs'] if fixed(e)],'version':manifest['version']}
+        current={'inputs':[e for e in report['inputs'] if fixed(e)],
+                 'missing':[p for p in report['missing'] if p!='results/registry.csv']}
+        verify_input_manifest(frozen,current)
+        print('Already ready: existing inputs match the committed input manifest.',flush=True)
+        return dict(generated=[],already_ready=True,point_output=str(point_output))
     allowed={'nominal_points','ilp_tsp_and_joint_plans_with_solver_info'}
     forbidden=[e['path'] for e in report['inputs'] if not e['exists'] and e['role'] not in allowed]
     if forbidden: raise ValueError(f'missing inputs not authorized for nominal-only generation: {forbidden}')
-    proof=prove_point_determinism('scratch/incident1-point-determinism')
+    proof=prove_point_determinism(point_output)
     generated=[]
     for e in report['inputs']:
         if not e['exists'] and e['role']=='nominal_points':

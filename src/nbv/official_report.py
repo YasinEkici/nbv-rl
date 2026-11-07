@@ -7,6 +7,7 @@ from pathlib import Path
 import numpy as np
 from nbv import evaluation
 from nbv.env import ENV_VERSION
+from nbv.report_common import model_limitations
 
 
 def summarize_episodes(records):
@@ -114,6 +115,6 @@ def report(registry='results/registry.csv', outputs='outputs', destination='resu
               '![Official arms: seed means and min–max ranges](figures/official_val_curves_v1.png)', '',
               '![Exploratory full-feature SARSA: seed mean and min–max range](figures/sarsa_linear_16.png)', '',
               'Individual arm PNG/PDF figures are in figures/. Ranges describe seeds, not confidence or bootstrap intervals.',
-              'No hypothesis verdict: test parts have not been opened.']
-    (dest / 'official_val_v1.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+              'This VAL-only table makes no hypothesis verdict. The separately authorized completed test evaluation is reported in test_v1.md.']
+    (dest / 'official_val_v1.md').write_text('\n'.join(lines) + model_limitations(), encoding='utf-8')
     return summaries

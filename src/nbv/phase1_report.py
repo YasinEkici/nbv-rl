@@ -6,6 +6,7 @@ import numpy as np
 from nbv import evaluation, hypotheses
 from nbv.env import ENV_VERSION
 from nbv.frozen_evaluation import BASELINES
+from nbv.report_common import model_limitations
 
 ARMS=('sarsa/linear','regq/linear','myopic/linear','sarsa/none','sarsa/convex','sarsa/value_estimate')
 
@@ -127,7 +128,7 @@ def train_report(registry='results/registry.csv',out='results/train_v1.md'):
     text='# Frozen-policy train evaluation\n\nNo training or selection. All 60 canonical checkpoints, both weight kinds; D-041 train baselines reused.\n\n'
     text+=table(primary,True)+'\n\nSplit means (equal part/variant/seed weights):\n\n'+table(primary)
     text+='\n\nSecondary final weights:\n\n'+table(secondary)
-    Path(out).write_text(text+'\n',encoding='utf-8')
+    Path(out).write_text(text+model_limitations(),encoding='utf-8')
 
 
 def test_report(registry='results/registry.csv',out='results/test_v1.md',n_boot=10000,
@@ -186,6 +187,6 @@ def test_report(registry='results/registry.csv',out='results/test_v1.md',n_boot=
     regq=[json.loads(r['extra_json']) for r in source if json.loads(r['extra_json']).get('tag')=='p002' and r['method']=='regq']
     text+=f"\nRegQ training divergence: {sum(e['diverged'] for e in regq)}/{len(regq)}; descriptive only. Primary method remains true online SARSA(lambda). Alpha-scale asymmetry and Phi-setting inheritance remain limitations.\n"
     text+='\nAppendix: final weights (secondary, never selected).\n\n'+table(secondary,True,n_boot)+'\n\n'+table(secondary,False,n_boot)
-    Path(out).write_text(text+'\n',encoding='utf-8')
+    Path(out).write_text(text+model_limitations(),encoding='utf-8')
     Path(out).with_suffix('.json').write_text(json.dumps(verdicts,indent=2),encoding='utf-8')
     return verdicts

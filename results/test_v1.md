@@ -193,3 +193,10 @@ Appendix: final weights (secondary, never selected).
 | ilp_tsp | split | 1.000000 [1.000000, 1.000000] | 49.490641 [43.979684, 56.376625] | 1.000000 [1.000000, 1.000000] |
 | mcts | split | 1.144764 [1.084881, 1.230727] | 56.974066 [47.678960, 69.819031] | 1.000000 [1.000000, 1.000000] |
 | joint_opt | split | 0.995526 [0.966196, 1.026991] | 49.323717 [42.522261, 56.377514] | 1.000000 [1.000000, 1.000000] |
+
+## Model limitations (reported with every result)
+
+- Ideal sensor (D-025): a sample is measured or not (binary); in reality precision falls gradually with the incidence angle (first order ~1/cos α). Multiple reflections on shiny surfaces, the lower accuracy at the ends of the laser line, and measurement noise are not modeled; the camera's field of view is assumed to cover the whole line. The analytic sweep itself only neglects the discrete profile spacing (0.1 mm at 100 mm/s and 1 kHz).
+- Single setup without turntable (D-025, D-027): interior and table-facing surfaces are not measurable by any optical sensor from outside; coverage is relative to the reachable union (D-023).
+- Reachability is checked at 5 samples along each sweep with a joint-step limit (D-021); transfers between passes are not checked. Robot–part and robot–table collisions are checked statically at those samples with capsules and a sensor-head box (D-042); transfers, self-collision and fixtures are not.
+- Cycle time excludes data processing (registration, CAD comparison) (D-036).

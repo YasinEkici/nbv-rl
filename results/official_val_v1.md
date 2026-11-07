@@ -33,4 +33,11 @@ Measured batch wall time: 4839.62 s (1.344 h), 20 workers.
 ![Exploratory full-feature SARSA: seed mean and min–max range](figures/sarsa_linear_16.png)
 
 Individual arm PNG/PDF figures are in figures/. Ranges describe seeds, not confidence or bootstrap intervals.
-No hypothesis verdict: test parts have not been opened.
+This VAL-only table makes no hypothesis verdict. The separately authorized completed test evaluation is reported in test_v1.md.
+
+## Model limitations (reported with every result)
+
+- Ideal sensor (D-025): a sample is measured or not (binary); in reality precision falls gradually with the incidence angle (first order ~1/cos α). Multiple reflections on shiny surfaces, the lower accuracy at the ends of the laser line, and measurement noise are not modeled; the camera's field of view is assumed to cover the whole line. The analytic sweep itself only neglects the discrete profile spacing (0.1 mm at 100 mm/s and 1 kHz).
+- Single setup without turntable (D-025, D-027): interior and table-facing surfaces are not measurable by any optical sensor from outside; coverage is relative to the reachable union (D-023).
+- Reachability is checked at 5 samples along each sweep with a joint-step limit (D-021); transfers between passes are not checked. Robot–part and robot–table collisions are checked statically at those samples with capsules and a sensor-head box (D-042); transfers, self-collision and fixtures are not.
+- Cycle time excludes data processing (registration, CAD comparison) (D-036).

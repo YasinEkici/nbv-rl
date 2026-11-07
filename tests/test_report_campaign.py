@@ -1,6 +1,7 @@
 """Exercise every final report branch using registry-contained synthetic metrics."""
 import csv
 import json
+from pathlib import Path
 
 
 def test_complete_hypothesis_report_uses_only_synthetic_registry(tmp_path):
@@ -47,3 +48,10 @@ def test_complete_hypothesis_report_uses_only_synthetic_registry(tmp_path):
     assert 'NSC@5' in text and 'Raw coverage@10' in text
     assert 'Success without repair' in text
     assert 'Incident 1' in text and '4850144' in text and 'synthetic-resume' in text
+    from nbv.phase1_report import train_report
+    train=tmp_path/'train.md'
+    train_report(str(registry),str(train))
+    protocol=Path('docs/PROTOCOL.md').read_text(encoding='utf-8')
+    limitations=protocol.split('## Model limitations (reported with every result)\n',1)[1].split('\n## ',1)[0].strip()
+    assert limitations in text
+    assert limitations in train.read_text(encoding='utf-8')
