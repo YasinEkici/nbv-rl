@@ -46,10 +46,6 @@ def test_paired_difference_matches_variants():
     assert evaluation.paired_difference(a, b) == {"p": {"v0": [3.0]}}
 
 
-def test_iqm():
-    assert evaluation.iqm(np.arange(8)) == 3.5
-
-
 def test_mark_superseded_keeps_rows(tmp_path):
     p = tmp_path / "registry.csv"
     evaluation.append_registry(p, [{"run_id": "a", "plan": "001", "status": "exploratory"},

@@ -331,9 +331,3 @@ def paired_difference(a: Nested, b: Nested) -> Nested:
     return {p: {v: [float(np.mean(a[p][v]) - np.mean(b[p][v]))] for v in a[p] if v in b.get(p, {})} for p in a if p in b}
 
 
-def iqm(values: np.ndarray) -> float:
-    """Interquartile mean (mean of the middle 50%), kept for per-part summaries over many episodes."""
-    x = np.sort(np.asarray(values, float))
-    n = len(x)
-    lo, hi = int(np.floor(0.25 * n)), int(np.ceil(0.75 * n))
-    return float(x[lo:hi].mean()) if hi > lo else float(x.mean())

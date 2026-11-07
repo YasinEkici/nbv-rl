@@ -7,11 +7,11 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | Plan | Scope | Status |
 |---|---|---|
 | 001 | Environment, visibility, robot masks and baselines | Completed |
-| 002 | Phase 1: classical RL and frozen test report | Results complete; closure in progress |
+| 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
 | 004 | Final analysis and paper | Not started |
 
-The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
+The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/done/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
 
 ## Problem and relationship to the assignment
 
@@ -92,7 +92,7 @@ Potential-based reward shaping uses `r + Phi(s') - Phi(s)`, with zero terminal p
 
 ## Experimental design and audit trail
 
-[PROTOCOL v1](docs/PROTOCOL.md) was frozen before Phase 1 results (D-043). The [Plan 002 predeclaration](docs/plans/002-classical-rl.md) fixes hypotheses, metrics, grids, selection, seeds and budgets. Amendments were recorded before task results; interpretations written later are labeled as observations.
+[PROTOCOL v1](docs/PROTOCOL.md) was frozen before Phase 1 results (D-043). The [Plan 002 predeclaration](docs/plans/done/002-classical-rl.md) fixes hypotheses, metrics, grids, selection, seeds and budgets. Amendments were recorded before task results; interpretations written later are labeled as observations.
 
 Each learner received 12 grid points, three tuning seeds 1000–1002 and 200000 steps per point/seed. Selection used the last two VAL evaluations, then the predeclared tolerance band, seed spread and smaller step. Official seeds 0–9 were disjoint and received 2000000 steps with 20 VAL evaluations. The [complete grid](results/tuning_v1.md), [selected settings](results/selected_settings_v1.json) and [runtime evidence](results/training_speed_v1.md) are recorded. There was one global setting per method, not one per part. The SARSA ablations inherited the main setting; they were not retuned.
 
