@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "commit": "1c06fc1",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "styles": {
+    "sarsa/linear": {
+      "color": "#0072B2",
+      "marker": "o",
+      "linestyle": "-"
+    },
+    "regq/linear": {
+      "color": "#D55E00",
+      "marker": "s",
+      "linestyle": "--"
+    },
+    "myopic/linear": {
+      "color": "#009E73",
+      "marker": "^",
+      "linestyle": ":"
+    },
+    "sarsa/none": {
+      "color": "#000000",
+      "marker": "v",
+      "linestyle": "-."
+    },
+    "sarsa/convex": {
+      "color": "#CC79A7",
+      "marker": "D",
+      "linestyle": "--"
+    },
+    "sarsa/value_estimate": {
+      "color": "#E69F00",
+      "marker": "P",
+      "linestyle": "-"
+    },
+    "random": {
+      "color": "#56B4E9",
+      "marker": "x",
+      "linestyle": ":"
+    },
+    "fixed": {
+      "color": "#F0E442",
+      "marker": "*",
+      "linestyle": "--"
+    },
+    "greedy_ig": {
+      "color": "#009E73",
+      "marker": "+",
+      "linestyle": "-."
+    },
+    "greedy_cost": {
+      "color": "#000000",
+      "marker": "X",
+      "linestyle": "-"
+    },
+    "ilp_tsp": {
+      "color": "#0072B2",
+      "marker": ">",
+      "linestyle": "--"
+    },
+    "mcts": {
+      "color": "#D55E00",
+      "marker": "h",
+      "linestyle": "-"
+    },
+    "joint_opt": {
+      "color": "#CC79A7",
+      "marker": "<",
+      "linestyle": ":"
+    }
+  },
+  "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
+  "test_access": "Registry metrics only; no test cache/output/environment access.",
+  "split": "train",
+  "source_run_ids": [],
+  "source_commits": {},
+  "transformations": [
+    "Count nominal measured bits over saved reachable passes; table-facing takes display priority."
+  ],
+  "source_files": {
+    "data/cache/visibility/nominal/points_46262.npz": "33bbe2aff641de01dcf9a618dddb726ef08836cceee4e329e45a4c92e807e772",
+    "data/cache/robot/nominal/46262_n48.npz": "371c5d61ca6281cae1fd01e0ec308fbbbf27e2358079c18e97b58f099388310d",
+    "data/cache/visibility/nominal/46262_n48.npz": "8637365fd0c5f9edf5e813ecee891442301d1a037ac9261f81a6d707f5e7e684",
+    "data/cache/visibility/nominal/points_124336.npz": "067c872eaa1c796d020b6aa4a78c8f1d6f079f7e18902be6133807f1633c02fa",
+    "data/cache/robot/nominal/124336_n48.npz": "7171a495e8b6cad19726b14adfeba76b5ce9b0bad035006e84c2d49836beceb1",
+    "data/cache/visibility/nominal/124336_n48.npz": "5f9917010447052fe8535f42925be36a64840a2981a8bc8ea8f0732a93561f1e",
+    "data/cache/visibility/nominal/points_548863.npz": "9799caacfc35ccaafe881d96f7ccc1eb71d23fd79623be678a921223268a8609",
+    "data/cache/robot/nominal/548863_n48.npz": "4a0cbb1cd14b8e447a808cc22f0f02e1892e8ab0caf114765f840abd9aed7809",
+    "data/cache/visibility/nominal/548863_n48.npz": "319b8a2fe0634a9894795eabb635a25651988fa93df6c24aa6b7791e8227a821",
+    "data/cache/visibility/nominal/points_65149.npz": "953a7e0041e73e0a3b1d97c202deb7f1af61535e490e11a5d31c6a1d6aac5472",
+    "data/cache/robot/nominal/65149_n48.npz": "a26dddaed3e7e4713d634296c09f3e2658cc6f3d15b6d68d11d4fa8dac17698d",
+    "data/cache/visibility/nominal/65149_n48.npz": "63898a5040ce57f6a5137c9c6ec72a56222ac8618407aabe60f2ee5c6c6baaad",
+    "data/cache/visibility/nominal/points_702389.npz": "8c8b78f4807b0a101465585662c6e4307fab2bb1e17c2d375f6fe14a8432e9c5",
+    "data/cache/robot/nominal/702389_n48.npz": "67449d4914b147c28f8f701e5949761a25fda916ca9a19cfe90c2e56ca6e8a0c",
+    "data/cache/visibility/nominal/702389_n48.npz": "727a73ed4857a8bea145ec05a0f3f08f4b62f045abd9f691fc6c66f8cd62fa69",
+    "data/cache/visibility/nominal/points_135365.npz": "4e2636fbe8b04ab2a4346f90b4949d1be597e0dbd463acefc259f71dee6a179a",
+    "data/cache/robot/nominal/135365_n48.npz": "56340dbc27161c7a7e9db7ffdb7aaabd93c617de912f213fa78ab85ffc3ecbce",
+    "data/cache/visibility/nominal/135365_n48.npz": "9da3f2cf902177e9dc11ba8c6dc16769c37fa2b77e87f540517457dee082109c",
+    "data/cache/visibility/nominal/points_124532.npz": "e2239a41336d87e3da8c3d1b443dba5421aa5357bf6570e45e34762a184cfda2",
+    "data/cache/robot/nominal/124532_n48.npz": "c12d615a9e6241fe6beca1055b2484a9a8a07f36b2ccd9b0be3b603b86d90634",
+    "data/cache/visibility/nominal/124532_n48.npz": "a82533b161f449b53e9f6c5bc972f2fb95c2d1ee4d91cffeb343437598f67f21",
+    "data/cache/visibility/nominal/points_635751.npz": "0e549e0ba95d1bb081a9c765a05fc22b7d2670434116d7afdbf14a94f1375dbd",
+    "data/cache/robot/nominal/635751_n48.npz": "5f8db4712992a57382523ea7a220ed4cf36cec73c011a37eb9c3d845e4b0fd57",
+    "data/cache/visibility/nominal/635751_n48.npz": "64bf326cab7e8a933aae888e84743ec19698a8640cf053f29e53f591c9caaeb6"
+  },
+  "attribution": {
+    "46262": {
+      "file_id": 46262,
+      "thing_id": 14130,
+      "thing_url": "https://www.thingiverse.com/thing:14130",
+      "name": "PrintrBot Clone",
+      "author": "PacManFan",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        64.92,
+        69.98,
+        50.0
+      ],
+      "hard_ratio": 0.151,
+      "stratum": 1,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    },
+    "124336": {
+      "file_id": 124336,
+      "thing_id": 45347,
+      "thing_url": "https://www.thingiverse.com/thing:45347",
+      "name": "VEND - the totally printed candy dispenser",
+      "author": "Mr_MegaTronic",
+      "license": "Creative Commons - Attribution",
+      "share_alike": false,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        209.0,
+        142.73,
+        127.74
+      ],
+      "hard_ratio": 0.371,
+      "stratum": 2,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": false
+    },
+    "548863": {
+      "file_id": 548863,
+      "thing_id": 309466,
+      "thing_url": "https://www.thingiverse.com/thing:309466",
+      "name": "RAPIRO - The Humanoid Robot for your Raspberry Pi",
+      "author": "ShotaIshiwatari",
+      "license": "Creative Commons - Attribution",
+      "share_alike": false,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        18.5,
+        35.0,
+        51.0
+      ],
+      "hard_ratio": 0.218,
+      "stratum": 1,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": false
+    },
+    "65149": {
+      "file_id": 65149,
+      "thing_id": 11836,
+      "thing_url": "https://www.thingiverse.com/thing:11836",
+      "name": "Functional Differential Gear System",
+      "author": "Thing-O-Fun",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        87.99,
+        74.52,
+        50.0
+      ],
+      "hard_ratio": 0.052,
+      "stratum": 0,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    },
+    "702389": {
+      "file_id": 702389,
+      "thing_id": 42198,
+      "thing_url": "https://www.thingiverse.com/thing:42198",
+      "name": "OpenRC 1:10 4WD Truggy Concept RC Car",
+      "author": "barspin",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        52.97,
+        56.0,
+        28.48
+      ],
+      "hard_ratio": 0.119,
+      "stratum": 0,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    },
+    "135365": {
+      "file_id": 135365,
+      "thing_id": 51376,
+      "thing_url": "https://www.thingiverse.com/thing:51376",
+      "name": "Customizable Battery Case (magnetic)",
+      "author": "walter",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        60.0,
+        30.79,
+        39.3
+      ],
+      "hard_ratio": 0.403,
+      "stratum": 2,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    },
+    "124532": {
+      "file_id": 124532,
+      "thing_id": 45443,
+      "thing_url": "https://www.thingiverse.com/thing:45443",
+      "name": "Colorimeter V0.0",
+      "author": "chowderhead",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        69.6,
+        69.6,
+        34.4
+      ],
+      "hard_ratio": 0.165,
+      "stratum": 1,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    },
+    "635751": {
+      "file_id": 635751,
+      "thing_id": 367226,
+      "thing_url": "https://www.thingiverse.com/thing:367226",
+      "name": "Adabot",
+      "author": "adafruit",
+      "license": "Creative Commons - Attribution - Share Alike",
+      "share_alike": true,
+      "original_unit": "mm (assumed)",
+      "original_extent": [
+        68.51,
+        35.76,
+        57.91
+      ],
+      "hard_ratio": 0.075,
+      "stratum": 0,
+      "split": "train",
+      "license_version": "version not recorded",
+      "official_specific_license_url": null,
+      "official_license_overview": "https://creativecommons.org/licenses/",
+      "changes": [
+        "Scale nominal mesh to 200 mm longest side",
+        "20,000 area-weighted nominal surface samples",
+        "Derived nominal visibility/pass counts"
+      ],
+      "share_alike_derivative": true
+    }
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "commit": "1c06fc1",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "styles": {
+    "sarsa/linear": {
+      "color": "#0072B2",
+      "marker": "o",
+      "linestyle": "-"
+    },
+    "regq/linear": {
+      "color": "#D55E00",
+      "marker": "s",
+      "linestyle": "--"
+    },
+    "myopic/linear": {
+      "color": "#009E73",
+      "marker": "^",
+      "linestyle": ":"
+    },
+    "sarsa/none": {
+      "color": "#000000",
+      "marker": "v",
+      "linestyle": "-."
+    },
+    "sarsa/convex": {
+      "color": "#CC79A7",
+      "marker": "D",
+      "linestyle": "--"
+    },
+    "sarsa/value_estimate": {
+      "color": "#E69F00",
+      "marker": "P",
+      "linestyle": "-"
+    },
+    "random": {
+      "color": "#56B4E9",
+      "marker": "x",
+      "linestyle": ":"
+    },
+    "fixed": {
+      "color": "#F0E442",
+      "marker": "*",
+      "linestyle": "--"
+    },
+    "greedy_ig": {
+      "color": "#009E73",
+      "marker": "+",
+      "linestyle": "-."
+    },
+    "greedy_cost": {
+      "color": "#000000",
+      "marker": "X",
+      "linestyle": "-"
+    },
+    "ilp_tsp": {
+      "color": "#0072B2",
+      "marker": ">",
+      "linestyle": "--"
+    },
+    "mcts": {
+      "color": "#D55E00",
+      "marker": "h",
+      "linestyle": "-"
+    },
+    "joint_opt": {
+      "color": "#CC79A7",
+      "marker": "<",
+      "linestyle": ":"
+    }
+  },
+  "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
+  "test_access": "Registry metrics only; no test cache/output/environment access.",
+  "split": [
+    "test quality",
+    "val timing"
+  ],
+  "source_run_ids": [
+    "p002planning-val-20261107T195454-241655b9",
+    "p002test-greedy_cost-test-s0-20261107T165015-067d6f64",
+    "p002test-mcts-test-s0-20261107T165015-8bd36197",
+    "p002test-mcts-test-s1-20261107T165015-39ca6ebf",
+    "p002test-mcts-test-s2-20261107T165015-399e3f16",
+    "p002test-mcts-test-s3-20261107T165015-3d8eb26c",
+    "p002test-mcts-test-s4-20261107T165015-0e900cd9",
+    "p002test-mcts-test-s5-20261107T165015-1b11a673",
+    "p002test-mcts-test-s6-20261107T165015-812f1afa",
+    "p002test-mcts-test-s7-20261107T165015-35710182",
+    "p002test-mcts-test-s8-20261107T165016-c929116f",
+    "p002test-mcts-test-s9-20261107T165016-fc003378",
+    "p002test-regq-test-s0-20261107T165019-194ddae0",
+    "p002test-regq-test-s1-20261107T165019-0a198c2e",
+    "p002test-regq-test-s2-20261107T165020-06495bbd",
+    "p002test-regq-test-s3-20261107T165020-151979a1",
+    "p002test-regq-test-s4-20261107T165020-2e8e4ea4",
+    "p002test-regq-test-s5-20261107T165020-677c34b2",
+    "p002test-regq-test-s6-20261107T165021-1997433d",
+    "p002test-regq-test-s7-20261107T165019-b20a24cd",
+    "p002test-regq-test-s8-20261107T165020-4d1c84f3",
+    "p002test-regq-test-s9-20261107T165019-2115d3db",
+    "p002test-sarsa-test-s0-20261107T165017-0c790526",
+    "p002test-sarsa-test-s0-20261107T165028-502c6b56",
+    "p002test-sarsa-test-s1-20261107T165018-bf47b5a6",
+    "p002test-sarsa-test-s1-20261107T165028-c9955665",
+    "p002test-sarsa-test-s2-20261107T165018-75c1f77e",
+    "p002test-sarsa-test-s2-20261107T165028-5577ff7d",
+    "p002test-sarsa-test-s3-20261107T165017-dbe35727",
+    "p002test-sarsa-test-s3-20261107T165028-d2ac3391",
+    "p002test-sarsa-test-s4-20261107T165017-ccc3a963",
+    "p002test-sarsa-test-s4-20261107T165029-3de49044",
+    "p002test-sarsa-test-s5-20261107T165016-056b7e8a",
+    "p002test-sarsa-test-s5-20261107T165029-e6093ec8",
+    "p002test-sarsa-test-s6-20261107T165017-4ca952a7",
+    "p002test-sarsa-test-s6-20261107T165029-3ff92a18",
+    "p002test-sarsa-test-s7-20261107T165018-73d80a52",
+    "p002test-sarsa-test-s7-20261107T165029-08f073df",
+    "p002test-sarsa-test-s8-20261107T165018-daa7ec75",
+    "p002test-sarsa-test-s8-20261107T165030-912f3739",
+    "p002test-sarsa-test-s9-20261107T165018-9b0ba8f5",
+    "p002test-sarsa-test-s9-20261107T165030-fd496461"
+  ],
+  "source_commits": {
+    "p002test-greedy_cost-test-s0-20261107T165015-067d6f64": "60f6f33",
+    "p002test-mcts-test-s0-20261107T165015-8bd36197": "60f6f33",
+    "p002test-mcts-test-s1-20261107T165015-39ca6ebf": "60f6f33",
+    "p002test-mcts-test-s2-20261107T165015-399e3f16": "60f6f33",
+    "p002test-mcts-test-s3-20261107T165015-3d8eb26c": "60f6f33",
+    "p002test-mcts-test-s4-20261107T165015-0e900cd9": "60f6f33",
+    "p002test-mcts-test-s5-20261107T165015-1b11a673": "60f6f33",
+    "p002test-mcts-test-s6-20261107T165015-812f1afa": "60f6f33",
+    "p002test-mcts-test-s7-20261107T165015-35710182": "60f6f33",
+    "p002test-mcts-test-s8-20261107T165016-c929116f": "60f6f33",
+    "p002test-mcts-test-s9-20261107T165016-fc003378": "60f6f33",
+    "p002test-sarsa-test-s5-20261107T165016-056b7e8a": "60f6f33",
+    "p002test-sarsa-test-s6-20261107T165017-4ca952a7": "60f6f33",
+    "p002test-sarsa-test-s4-20261107T165017-ccc3a963": "60f6f33",
+    "p002test-sarsa-test-s3-20261107T165017-dbe35727": "60f6f33",
+    "p002test-sarsa-test-s0-20261107T165017-0c790526": "60f6f33",
+    "p002test-sarsa-test-s9-20261107T165018-9b0ba8f5": "60f6f33",
+    "p002test-sarsa-test-s1-20261107T165018-bf47b5a6": "60f6f33",
+    "p002test-sarsa-test-s2-20261107T165018-75c1f77e": "60f6f33",
+    "p002test-sarsa-test-s7-20261107T165018-73d80a52": "60f6f33",
+    "p002test-sarsa-test-s8-20261107T165018-daa7ec75": "60f6f33",
+    "p002test-regq-test-s1-20261107T165019-0a198c2e": "60f6f33",
+    "p002test-regq-test-s0-20261107T165019-194ddae0": "60f6f33",
+    "p002test-regq-test-s7-20261107T165019-b20a24cd": "60f6f33",
+    "p002test-regq-test-s9-20261107T165019-2115d3db": "60f6f33",
+    "p002test-regq-test-s4-20261107T165020-2e8e4ea4": "60f6f33",
+    "p002test-regq-test-s5-20261107T165020-677c34b2": "60f6f33",
+    "p002test-regq-test-s2-20261107T165020-06495bbd": "60f6f33",
+    "p002test-regq-test-s3-20261107T165020-151979a1": "60f6f33",
+    "p002test-regq-test-s8-20261107T165020-4d1c84f3": "60f6f33",
+    "p002test-regq-test-s6-20261107T165021-1997433d": "60f6f33",
+    "p002test-sarsa-test-s0-20261107T165028-502c6b56": "60f6f33",
+    "p002test-sarsa-test-s2-20261107T165028-5577ff7d": "60f6f33",
+    "p002test-sarsa-test-s1-20261107T165028-c9955665": "60f6f33",
+    "p002test-sarsa-test-s3-20261107T165028-d2ac3391": "60f6f33",
+    "p002test-sarsa-test-s7-20261107T165029-08f073df": "60f6f33",
+    "p002test-sarsa-test-s4-20261107T165029-3de49044": "60f6f33",
+    "p002test-sarsa-test-s5-20261107T165029-e6093ec8": "60f6f33",
+    "p002test-sarsa-test-s6-20261107T165029-3ff92a18": "60f6f33",
+    "p002test-sarsa-test-s8-20261107T165030-912f3739": "60f6f33",
+    "p002test-sarsa-test-s9-20261107T165030-fd496461": "60f6f33",
+    "p002planning-val-20261107T195454-241655b9": "e7179ed"
+  },
+  "transformations": [
+    "No Pareto optimality inference across splits; exact registered timing reused."
+  ],
+  "timing": {
+    "definition": "Serial warm-cache inference calls on the SAME greedy-cost VAL states; feature evaluation/argmax or nominal MCTS included; environment steps, model preprocessing, cache loading and Phi computation excluded. Phi is training-only for frozen policies. Fixed official seed 0 checkpoints, no quality selection.",
+    "diagnostic_only": true,
+    "metric": "planning_time_ms_per_decision",
+    "processor": "Intel64 Family 6 Model 198 Stepping 2, GenuineIntel",
+    "repeats": 3,
+    "seed": 0,
+    "source_runs": {
+      "regq/linear": "p002-regq-val-s0-v4-20261106T142115-fff73794",
+      "sarsa/linear": "p002-sarsa-val-s0-v4-20261106T142107-41f52b15",
+      "sarsa/value_estimate": "p002-sarsa-val-s0-v4-20261106T150038-99429658"
+    },
+    "split": "val",
+    "states": 189,
+    "tag": "p002planning",
+    "threads": {
+      "MKL_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "timings": {
+      "greedy_cost": {
+        "decisions": 567,
+        "median_ms": 0.5085,
+        "p95_ms": 0.5566399999999999,
+        "planning_time_ms_per_decision": 0.5168449735449736
+      },
+      "mcts": {
+        "decisions": 567,
+        "median_ms": 44.2719,
+        "p95_ms": 112.35624,
+        "planning_time_ms_per_decision": 49.26558430335098
+      },
+      "regq/linear": {
+        "decisions": 567,
+        "median_ms": 0.125,
+        "p95_ms": 0.15577,
+        "planning_time_ms_per_decision": 0.1273342151675485
+      },
+      "sarsa/linear": {
+        "decisions": 567,
+        "median_ms": 0.1243,
+        "p95_ms": 0.15567999999999999,
+        "planning_time_ms_per_decision": 0.1286405643738977
+      },
+      "sarsa/value_estimate": {
+        "decisions": 567,
+        "median_ms": 0.1264,
+        "p95_ms": 0.15597999999999984,
+        "planning_time_ms_per_decision": 0.12940511463844798
+      }
+    },
+    "variants": [
+      "271875_v0",
+      "271875_v1",
+      "271875_v2",
+      "271875_v3",
+      "271875_v4",
+      "37275_v0",
+      "37275_v1",
+      "37275_v2",
+      "37275_v3",
+      "37275_v4",
+      "591247_v0",
+      "591247_v1",
+      "591247_v2",
+      "591247_v3",
+      "591247_v4"
+    ],
+    "source_run": "p002planning-val-20261107T195454-241655b9",
+    "source_commit": "e7179ed"
+  }
+}

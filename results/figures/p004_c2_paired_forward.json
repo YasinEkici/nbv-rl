@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "commit": "1c06fc1",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "styles": {
+    "sarsa/linear": {
+      "color": "#0072B2",
+      "marker": "o",
+      "linestyle": "-"
+    },
+    "regq/linear": {
+      "color": "#D55E00",
+      "marker": "s",
+      "linestyle": "--"
+    },
+    "myopic/linear": {
+      "color": "#009E73",
+      "marker": "^",
+      "linestyle": ":"
+    },
+    "sarsa/none": {
+      "color": "#000000",
+      "marker": "v",
+      "linestyle": "-."
+    },
+    "sarsa/convex": {
+      "color": "#CC79A7",
+      "marker": "D",
+      "linestyle": "--"
+    },
+    "sarsa/value_estimate": {
+      "color": "#E69F00",
+      "marker": "P",
+      "linestyle": "-"
+    },
+    "random": {
+      "color": "#56B4E9",
+      "marker": "x",
+      "linestyle": ":"
+    },
+    "fixed": {
+      "color": "#F0E442",
+      "marker": "*",
+      "linestyle": "--"
+    },
+    "greedy_ig": {
+      "color": "#009E73",
+      "marker": "+",
+      "linestyle": "-."
+    },
+    "greedy_cost": {
+      "color": "#000000",
+      "marker": "X",
+      "linestyle": "-"
+    },
+    "ilp_tsp": {
+      "color": "#0072B2",
+      "marker": ">",
+      "linestyle": "--"
+    },
+    "mcts": {
+      "color": "#D55E00",
+      "marker": "h",
+      "linestyle": "-"
+    },
+    "joint_opt": {
+      "color": "#CC79A7",
+      "marker": "<",
+      "linestyle": ":"
+    }
+  },
+  "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
+  "test_access": "Registry metrics only; no test cache/output/environment access.",
+  "split": "test",
+  "source_run_ids": [
+    "p002test-myopic-test-s0-20261107T165023-ef780111",
+    "p002test-myopic-test-s1-20261107T165023-68593898",
+    "p002test-myopic-test-s2-20261107T165024-6795b2bd",
+    "p002test-myopic-test-s3-20261107T165025-2335b4f7",
+    "p002test-myopic-test-s4-20261107T165024-77390434",
+    "p002test-myopic-test-s5-20261107T165025-95a3d188",
+    "p002test-myopic-test-s6-20261107T165024-cb9eeb00",
+    "p002test-myopic-test-s7-20261107T165025-c9318e40",
+    "p002test-myopic-test-s8-20261107T165024-a6f1bf7f",
+    "p002test-myopic-test-s9-20261107T165025-042d064d",
+    "p002test-sarsa-test-s0-20261107T165017-0c790526",
+    "p002test-sarsa-test-s1-20261107T165018-bf47b5a6",
+    "p002test-sarsa-test-s2-20261107T165018-75c1f77e",
+    "p002test-sarsa-test-s3-20261107T165017-dbe35727",
+    "p002test-sarsa-test-s4-20261107T165017-ccc3a963",
+    "p002test-sarsa-test-s5-20261107T165016-056b7e8a",
+    "p002test-sarsa-test-s6-20261107T165017-4ca952a7",
+    "p002test-sarsa-test-s7-20261107T165018-73d80a52",
+    "p002test-sarsa-test-s8-20261107T165018-daa7ec75",
+    "p002test-sarsa-test-s9-20261107T165018-9b0ba8f5"
+  ],
+  "source_commits": {
+    "p002test-sarsa-test-s5-20261107T165016-056b7e8a": "60f6f33",
+    "p002test-sarsa-test-s6-20261107T165017-4ca952a7": "60f6f33",
+    "p002test-sarsa-test-s4-20261107T165017-ccc3a963": "60f6f33",
+    "p002test-sarsa-test-s3-20261107T165017-dbe35727": "60f6f33",
+    "p002test-sarsa-test-s0-20261107T165017-0c790526": "60f6f33",
+    "p002test-sarsa-test-s9-20261107T165018-9b0ba8f5": "60f6f33",
+    "p002test-sarsa-test-s1-20261107T165018-bf47b5a6": "60f6f33",
+    "p002test-sarsa-test-s2-20261107T165018-75c1f77e": "60f6f33",
+    "p002test-sarsa-test-s7-20261107T165018-73d80a52": "60f6f33",
+    "p002test-sarsa-test-s8-20261107T165018-daa7ec75": "60f6f33",
+    "p002test-myopic-test-s1-20261107T165023-68593898": "60f6f33",
+    "p002test-myopic-test-s0-20261107T165023-ef780111": "60f6f33",
+    "p002test-myopic-test-s2-20261107T165024-6795b2bd": "60f6f33",
+    "p002test-myopic-test-s6-20261107T165024-cb9eeb00": "60f6f33",
+    "p002test-myopic-test-s4-20261107T165024-77390434": "60f6f33",
+    "p002test-myopic-test-s8-20261107T165024-a6f1bf7f": "60f6f33",
+    "p002test-myopic-test-s7-20261107T165025-c9318e40": "60f6f33",
+    "p002test-myopic-test-s5-20261107T165025-95a3d188": "60f6f33",
+    "p002test-myopic-test-s3-20261107T165025-2335b4f7": "60f6f33",
+    "p002test-myopic-test-s9-20261107T165025-042d064d": "60f6f33"
+  },
+  "transformations": [
+    "D-055 paired_difference, then paired seed mean per variant; nested part/variant split mean."
+  ],
+  "paired": {
+    "variants": {
+      "486859": {
+        "486859_v0": [
+          -0.0737035379847375
+        ],
+        "486859_v1": [
+          -0.1143664947762264
+        ],
+        "486859_v2": [
+          0.0025082544879915236
+        ],
+        "486859_v3": [
+          -0.05726132004761575
+        ],
+        "486859_v4": [
+          0.007494559507832399
+        ]
+      },
+      "178195": {
+        "178195_v0": [
+          -0.02413716888178019
+        ],
+        "178195_v1": [
+          -0.025616419155227055
+        ],
+        "178195_v2": [
+          -0.029314544838843437
+        ],
+        "178195_v3": [
+          -0.0182609069807933
+        ],
+        "178195_v4": [
+          -0.029314544838843437
+        ]
+      },
+      "79729": {
+        "79729_v0": [
+          0.049644102185540495
+        ],
+        "79729_v1": [
+          -0.012093851242835019
+        ],
+        "79729_v2": [
+          0.015379265036842504
+        ],
+        "79729_v3": [
+          0.0008491164472097523
+        ],
+        "79729_v4": [
+          0.009771181743335244
+        ]
+      }
+    },
+    "mean": -0.019894820622543344,
+    "source_runs": [
+      "p002test-myopic-test-s0-20261107T165023-ef780111",
+      "p002test-myopic-test-s1-20261107T165023-68593898",
+      "p002test-myopic-test-s2-20261107T165024-6795b2bd",
+      "p002test-myopic-test-s3-20261107T165025-2335b4f7",
+      "p002test-myopic-test-s4-20261107T165024-77390434",
+      "p002test-myopic-test-s5-20261107T165025-95a3d188",
+      "p002test-myopic-test-s6-20261107T165024-cb9eeb00",
+      "p002test-myopic-test-s7-20261107T165025-c9318e40",
+      "p002test-myopic-test-s8-20261107T165024-a6f1bf7f",
+      "p002test-myopic-test-s9-20261107T165025-042d064d",
+      "p002test-sarsa-test-s0-20261107T165017-0c790526",
+      "p002test-sarsa-test-s1-20261107T165018-bf47b5a6",
+      "p002test-sarsa-test-s2-20261107T165018-75c1f77e",
+      "p002test-sarsa-test-s3-20261107T165017-dbe35727",
+      "p002test-sarsa-test-s4-20261107T165017-ccc3a963",
+      "p002test-sarsa-test-s5-20261107T165016-056b7e8a",
+      "p002test-sarsa-test-s6-20261107T165017-4ca952a7",
+      "p002test-sarsa-test-s7-20261107T165018-73d80a52",
+      "p002test-sarsa-test-s8-20261107T165018-daa7ec75",
+      "p002test-sarsa-test-s9-20261107T165018-9b0ba8f5"
+    ]
+  }
+}

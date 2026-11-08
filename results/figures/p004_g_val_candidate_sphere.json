@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "commit": "1c06fc1",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "styles": {
+    "sarsa/linear": {
+      "color": "#0072B2",
+      "marker": "o",
+      "linestyle": "-"
+    },
+    "regq/linear": {
+      "color": "#D55E00",
+      "marker": "s",
+      "linestyle": "--"
+    },
+    "myopic/linear": {
+      "color": "#009E73",
+      "marker": "^",
+      "linestyle": ":"
+    },
+    "sarsa/none": {
+      "color": "#000000",
+      "marker": "v",
+      "linestyle": "-."
+    },
+    "sarsa/convex": {
+      "color": "#CC79A7",
+      "marker": "D",
+      "linestyle": "--"
+    },
+    "sarsa/value_estimate": {
+      "color": "#E69F00",
+      "marker": "P",
+      "linestyle": "-"
+    },
+    "random": {
+      "color": "#56B4E9",
+      "marker": "x",
+      "linestyle": ":"
+    },
+    "fixed": {
+      "color": "#F0E442",
+      "marker": "*",
+      "linestyle": "--"
+    },
+    "greedy_ig": {
+      "color": "#009E73",
+      "marker": "+",
+      "linestyle": "-."
+    },
+    "greedy_cost": {
+      "color": "#000000",
+      "marker": "X",
+      "linestyle": "-"
+    },
+    "ilp_tsp": {
+      "color": "#0072B2",
+      "marker": ">",
+      "linestyle": "--"
+    },
+    "mcts": {
+      "color": "#D55E00",
+      "marker": "h",
+      "linestyle": "-"
+    },
+    "joint_opt": {
+      "color": "#CC79A7",
+      "marker": "<",
+      "linestyle": ":"
+    }
+  },
+  "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
+  "test_access": "Registry metrics only; no test cache/output/environment access.",
+  "split": "val",
+  "source_run_ids": [],
+  "source_commits": {},
+  "transformations": [
+    "Saved unit directions; original IK and collision masks."
+  ],
+  "source_files": {
+    "data/cache/visibility/nominal/points_271875.npz": "e2ac48751939a8910645f8b64462bfbcc88e556dd867ee291ccb8780bfb23f3b",
+    "data/cache/robot/nominal/271875_n48.npz": "4ba3a68a8552bfc852ce3f9f16af3712137899c9d511aaf46ce796bc57604722",
+    "data/cache/visibility/nominal/271875_n48.npz": "590cf6485e49473330ac5b9a562fdbe402559b56d539f6b1a9a07ca7a7e1571c",
+    "data/cache/visibility/nominal/points_37275.npz": "1b48be087589c41b6f6f998138d518b3b697bfd734d2069584b4226c01859249",
+    "data/cache/robot/nominal/37275_n48.npz": "d49887d9b65c1acd84315b6164fb45213373ed2b0fa391319f18d4c065454bbe",
+    "data/cache/visibility/nominal/37275_n48.npz": "3cc4254a6c408dc23a1bde2ee7d252d86d6acf01e2ac17399c43b29656f90473",
+    "data/cache/visibility/nominal/points_591247.npz": "bd8f8f7b836c2fe3fe100e01e135c7574125056bb0c4b7c26888ff4b0ae125d7",
+    "data/cache/robot/nominal/591247_n48.npz": "49b35860330e120d5e21d45fdd5c37b737b15d4792fc900a3cc2a01303de1f8f",
+    "data/cache/visibility/nominal/591247_n48.npz": "aaac13f01f177a7b66766279069686b54767de21f237d334474a3f6ea42c45c6"
+  }
+}
