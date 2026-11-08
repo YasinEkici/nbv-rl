@@ -1,0 +1,31 @@
+{
+  "total_bytes": 6242007,
+  "files": {
+    "README.md": 3431,
+    "common.json": 3202,
+    "manifest.json": 1108,
+    "part_271875_v0.json": 2313558,
+    "part_37275_v0.json": 2198070,
+    "part_591247_v0.json": 1720178,
+    "schema.json": 2460
+  },
+  "manifest_sha256": "6f5d8328a1a2271189f8f550bb99e099b33142eb1f2cb606202289102989111f",
+  "commit": "fb7bc28",
+  "directory": "results/demo",
+  "episodes": 21,
+  "parts": [
+    271875,
+    591247,
+    37275
+  ],
+  "missing_license_versions": [
+    271875,
+    591247,
+    37275
+  ],
+  "verification": {
+    "A": 195,
+    "B": 900
+  },
+  "coordinate_warning": "Mesh nominal, points variant v0; deviation up to approximately 1.5 mm."
+}
