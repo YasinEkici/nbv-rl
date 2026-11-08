@@ -1,6 +1,5 @@
 """Lossless VAL-only viewer bundle, exact replay gates and decimal 12 MB limit."""
 import base64
-import hashlib
 import json
 import math
 from pathlib import Path
@@ -234,6 +233,17 @@ def check_bundle(directory,limit=12000000):
     return dict(total_bytes=total,files={name:(directory/name).stat().st_size for name in sorted(actual)},manifest_sha256=digest(directory/'manifest.json'))
 
 
+def publish_bundle(stage,target):
+    """Retain verified bytes, inherit destination ACLs (Windows mkdtemp is private)."""
+    stage,target=Path(stage),Path(target)
+    before=check_bundle(stage)
+    target.mkdir(exist_ok=False)
+    # Fresh files inherit results/ access; copy neither directory ACLs nor file metadata.
+    for name in sorted(before['files'],key=lambda name:(name=='manifest.json',name)):
+        with (target/name).open('xb') as stream: stream.write((stage/name).read_bytes())
+    if check_bundle(target)!=before: raise ValueError('published bundle differs from verified scratch')
+
+
 VIEWER_NOTES='''# NBV VAL demo bundle v1
 
 Upload all seven files together: common.json, part_271875_v0.json, part_591247_v0.json,
@@ -305,7 +315,7 @@ def export(directory='results/demo'):
     write_manifest(stage,commit=state['commit']);result=check_bundle(stage)
     # Publish only a wholly verified, within-budget bundle. No existing directory is replaced.
     if not stage.is_relative_to(workspace/'scratch') or not target.is_relative_to(workspace/'results'): raise ValueError('output boundary')
-    stage.rename(target)
+    publish_bundle(stage,target)
     result.update(commit=state['commit'],directory=target.relative_to(workspace).as_posix(),episodes=21,parts=list(VAL_PARTS),
         missing_license_versions=list(VAL_PARTS),verification=validation['counts'],coordinate_warning=COORDINATES['warning'])
     Path('results/visualization/demo_export_v1.json').write_text(json.dumps(result,indent=2),encoding='utf-8')

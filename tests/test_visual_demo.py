@@ -79,3 +79,15 @@ def test_export_rejects_test_geometry_before_opening_any_asset(monkeypatch):
     from nbv.visualization import assets
     monkeypatch.setattr(assets,'load_scene',lambda *a,**kw:pytest.fail('geometry was opened'))
     with pytest.raises(ValueError,match='VAL'):part_document(178195,[],{},'fake')
+
+
+def test_publication_creates_fresh_directory_instead_of_moving_private_scratch(tmp_path,monkeypatch):
+    from nbv.visualization.demo import publish_bundle,write_manifest,check_bundle
+    stage=tmp_path/'private-scratch';stage.mkdir()
+    (stage/'common.json').write_text('{"schema_version":1}',encoding='utf-8')
+    write_manifest(stage,commit='synthetic')
+    before=check_bundle(stage)
+    monkeypatch.setattr(Path,'rename',lambda *a,**kw:pytest.fail('private temporary-directory ACL would be moved'))
+    target=tmp_path/'published'
+    publish_bundle(stage,target)
+    assert stage.exists() and check_bundle(target)==before

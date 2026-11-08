@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "commit": "fb7bc28",
+  "files": {
+    "common.json": {
+      "bytes": 3202,
+      "sha256": "5f4aaadbe9b9796e2390f146b08c22bb7670a4a5d360b1059f725e1e2e91b4d5"
+    },
+    "part_271875_v0.json": {
+      "bytes": 2313558,
+      "sha256": "5865b90fd06b7e2a1feedfc0885bb9767221f960b0e566236b6836abb687fe64"
+    },
+    "part_37275_v0.json": {
+      "bytes": 2198070,
+      "sha256": "e6a9165d0c5da4a3081e0df4f6fe32a9c767ff181a0bb32aefac568651a534cd"
+    },
+    "part_591247_v0.json": {
+      "bytes": 1720178,
+      "sha256": "55de367c0e163697774d7bdd600cbad48d48e498bd24ab1b54d8d9dea4c46e37"
+    },
+    "README.md": {
+      "bytes": 3431,
+      "sha256": "874256f4b762c5bc9096368797d81fdbb02c7cc29f7a38016fc79fb9e1c40903"
+    },
+    "schema.json": {
+      "bytes": 2460,
+      "sha256": "ca6625b759d1239ad5ab97fb0272158eecb82d92ddaa628be1b79df7f102b91c"
+    }
+  },
+  "hash_scope": "All other bundle files; manifest cannot contain its own SHA-256. External export report records manifest SHA-256.",
+  "budget_bytes": 12000000,
+  "payload_bytes": 6240899
+}
