@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "commit": "1c06fc1",
+  "commit": "05cc376",
   "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
   "styles": {
     "sarsa/linear": {
