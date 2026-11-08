@@ -1,6 +1,6 @@
 # Candidate-mask audit (A3)
 
-Only the eleven train/VAL base parts; the three test caches were not opened. Equality across all fourteen is NOT established.
+Only the eleven train/VAL base parts were read; the three test caches were not opened. A differing allowed pair rules out identical masks across all fourteen; individual test masks are not inspected.
 
 | Part | Split | Reachable | IK failure | Collision masked |
 |---|---|---:|---:|---:|
@@ -35,3 +35,5 @@ The following rounded diagnostics were already recorded in results/collision_v2.
 | 33 | 87.4 / forearm | -21.58 / upper_arm |
 
 Both part and table violations occur in this saved example; do not attribute every masked direction to the table. IK failure does not identify a single cause either. For the other parts the combined cache alone is insufficient to separate causes; we are uncertain rather than claiming a causal diagnostic.
+
+Allowed counterexample (zero-based pass indices): `{"conclusion": "This allowed pair alone disproves identical mask_reason arrays across the full fourteen-part set.", "differing_pass_indices": [9, 20, 21, 33, 43], "parts": [271875, 548863]}`.

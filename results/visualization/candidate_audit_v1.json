@@ -1,5 +1,5 @@
 {
-  "scope": "Only the eleven train/VAL base parts; the three test caches were not opened. Equality across all fourteen is NOT established.",
+  "scope": "Only the eleven train/VAL base parts were read; the three test caches were not opened. A differing allowed pair rules out identical masks across all fourteen; individual test masks are not inspected.",
   "parts": [
     {
       "part": 271875,
@@ -689,6 +689,20 @@
   "all_allowed_sensor_positions_equal": false,
   "explanation": "Directions are part-independent Fibonacci-cap vectors (candidates.py). Center, support/standoff and sweep length depend on the nominal mesh. robot.plan_passes solves each part separately: IK/table/step constraints, then min(robot-part, robot-table) clearance at five samples. No constant mask is hard-coded. Equal masks are an empirical coincidence in this fixed cell/normalized size, not proof that part geometry is irrelevant. Combined cached min_clearance alone does not identify the limiting body or establish table-only causation.",
   "test_geometry_access": false,
+  "counterexample": {
+    "parts": [
+      271875,
+      548863
+    ],
+    "differing_pass_indices": [
+      9,
+      20,
+      21,
+      33,
+      43
+    ],
+    "conclusion": "This allowed pair alone disproves identical mask_reason arrays across the full fourteen-part set."
+  },
   "existing_first_val_collision_evidence": [
     {
       "base": "271875",

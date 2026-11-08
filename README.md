@@ -9,7 +9,7 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | 001 | Environment, visibility, robot masks and baselines | Completed |
 | 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
-| 004 | [Visualization and demos](docs/plans/004-visualization.md) | Active: S0–S2 complete; S3–S4 await approval |
+| 004 | [Visualization and demos](docs/plans/done/004-visualization.md) | Completed, including optional local VAL viewer |
 | 005 | Final analysis and paper | Not started |
 
 The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/done/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
@@ -293,6 +293,23 @@ Additional experimental limitations are SARSA-only alpha/feature-count scaling i
 ## Bridge to Phase 2
 
 [Plan 003](docs/plans/003-deep-rl-and-ablations.md) is a draft, not an approved experiment. Its question is whether learned state-action interactions can overcome the Phase 1 representation limit while preserving environment, reward and comparable metrics. A new protocol version must settle deep-agent evaluation details before results. Options, not decisions, include a dueling masked DQN, HuRL-style heuristic guidance, residual learning over a greedy/MCTS base policy, and a controlled test of the value_estimate explanation. Continuous residual control must be adapted carefully to discrete masked scan passes. SAC remains in scope because the assignment explicitly proposes it. New holdout/evaluation policy, budgets and speed feasibility require a fresh predeclaration; this closed Phase 1 test set is not a selection resource.
+
+## Visualization
+
+The [complete figure index](results/visualization/README.md) links every PNG/PDF and its source JSON. Corrected views include [individual learning runs](results/figures/p004_b_learning_runs.png), [paired differences](results/figures/p004_c2_paired_forward.png), the [actual-range surface gallery](results/figures/p004_f_val_gallery.png) and [2D candidate masks](results/figures/p004_g_val_candidate_sphere.png). The [candidate audit](results/visualization/candidate_audit_v1.md) uses train/VAL only. Test graphics use registry metrics exclusively.
+
+For the local viewer, follow [DEMO_GUIDE.md](docs/DEMO_GUIDE.md). Install the optional extra and choose one mode:
+
+```powershell
+uv sync --extra demo
+uv run --extra demo python scripts/live_demo.py --recorded --port 8080
+# Or, with the original VAL caches/checkpoints present:
+uv run --extra demo python scripts/live_demo.py --port 8080
+```
+
+Open the printed loopback URL, normally http://127.0.0.1:8080. Recorded mode verifies `results/demo/manifest.json` SHA-256 hashes before reading its geometry/episodes; that immutable package is unchanged. Live mode permits only configured VAL parts/v0–v4, frozen greedy/MCTS/linear policies and stored CAD plans. It makes no training/selection decision or registry/outputs write. Checkpoints are checked against the pretest manifest and every completed live episode reports exact recorded-result agreement or an explicit mismatch. [Headless evidence](results/visualization/live_validation_v1.json) and [the actual browser screenshot](results/visualization/live_demo_v1.png) document the tested cases. The test holdout remains closed.
+
+The GUI has part/variant/method/seed selectors, start/step/reset/speed controls, robot capsules/sensor/fan and measured-point states. Linear motion interpolation and browser float32 geometry are display-only; stored arrays and metrics keep their original precision. Live displayed latency includes scene-update load and excludes intentional animation waits; it is not the D-066 benchmark. Keep attribution/license/change notices visible. Missing license versions remain unresolved; no public sharing tunnel or automatic deployment is used.
 
 ## Reproduction
 

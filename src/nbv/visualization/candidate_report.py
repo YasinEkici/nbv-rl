@@ -28,12 +28,16 @@ def audit():
             start_sha256=hashlib.sha256(start.tobytes()).hexdigest(),end_sha256=hashlib.sha256(end.tobytes()).hexdigest(),
             source=path.as_posix(),sha256=digest(path)))
     first=plans[0]
-    result=dict(scope='Only the eleven train/VAL base parts; the three test caches were not opened. Equality across all fourteen is NOT established.',
+    differing=next((i for i,p in enumerate(plans) if not np.array_equal(p[0],first[0])),None)
+    result=dict(scope='Only the eleven train/VAL base parts were read; the three test caches were not opened. A differing allowed pair rules out identical masks across all fourteen; individual test masks are not inspected.',
         parts=records,all_allowed_mask_reason_equal=all(np.array_equal(p[0],first[0]) for p in plans),
         all_allowed_directions_equal=all(np.array_equal(p[1],first[1]) for p in plans),
         all_allowed_sensor_positions_equal=all(np.array_equal(p[2],first[2]) and np.array_equal(p[3],first[3]) for p in plans),
         explanation='Directions are part-independent Fibonacci-cap vectors (candidates.py). Center, support/standoff and sweep length depend on the nominal mesh. robot.plan_passes solves each part separately: IK/table/step constraints, then min(robot-part, robot-table) clearance at five samples. No constant mask is hard-coded. Equal masks are an empirical coincidence in this fixed cell/normalized size, not proof that part geometry is irrelevant. Combined cached min_clearance alone does not identify the limiting body or establish table-only causation.',
         test_geometry_access=False)
+    result['counterexample']=None if differing is None else dict(parts=[records[0]['part'],records[differing]['part']],
+        differing_pass_indices=np.flatnonzero(plans[differing][0]!=first[0]).tolist(),
+        conclusion='This allowed pair alone disproves identical mask_reason arrays across the full fourteen-part set.')
     # Existing first-VAL diagnostic prefix only; never traverse later/test-part rows.
     evidence=[]
     with Path('results/collision_v2.csv').open(encoding='utf-8') as stream:
@@ -53,5 +57,6 @@ def audit():
         '| Pass | Part clearance mm / body | Table clearance mm / body |','|---:|---|---|']
     for e in evidence:lines.append(f'| {e["pass"]} | {e["part_clearance_mm"]} / {e["part_body"]} | {e["table_clearance_mm"]} / {e["table_body"]} |')
     lines+=['','Both part and table violations occur in this saved example; do not attribute every masked direction to the table. IK failure does not identify a single cause either. For the other parts the combined cache alone is insufficient to separate causes; we are uncertain rather than claiming a causal diagnostic.','']
+    if result['counterexample']:lines+=['Allowed counterexample (zero-based pass indices): `'+json.dumps(result['counterexample'],sort_keys=True)+'`.','']
     (out/'candidate_audit_v1.md').write_text('\n'.join(lines),encoding='utf-8')
     return result
