@@ -38,7 +38,7 @@ The phrase **"40% coverage ceiling" is only a rough shorthand**, not a universal
 | test | 33.83% | 29.29%–40.97% |
 <!-- END GENERATED: raw_ceiling -->
 
-Sensor constants are a 200 mm working distance, 150?250 mm depth range, 100 mm laser line, 25-degree triangulation angle and 100 mm/s sweep speed. Laser and camera incidence limits are 65 degrees; each base uses 20000 area-weighted corresponding surface samples (D-019/D-025/D-026). These are idealized configured assumptions, not a calibrated physical scanner.
+Sensor constants are a 200 mm working distance, 150–250 mm depth range, 100 mm laser line, 25-degree triangulation angle and 100 mm/s sweep speed. Laser and camera incidence limits are 65 degrees; each base uses 20000 area-weighted corresponding surface samples (D-019/D-025/D-026). These are idealized configured assumptions, not a calibrated physical scanner.
 
 The UR5 sits beside the table with a fixed sensor TCP. Inverse kinematics is checked at five samples along each pass, with branch continuity, joint-step and table-clearance limits. ENV v4 also masks static robot-part and robot-table collisions using link capsules and a sensor-head box (D-021/D-027/D-042). Transfers use a joint-state-tracking trapezoidal movej estimate. Scan time is sweep length divided by scan speed. Planner pairwise matrices are approximations; every reported cycle time comes from environment execution, including the return home (D-024).
 
