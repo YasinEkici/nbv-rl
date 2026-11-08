@@ -1,5 +1,6 @@
 """Plan 004 static views. Test quality inputs come exclusively from registry JSON."""
 import json
+import textwrap
 from pathlib import Path
 
 import matplotlib
@@ -16,6 +17,12 @@ from nbv.visualization.styles import STYLES, PART_MARKERS, MASK_STYLES
 from nbv.evaluation import git_state
 
 DEMO_METHODS=('greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_estimate','regq/linear')
+
+
+def gallery_credit(scene):
+    source=scene['attribution'];family='CC BY-SA' if source['share_alike'] else 'CC BY'
+    return (f"{scene['part']}: "+'\n'.join(textwrap.wrap(source['name'],34))+
+            f"\n{source['author']} · {family} (version unknown)\n{source['thing_url']}")
 
 
 def generate(directory='results/figures'):
@@ -143,7 +150,7 @@ def generate(directory='results/figures'):
     cmap=LinearSegmentedColormap.from_list('accessible', ['#56B4E9','#0072B2'])
     for split,group in scenes.items():
         ncols=min(4,len(group)); nrows=(len(group)+ncols-1)//ncols
-        fig=plt.figure(figsize=(4*ncols,4*nrows+1)); geometry_sources={};licenses={}
+        fig=plt.figure(figsize=(4.6*ncols,5*nrows+2)); geometry_sources={};licenses={}
         for i,scene in enumerate(group):
             ax=fig.add_subplot(nrows,ncols,i+1,projection='3d')
             points=scene['points']; count=scene['nominal_measured'][scene['plan']['reachable'].astype(bool)].sum(0)
@@ -151,7 +158,8 @@ def generate(directory='results/figures'):
             artist=ax.scatter(*points[seen].T,c=count[seen],s=.5,cmap=cmap,vmin=1,vmax=48,rasterized=True)
             ax.scatter(*points[unseen].T,s=.5,c='#000000',marker='x',rasterized=True)
             ax.scatter(*points[table].T,s=.7,c='#E69F00',marker='v',rasterized=True)
-            ax.set(title=f'{scene["part"]}',xlabel='x (mm)',ylabel='y (mm)',zlabel='z (mm)',box_aspect=(1,1,1))
+            ax.set(xlabel='x (mm)',ylabel='y (mm)',zlabel='z (mm)',box_aspect=(1,1,1))
+            ax.set_title(gallery_credit(scene),fontsize=8,pad=12)
             geometry_sources.update(scene['source_files']);licenses[str(scene['part'])]=scene['attribution']|{
                 'license_version':'version not recorded','official_specific_license_url':None,
                 'official_license_overview':'https://creativecommons.org/licenses/',
@@ -160,7 +168,7 @@ def generate(directory='results/figures'):
         fig.colorbar(artist,ax=fig.axes,shrink=.45,pad=.03,label='Reachable measured passes per nominal sample (1–48)')
         fig.suptitle(f'{split.upper()}: nominal surface accessibility (20,000 samples per part)')
         fig.text(.5,.04,'Orange triangles: table-facing n_z ≤ −cos(10°); black crosses: other never-seen samples. Part frame: bbox bottom-center, z up; no new visibility computation.',ha='center',fontsize=8)
-        fig.text(.5,.012,'Thingi10K / original Thingiverse authors; per-part CC BY or CC BY-SA attribution and unknown version recorded in the adjacent JSON.',ha='center',fontsize=8)
+        fig.text(.5,.012,'Thingi10K; changes: 200 mm scaling, area-weighted samples, derived visibility counts. License overview: creativecommons.org/licenses/; version-specific deed unknown.',ha='center',fontsize=8)
         save(fig,f'p004_f_{split}_gallery',split=split,transforms=['Count nominal measured bits over saved reachable passes; table-facing takes display priority.'],source_files=geometry_sources,attribution=licenses)
 
         fig=plt.figure(figsize=(4*ncols,4*nrows+1))

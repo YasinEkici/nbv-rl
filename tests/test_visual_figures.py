@@ -62,3 +62,10 @@ def test_gallery_rejects_real_test_id_before_reading_cache(monkeypatch):
     manifest={'parts':[{'file_id':1,'split':'val'},{'file_id':2,'split':'test'}]}
     assert require_scene_part(1,manifest)=='val'
     with pytest.raises(ValueError,match='closed'): require_scene_part(2,manifest)
+
+
+def test_gallery_credit_is_visible_and_does_not_guess_license_version():
+    from nbv.visualization.figures import gallery_credit
+    source=dict(part=1,attribution=dict(name='Toy',author='Author',thing_url='https://www.thingiverse.com/thing:2',share_alike=True))
+    credit=gallery_credit(source)
+    assert all(word in credit for word in ('Author','CC BY-SA','version unknown','thing:2'))
