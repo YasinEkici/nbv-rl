@@ -1,0 +1,562 @@
+{
+  "commit": "542b792",
+  "dirty": false,
+  "changed_files": [],
+  "code_sha256": "22dc63484e9cc007",
+  "env_version": "v4",
+  "caches": {
+    "files": [
+      "data/cache/robot/nominal/271875_n128.npz",
+      "data/cache/robot/nominal/271875_n48.npz",
+      "data/cache/robot/nominal/37275_n128.npz",
+      "data/cache/robot/nominal/37275_n48.npz",
+      "data/cache/robot/nominal/591247_n128.npz",
+      "data/cache/robot/nominal/591247_n48.npz",
+      "data/cache/visibility/271875_v0_n128.npz",
+      "data/cache/visibility/271875_v0_n48.npz",
+      "data/cache/visibility/271875_v1_n128.npz",
+      "data/cache/visibility/271875_v1_n48.npz",
+      "data/cache/visibility/271875_v2_n128.npz",
+      "data/cache/visibility/271875_v2_n48.npz",
+      "data/cache/visibility/271875_v3_n128.npz",
+      "data/cache/visibility/271875_v3_n48.npz",
+      "data/cache/visibility/271875_v4_n128.npz",
+      "data/cache/visibility/271875_v4_n48.npz",
+      "data/cache/visibility/37275_v0_n128.npz",
+      "data/cache/visibility/37275_v0_n48.npz",
+      "data/cache/visibility/37275_v1_n128.npz",
+      "data/cache/visibility/37275_v1_n48.npz",
+      "data/cache/visibility/37275_v2_n128.npz",
+      "data/cache/visibility/37275_v2_n48.npz",
+      "data/cache/visibility/37275_v3_n128.npz",
+      "data/cache/visibility/37275_v3_n48.npz",
+      "data/cache/visibility/37275_v4_n128.npz",
+      "data/cache/visibility/37275_v4_n48.npz",
+      "data/cache/visibility/591247_v0_n128.npz",
+      "data/cache/visibility/591247_v0_n48.npz",
+      "data/cache/visibility/591247_v1_n128.npz",
+      "data/cache/visibility/591247_v1_n48.npz",
+      "data/cache/visibility/591247_v2_n128.npz",
+      "data/cache/visibility/591247_v2_n48.npz",
+      "data/cache/visibility/591247_v3_n128.npz",
+      "data/cache/visibility/591247_v3_n48.npz",
+      "data/cache/visibility/591247_v4_n128.npz",
+      "data/cache/visibility/591247_v4_n48.npz",
+      "data/cache/visibility/nominal/271875_n128.npz",
+      "data/cache/visibility/nominal/271875_n48.npz",
+      "data/cache/visibility/nominal/37275_n128.npz",
+      "data/cache/visibility/nominal/37275_n48.npz",
+      "data/cache/visibility/nominal/591247_n128.npz",
+      "data/cache/visibility/nominal/591247_n48.npz",
+      "data/cache/visibility/nominal/points_271875.npz",
+      "data/cache/visibility/nominal/points_37275.npz",
+      "data/cache/visibility/nominal/points_591247.npz"
+    ],
+    "sha256": "ff28454049cc92fb7fda0b2c6284436d616f5da542f0d13910bb269518680ff8"
+  },
+  "variants": [
+    "271875_v0",
+    "271875_v1",
+    "271875_v2",
+    "271875_v3",
+    "271875_v4",
+    "37275_v0",
+    "37275_v1",
+    "37275_v2",
+    "37275_v3",
+    "37275_v4",
+    "591247_v0",
+    "591247_v1",
+    "591247_v2",
+    "591247_v3",
+    "591247_v4"
+  ],
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "auc_definition": "Primary-coverage step-function integral on [0,180 s] / 180; jumps after move+scan, constant through home. One scalar consistency check; does not determine final coverage.",
+  "equality": "Full-precision JSON decimal parsed to IEEE-754 binary64 and compared by packed bytes; exact integer/bool/null/sequence structure. No tolerances or rounded registry display cells.",
+  "schema_version": 1,
+  "complete": true,
+  "counts": {
+    "A": 195,
+    "B": 900
+  },
+  "matched_fields": {
+    "A": [
+      "pass",
+      "t_move",
+      "t_scan",
+      "t_home",
+      "joint_motion",
+      "total_joint_motion",
+      "cycle_time",
+      "coverage",
+      "coverage_nsc",
+      "coverage_raw",
+      "nominal_coverage",
+      "repair"
+    ],
+    "B": [
+      "cycle_time",
+      "normalized_cycle_time",
+      "success",
+      "censored",
+      "passes_executed",
+      "passes_to_95",
+      "repair_passes",
+      "total_joint_motion",
+      "coverage_at_5",
+      "coverage_at_10",
+      "nsc_at_5",
+      "nsc_at_10",
+      "raw_at_5",
+      "raw_at_10",
+      "auc_coverage_time"
+    ]
+  },
+  "sources": {
+    "p001s6-greedy_cost-n48-val-s0-v4-20261103T170747-69917d": {
+      "sha256": "b8eac0d303492f4291414788122839a989e4d4217c12440a6f45dfd6faa93d72",
+      "commit": "b8240eb",
+      "method": "greedy_cost",
+      "seed": ""
+    },
+    "p001s6-ilp_tsp-n48-val-s0-v4-20261103T170747-177728": {
+      "sha256": "cc9b744470baaafed4e1910e6a1cfa8767ad16f65afb3b89b571f6c36bdf3b8f",
+      "commit": "b8240eb",
+      "method": "ilp_tsp",
+      "seed": ""
+    },
+    "p001s6-mcts-n48-val-s0-v4-20261103T170747-790316": {
+      "sha256": "cd25e9fd6d7ff4e1d61df4e514fcdc3d35b71cd3c9049293afff007480899dcf",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "0"
+    },
+    "p001s6-mcts-n48-val-s1-v4-20261103T170747-feaf83": {
+      "sha256": "3e54b5e613babadbc77d1fbb71fb40b906380265e2747f4fca9687aec8173cc1",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "1"
+    },
+    "p001s6-mcts-n48-val-s2-v4-20261103T170747-023a4b": {
+      "sha256": "15389c96d80b446b2e7c499418b1f67bd420015ded975c76ee9aa1dd8ebb574d",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "2"
+    },
+    "p001s6-mcts-n48-val-s3-v4-20261103T170747-12ab14": {
+      "sha256": "32372838e1de407b88daa7d85afa3bfd68a32c6caf0d6a1639eb02644198089b",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "3"
+    },
+    "p001s6-mcts-n48-val-s4-v4-20261103T170747-30acc3": {
+      "sha256": "c2965beba092640d2a1fea6dc7d417254b421c5fe86719f22c989253945e112e",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "4"
+    },
+    "p001s6-mcts-n48-val-s5-v4-20261103T170747-d620b3": {
+      "sha256": "54de8701e204b25d83a45843f4c13969bf3a63c268d53ba4f79c8cf1e2ba4571",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "5"
+    },
+    "p001s6-mcts-n48-val-s6-v4-20261103T170747-b025fb": {
+      "sha256": "f14e40da5a2ec20083562898099b990c6ad6dd290e909492f05e380ebcd4b884",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "6"
+    },
+    "p001s6-mcts-n48-val-s7-v4-20261103T170747-fe15a6": {
+      "sha256": "a50a25b5bc3619f4811a2bb03585a928253ee869118d2ebef598c9b7702fabf6",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "7"
+    },
+    "p001s6-mcts-n48-val-s8-v4-20261103T170747-eda192": {
+      "sha256": "abe04f1aab17563f634827cfb9958afb3591f6f28bcb21018d8a7343b531c62b",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "8"
+    },
+    "p001s6-mcts-n48-val-s9-v4-20261103T170747-2de27a": {
+      "sha256": "999ebcf276516923ca9b39573afa76bfbe4d8f63c2e7b6f0dfc77ec76342528b",
+      "commit": "b8240eb",
+      "method": "mcts",
+      "seed": "9"
+    },
+    "p001s6-joint_opt-n48-val-s0-v4-20261103T170747-705797": {
+      "sha256": "0c8c57f36d031a7c7a805b273112b27f25d1bfb276bfa22aa6f1eff9cb83d907",
+      "commit": "b8240eb",
+      "method": "joint_opt",
+      "seed": ""
+    },
+    "p002-sarsa-val-s5-v4-20261106T142104-63ba9ff2": {
+      "sha256": "03f5f1c00aeb2a26a399fa422268a376a3b8e27682275507f913bc5d93dea0e8",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "5"
+    },
+    "p002-sarsa-val-s6-v4-20261106T142104-d8d1cc38": {
+      "sha256": "760acaef6383b23114ab755230bc965bdb2076b7fc96aa111e32d5dd601ff4e6",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "6"
+    },
+    "p002-sarsa-val-s4-v4-20261106T142105-c05978f2": {
+      "sha256": "bd7a7167bf4f621dfc717239310f4ca7fe70ee48d730ffe467d8713c6232f14a",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "4"
+    },
+    "p002-sarsa-val-s3-v4-20261106T142106-deb645d5": {
+      "sha256": "000aa3b7150a6367a5dd23abc14d6bb218f4845c64d6709505903154d2d0acf9",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "3"
+    },
+    "p002-sarsa-val-s0-v4-20261106T142107-41f52b15": {
+      "sha256": "ad22dd4613ab3318742ec5047161074bdc5a7a0d9ee25ebf22f0b5dae916aa41",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "0"
+    },
+    "p002-sarsa-val-s9-v4-20261106T142107-46d8b322": {
+      "sha256": "9f3e3369622ec67d6d1508b8d17c5d5653c98f1c16ce49561dd1310f71239cce",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "9"
+    },
+    "p002-sarsa-val-s1-v4-20261106T142108-13d0b6aa": {
+      "sha256": "710e49e55ec7567395de7540aca2c5270147859da7bf1efa2ca5d84218c7e945",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "1"
+    },
+    "p002-sarsa-val-s2-v4-20261106T142110-2e569022": {
+      "sha256": "f0afc24044b409b06bb783da501acc2e64de50f5decdbe8c9fadf00434c5dd5b",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "2"
+    },
+    "p002-sarsa-val-s7-v4-20261106T142111-74a6f497": {
+      "sha256": "b4b05835060c1edf48c37f6465e411ee58645885e159bac2136f30ef1999b0bf",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "7"
+    },
+    "p002-sarsa-val-s8-v4-20261106T142113-5fcd130a": {
+      "sha256": "127fd9c3a2ed314b84c4e5aee5044873faa0f445370f5ba761528350b5e06f7c",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "8"
+    },
+    "p002-regq-val-s1-v4-20261106T142115-7b07948f": {
+      "sha256": "0292c9b0907d749359c9e31fb1db90f67b843bf74ddfd84b45e44e6073282a88",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "1"
+    },
+    "p002-regq-val-s0-v4-20261106T142115-fff73794": {
+      "sha256": "bbce55e09a44a36d59b234affce9f2b2297908a48478ec2efffdc59efc2d4336",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "0"
+    },
+    "p002-regq-val-s7-v4-20261106T142115-425c3305": {
+      "sha256": "9293e949c7eddd0d2e9150e896e24760f8fc63762af53d7bea07c06026d8834a",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "7"
+    },
+    "p002-regq-val-s9-v4-20261106T142115-d762e122": {
+      "sha256": "31d70c960f249f5a7f464629ca7ca040250349fe4c5c13a17dabc20390775385",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "9"
+    },
+    "p002-regq-val-s4-v4-20261106T142117-2a63975b": {
+      "sha256": "3abc460f5b8217d7ba9514ded0d0a98fe73ba0b7e86b30dafc6dbe7585310052",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "4"
+    },
+    "p002-regq-val-s5-v4-20261106T142117-c4a77a5f": {
+      "sha256": "145e6030ed475b905bfd5adf9007fc7d27d134d562a70e5addf7f1adc5c3d0bc",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "5"
+    },
+    "p002-regq-val-s2-v4-20261106T142118-1e5eb96e": {
+      "sha256": "87d0c5e0c626491e6b898c8167084c43c4573c664d18d60e130c401908b582aa",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "2"
+    },
+    "p002-regq-val-s3-v4-20261106T142119-53d3fbd3": {
+      "sha256": "6a54d3aafde608531ed5039d3c4a62a2e9fbcfe562ad93e32a6a344ab9d81079",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "3"
+    },
+    "p002-regq-val-s8-v4-20261106T142120-b915dbc4": {
+      "sha256": "4c3dce1a7ddd5c04af6b33b83c7a40ae3f224fffa8c94d05e7ac19f416e4dad3",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "8"
+    },
+    "p002-regq-val-s6-v4-20261106T142121-cdbd492e": {
+      "sha256": "e9c914887a0cbcda2936b2fe7e027f70a6e3f603f32070113460d8d7f40fe7e5",
+      "commit": "efe68c6",
+      "method": "regq",
+      "seed": "6"
+    },
+    "p002-sarsa-val-s5-v4-20261106T144009-23aa946a": {
+      "sha256": "21dab719e2c7710defac4824dab824bd4f2d4a55792c2578003bd5e862561e6a",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "5"
+    },
+    "p002-sarsa-val-s1-v4-20261106T144009-b6ba80ad": {
+      "sha256": "9a0bdb620aa478ff1b5ced9095e9020d508dab25d492b6ced4383dc16e32afa2",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "1"
+    },
+    "p002-sarsa-val-s2-v4-20261106T144010-ce02cbd6": {
+      "sha256": "f16c6e442437f9287f26ec14824daff60f192e460f77e25a55cbdd2504dce971",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "2"
+    },
+    "p002-sarsa-val-s3-v4-20261106T144011-cb6dbf21": {
+      "sha256": "8c4babf9a306571a910ca567c7a92cda53670eccc92fc20db0c9d278be6a58d5",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "3"
+    },
+    "p002-sarsa-val-s0-v4-20261106T144012-f992deb1": {
+      "sha256": "e60b0fa581fc3751897d673bad6f8c5acb2fe1da4e9f1d0d907c36b3bb581c92",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "0"
+    },
+    "p002-sarsa-val-s4-v4-20261106T144012-0c7fb848": {
+      "sha256": "ce2e00000f5a58c3b81a07e19a810fb2d6fe2c37995359569685c21c13bebacc",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "4"
+    },
+    "p002-sarsa-val-s8-v4-20261106T144015-d2562834": {
+      "sha256": "4ae6202a8638725e444a79b5db3610a10e9d670127c5eaefe762448b47765b2a",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "8"
+    },
+    "p002-sarsa-val-s7-v4-20261106T144017-e96f7a8f": {
+      "sha256": "95aa652d6a5476f7ad6410de0ae7d8b2eccde99a1b357e51be549df27b02433a",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "7"
+    },
+    "p002-sarsa-val-s9-v4-20261106T144017-0eb8d194": {
+      "sha256": "6e3431de0cc071797cb3faa267cef180c3ae5a053ad1b4a2f8f083c7bf81bd16",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "9"
+    },
+    "p002-sarsa-val-s6-v4-20261106T144018-09c12454": {
+      "sha256": "952232da999f1c57b37444cb022e6a8fee643100fdf0eae0a1491cc86faf5ad3",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "6"
+    },
+    "p002-myopic-val-s1-v4-20261106T144105-627ff363": {
+      "sha256": "ab2edc636f833a14c7edfc4412f153c5f567407b60cf34c374137f1daa338239",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "1"
+    },
+    "p002-myopic-val-s0-v4-20261106T144112-374d19c7": {
+      "sha256": "04b18d142dd8a09486879821c7161976ed9894a3ef2c832bc105a735c96c4617",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "0"
+    },
+    "p002-myopic-val-s2-v4-20261106T144114-d218853d": {
+      "sha256": "1d17d95db8642386f8e0d1581df2e0cd0b779945f65cccab82155e3d535eaed5",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "2"
+    },
+    "p002-myopic-val-s6-v4-20261106T144115-25f2a9c7": {
+      "sha256": "07708863d30989be43114f15aa0911efe296ddc6c88115f157de593b3fbfceba",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "6"
+    },
+    "p002-myopic-val-s4-v4-20261106T144116-8fa8a3a5": {
+      "sha256": "b5b00e41f20b74a2ea8caf6790becb75daed041f28f915ed3f712435cbb75c9d",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "4"
+    },
+    "p002-myopic-val-s8-v4-20261106T144117-19285cac": {
+      "sha256": "a49c107e3d8bd9665be6bda6d49cdd2d9887eda6152f061ed85ac008b30c278a",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "8"
+    },
+    "p002-myopic-val-s7-v4-20261106T144118-bb7ab96d": {
+      "sha256": "91422bd28ebe7fa0db9c6e289b716c10e8fccb5d524ceaf60f3595be2bca3f24",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "7"
+    },
+    "p002-myopic-val-s5-v4-20261106T144118-ecf39908": {
+      "sha256": "975f933e07195893faa74fe5448f9b23537eb3dd6a99b060693e51066404b295",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "5"
+    },
+    "p002-myopic-val-s3-v4-20261106T144119-7d08136b": {
+      "sha256": "6ce6c8542bef1aae166c7e7ca29989b04773dfaa2d99025c93c8e7745f7a40d1",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "3"
+    },
+    "p002-myopic-val-s9-v4-20261106T144125-6b5814dc": {
+      "sha256": "d024f11e072408b2796223eeb70ab53e380830e94df44a938b1efe30346d04a4",
+      "commit": "efe68c6",
+      "method": "myopic",
+      "seed": "9"
+    },
+    "p002-sarsa-val-s0-v4-20261106T145823-20214692": {
+      "sha256": "4e9ac22432a83eb09051d54ef345e69dfe24b7123695e9f3f2fddff2250d24db",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "0"
+    },
+    "p002-sarsa-val-s1-v4-20261106T145829-23146c73": {
+      "sha256": "30440e4a72231664f1fb879e3896c70cab3c303fb2439eb4f7ed6b993b7cc7e7",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "1"
+    },
+    "p002-sarsa-val-s5-v4-20261106T145829-4337f795": {
+      "sha256": "40cb8a278f6fb782e5b94a247e7900674916e80b454c09b2ba832995ed34f394",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "5"
+    },
+    "p002-sarsa-val-s2-v4-20261106T145830-5d1a85a0": {
+      "sha256": "b9f831a51cd062b1eaae293bbc96715edf6861fad4c8e0a592ddecbc8884e512",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "2"
+    },
+    "p002-sarsa-val-s4-v4-20261106T145833-d2aa7df3": {
+      "sha256": "126c4bcc2b48f332cc460fc0f2900deced62134ca2d652850b06a1b8569a53f0",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "4"
+    },
+    "p002-sarsa-val-s3-v4-20261106T145833-964fa1fb": {
+      "sha256": "7da0c65ba005760587390b510b65877cbb3120350bca7580a5632e243e7c62e5",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "3"
+    },
+    "p002-sarsa-val-s6-v4-20261106T145836-2342d658": {
+      "sha256": "621a528be10882d7ae1c92076301926aeaf5f3389c0926ab3c4697d08af8723f",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "6"
+    },
+    "p002-sarsa-val-s8-v4-20261106T145838-cd5f5e36": {
+      "sha256": "a2ac262c3b226abdc578d5071dc7bebea10ab2f4e1955c05d45af911df67d685",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "8"
+    },
+    "p002-sarsa-val-s9-v4-20261106T145838-91bf1a30": {
+      "sha256": "2a1c0e8ab0a0bdbae9ce3e7ff256a9410d9418e25f8b2afbdc886ff71623b374",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "9"
+    },
+    "p002-sarsa-val-s7-v4-20261106T145839-55aa932a": {
+      "sha256": "c20920b64fe8e3a4d2d8860ded755793043064b0ff03860c073803364d2d2aab",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "7"
+    },
+    "p002-sarsa-val-s0-v4-20261106T150038-99429658": {
+      "sha256": "29f41d0b1db901d48bbdd17fc0e04dd7b230f0b4b9eb3b5b5bc394302b6ad53b",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "0"
+    },
+    "p002-sarsa-val-s2-v4-20261106T150054-d0100639": {
+      "sha256": "f38f47c90c290a1058ff3c5155b7dcbb0392934758a7b86b1366f35ea5d5a03a",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "2"
+    },
+    "p002-sarsa-val-s1-v4-20261106T150056-01b54ba0": {
+      "sha256": "324e1d65c99c116120ac326244be7db51b447e6880cf85f946c0fcc4b4bb2547",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "1"
+    },
+    "p002-sarsa-val-s3-v4-20261106T150056-4214122f": {
+      "sha256": "5b3837bacc65ffbf370cc9de9046cb3fc53646a7aecb3bcf3a4e8211924c01a2",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "3"
+    },
+    "p002-sarsa-val-s7-v4-20261106T150059-7379beca": {
+      "sha256": "f5c10b6b7252efd6ce069958a5dba418d0b9e4db5a201b898f29c1eb69face37",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "7"
+    },
+    "p002-sarsa-val-s4-v4-20261106T150100-0ccbefeb": {
+      "sha256": "91e6ba6985f764d7c931663ef61c9dff190d5de09dfa207648964fec52030984",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "4"
+    },
+    "p002-sarsa-val-s5-v4-20261106T150100-f25f4b96": {
+      "sha256": "848fe740228eeff0cbc276c05992f6c9bbdc233e72951da3791d2b4b8f922ef4",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "5"
+    },
+    "p002-sarsa-val-s6-v4-20261106T150104-354ebe8a": {
+      "sha256": "69fbff00d8857130dc168420aff6bde183a7caeba0640ffd7b465d76d8b76021",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "6"
+    },
+    "p002-sarsa-val-s8-v4-20261106T150108-9f87e655": {
+      "sha256": "ca4a35ca237a1e3ab10d63bbc249ecd228894a5d20b094c76a8f00bddd73f5b5",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "8"
+    },
+    "p002-sarsa-val-s9-v4-20261106T150110-befbde38": {
+      "sha256": "f343ceb18ab04d74cbc4c551c25f287bbe137d5511e33a1b8583d3bc771532f4",
+      "commit": "efe68c6",
+      "method": "sarsa",
+      "seed": "9"
+    }
+  },
+  "replay_file": "outputs/p004-val-recorded-replay-20261108T151249-565391f3/episodes.jsonl",
+  "replay_sha256": "ca2b3b326c37c4963ee79963b53063aa1cb330279c0ef7e6a88d39dd870c550e",
+  "mismatches": [],
+  "learner_final_coverage": "derived from replay; consistent with partial oracle",
+  "no_policy_calls": true,
+  "no_test_access": true
+}
