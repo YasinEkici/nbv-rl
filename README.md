@@ -298,6 +298,8 @@ Additional experimental limitations are SARSA-only alpha/feature-count scaling i
 
 The recorded environment is Windows/PowerShell, uv and Python 3.14. Exact resolved versions are pinned by [uv.lock](uv.lock); [pyproject.toml](pyproject.toml) selects the CUDA 12.8 PyTorch index, although Phase 1 does not use PyTorch. Package initialization sets default OPENBLAS, OMP and MKL thread counts to one before numerical imports and preserves explicit user values. Multiprocessing entry points import `nbv` first. Install with `uv sync`; run commands from the repository root.
 
+The optional local viewer uses `uv sync --extra demo` (Viser, D-070). Base `uv sync` does not install it. Viewer commands must use `uv run --extra demo ...` to retain that extra; run its optional server tests with `uv run --extra demo pytest -q`.
+
 ```powershell
 uv sync
 uv run pytest -q
