@@ -21,7 +21,7 @@ The twelve step fields are `pass`, `t_move`, `t_scan`, `t_home`, `joint_motion`,
 
 ## Static figures
 
-11 figure triples; each PNG has PDF and JSON source metadata beside it. Existing min–max plots remain. Source commit for these figures: `e542181`.
+11 figure triples; each PNG has PDF and JSON source metadata beside it. Existing min–max plots remain. Source commit for these figures: `c8456d0`.
 
 | Figure | PNG | PDF | Sources / transformations |
 |---|---|---|---|

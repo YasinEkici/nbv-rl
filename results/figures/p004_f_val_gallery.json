@@ -1,72 +1,85 @@
 {
   "schema_version": 1,
-  "commit": "e542181",
+  "commit": "c8456d0",
   "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
   "styles": {
     "sarsa/linear": {
       "color": "#0072B2",
       "marker": "o",
-      "linestyle": "-"
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "regq/linear": {
       "color": "#D55E00",
       "marker": "s",
-      "linestyle": "--"
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "myopic/linear": {
       "color": "#009E73",
       "marker": "^",
-      "linestyle": ":"
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "sarsa/none": {
       "color": "#000000",
       "marker": "v",
-      "linestyle": "-."
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "sarsa/convex": {
       "color": "#CC79A7",
       "marker": "D",
-      "linestyle": "--"
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "sarsa/value_estimate": {
       "color": "#E69F00",
       "marker": "P",
-      "linestyle": "-"
+      "linestyle": "-",
+      "fillstyle": "full"
     },
     "random": {
       "color": "#56B4E9",
       "marker": "x",
-      "linestyle": ":"
+      "linestyle": ":",
+      "fillstyle": "full"
     },
     "fixed": {
       "color": "#F0E442",
       "marker": "*",
-      "linestyle": "--"
+      "linestyle": ":",
+      "fillstyle": "full"
     },
     "greedy_ig": {
       "color": "#009E73",
       "marker": "+",
-      "linestyle": "-."
+      "linestyle": ":",
+      "fillstyle": "full"
     },
     "greedy_cost": {
       "color": "#000000",
       "marker": "X",
-      "linestyle": "-"
+      "linestyle": ":",
+      "fillstyle": "full"
     },
     "ilp_tsp": {
       "color": "#0072B2",
       "marker": ">",
-      "linestyle": "--"
+      "linestyle": "--",
+      "fillstyle": "none"
     },
     "mcts": {
       "color": "#D55E00",
       "marker": "h",
-      "linestyle": "-"
+      "linestyle": ":",
+      "fillstyle": "full"
     },
     "joint_opt": {
       "color": "#CC79A7",
       "marker": "<",
-      "linestyle": ":"
+      "linestyle": "--",
+      "fillstyle": "none"
     }
   },
   "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
@@ -85,6 +98,11 @@
   "transformations": [
     "Count nominal measured bits over saved reachable passes; table-facing takes display priority."
   ],
+  "color_scale": {
+    "map": "cividis",
+    "vmin": 1,
+    "vmax": 20
+  },
   "source_files": {
     "data/cache/visibility/nominal/points_271875.npz": "e2ac48751939a8910645f8b64462bfbcc88e556dd867ee291ccb8780bfb23f3b",
     "data/cache/robot/nominal/271875_n48.npz": "4ba3a68a8552bfc852ce3f9f16af3712137899c9d511aaf46ce796bc57604722",
