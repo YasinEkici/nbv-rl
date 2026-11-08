@@ -1,0 +1,17 @@
+{
+  "commit": "b417ea3",
+  "captured_at": "2026-11-08T13:51:50.196494+00:00",
+  "url": "http://127.0.0.1:8080/",
+  "inspection": "Visible local Chromium session manually inspected through DevTools; selected SARSA/linear and played to return-home completion. No automated browser test suite.",
+  "part": 271875,
+  "variant": "271875_v0",
+  "method": "sarsa/linear",
+  "seed": 0,
+  "source_run_id": "p002-sarsa-val-s0-v4-20261106T142107-41f52b15",
+  "verification_label_present": true,
+  "screenshot_sha256": "0eaaf2a7795eaab5d6799ce43fac3205900194ed022411789e072bd40f44aaf8",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "bundle_manifest_sha256": "6f5d8328a1a2271189f8f550bb99e099b33142eb1f2cb606202289102989111f",
+  "ui_text": "NBV / VAL only\nNBV — VAL\n\nCanlı politika / kayıtlı CAD planı.\n\nParça\n\nVaryant\n\nYöntem\n\nSeed\n\nBaşlat / Duraklat\nAdım\nSıfırla\n\nHız (×)\n\n0.25\n8\n\n48 aday pası göster\n\nCanlı politika; ε = 0 · VAL 271875_v0 · sarsa/linear · seed 0\n\nAdım: 15 · Pas: eve dönüş\n\nBirikmiş süre: 72.015407 s\n\nBirincil kapsama: 95.838873% (erişilebilir birleşim)\n\nSon karar/adım: 28.664 ms — canlı, bu makine, görüntüleme yükü dahil; animasyon beklemesi hariç. D-066 ile karşılaştırılmaz.\n\nDoğrulama: Kayıtla birebir ✓\n\nKapsama yeniden oynatmadan/canlı ENV adımından türetildi; kayıtlı kısmi oracle ile tutarlılık bölüm sonunda kontrol edilir.\n\nNoktalar: mavi = ölçüldü; turuncu = bu pasta yeni; açık mavi = erişilebilir/ölçülmedi; gri = ölçülemez.\n\nKoordinatlar: mesh nominal, noktalar seçilen varyant. Geçişler yalnızca gösterim için doğrusal; ölçüm pas sonunda güncellenir.\n\nVeri atfı\n\nPHIL — Mr_MegaTronic\n\nThingi10K / kaynak\n\nCreative Commons - Attribution; sürüm kayıtlı değil. CC genel bakış (sürüme özel lisans değil).\n\nDeğişiklikler: 200 mm ölçekleme, alan ağırlıklı örnekler, varyant sapmaları ve türetilmiş görünürlük; sadeleştirme yok. BY-SA türevleri aynı lisansla.",
+  "timing": "Live this-machine display-load-inclusive diagnostic; not D-066 comparable."
+}
