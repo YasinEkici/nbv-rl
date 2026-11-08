@@ -52,7 +52,7 @@ def write_summary(root='.'):
     rankings=read('results/figures/p004_b_learning_runs.json')['rankings']
     for label,r in rankings.items():
         lines.append(f'| {label} | {r["best"]} | {r["median"]} | {r["worst"]} | {r["ordered"]} | {r["alternative_curve_mean_order"]} |')
-    lines+=['','Gallery: nominal area-weighted samples, number of saved reachable passes measuring each sample. Orange triangles are table-facing (`n_z <= -cos(10 degrees)`), other unseen samples black crosses. Saved candidate directions are unit vectors in the part frame; no new IK or visibility calculation. Per-part author/source/license/changes appear in the gallery and sidecars.','',
+    lines+=['','Gallery: nominal area-weighted samples, number of saved reachable passes measuring each sample. Cividis uses the actual positive count range, with faint gray table-facing triangles (`n_z <= -cos(10 degrees)`) and unseen crosses. Saved candidate directions are shown in 2D azimuth/elevation in the part frame; legacy candidate_sphere filenames are retained. No new IK or visibility calculation. Per-part author/source/license/changes appear in the gallery and sidecars.','',
         '## Claude upload list','',
         'Upload **all** files below together. [Viewer/data instructions](../demo/README.md); there is no implemented viewer in this slice.','',
         '| File | Bytes |','|---|---:|']

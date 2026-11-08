@@ -12,7 +12,7 @@ def require_scene_part(fid,manifest):
     return matches[0]['split']
 
 
-def load_scene(fid,*,variant=False):
+def load_scene(fid,*,variant=False,variant_index=0):
     fid=int(fid); manifest=parts.load_yaml('configs/split_v1.yaml'); split=require_scene_part(fid,manifest)
     p=next(p for p in manifest['parts'] if p['file_id']==fid)
     point_path=Path(f'data/cache/visibility/nominal/points_{fid}.npz')
@@ -24,12 +24,13 @@ def load_scene(fid,*,variant=False):
     paths=[point_path,robot_path,nominal_path]
     scene=dict(part=fid,split=split,points=points,normals=normals,nominal_measured=measured,plan=plan,attribution=p)
     if variant:
+        if type(variant_index) is not int or variant_index not in range(5):raise ValueError('variant v0-v4 required')
         import trimesh
         cfg=parts.load_yaml('configs/parts_v2.yaml')
         raw=Path(cfg['paths']['raw'])/f'{fid}.ply'
-        variant_path=Path(cfg['paths']['variants'])/f'{fid}_v0.ply'
+        variant_path=Path(cfg['paths']['variants'])/f'{fid}_v{variant_index}.ply'
         samples_path=Path(f'data/cache/visibility/samples_{fid}.npz')
-        variant_vis=Path(f'data/cache/visibility/{fid}_v0_n48.npz')
+        variant_vis=Path(f'data/cache/visibility/{fid}_v{variant_index}_n48.npz')
         mesh=parts.normalize(trimesh.load(raw,process=False),cfg['geometry']['longest_mm'])
         variant_mesh=trimesh.load(variant_path,process=False)
         with np.load(samples_path) as z: sample=visibility.SurfaceSamples(z['face'],z['bary'])
