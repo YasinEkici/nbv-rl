@@ -9,7 +9,8 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | 001 | Environment, visibility, robot masks and baselines | Completed |
 | 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
-| 004 | Final analysis and paper | Not started |
+| 004 | [Visualization and demos](docs/plans/004-visualization.md) | Active: S0 only; S1–S2 await approval |
+| 005 | Final analysis and paper | Not started |
 
 The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/done/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
 
