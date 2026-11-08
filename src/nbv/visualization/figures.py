@@ -33,7 +33,14 @@ def generate(directory='results/figures'):
     replay,validation=validated_records()
     common=dict(schema_version=1,commit=state['commit'],registry_sha256=digest(registry.path),
         styles=STYLES,intervals='Individual observations; no uncertainty interval unless explicitly labeled.',
-        test_access='Registry metrics only; no test cache/output/environment access.')
+        test_access='Registry metrics only; no test cache/output/environment access.',
+        method_adaptations={
+            'all':'Frozen canonical methods/settings (D-041/D-053), no tuning, policy selection or changed scientific claim.',
+            'learners':'Primary D-046 tail-average policies; method/Phi labels distinguish the original trained weights, eleven D-049 features.',
+            'baselines':'Original nominal-model planners and recorded repair; actual stochastic seed counts retained.',
+            'mcts':'Original nominal rollout/search budget and saved seed identities; no fresh search for these views.',
+            'replay':'Stored sequence only; full oracle A then partial oracle B (D-069), no policy calls.',
+            'learning_highlights':'Adapted from tanaka2026: ten runs, final official-policy score, actual best/lower-median/worst; rank line styles override method line styles in this panel only.'})
     files=[]
 
     def save(fig,name,*,split,sources=(),transforms=(),**extra):

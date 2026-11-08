@@ -9,7 +9,7 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | 001 | Environment, visibility, robot masks and baselines | Completed |
 | 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
-| 004 | [Visualization and demos](docs/plans/004-visualization.md) | Active: S0 only; S1–S2 await approval |
+| 004 | [Visualization and demos](docs/plans/004-visualization.md) | Active: S0–S2 complete; S3–S4 await approval |
 | 005 | Final analysis and paper | Not started |
 
 The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/done/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
@@ -217,6 +217,14 @@ RegQ is the strongest of the three main linear-Phi learners on VAL and test; it 
 
 [PDF](results/figures/phase1_test_by_part_v1.pdf). The common horizontal scale includes every canonical baseline. Random failures retain their censored time; success rates are in the table above. This is an executed-cycle comparison, not the nominal solver objective.
 
+### Plan 004 presentation figures and VAL demo data
+
+The [generated S1/S2 handoff](results/visualization/README.md) indexes every new PNG/PDF/JSON figure set, its provenance and the complete Claude upload list. New views show [quality versus decision latency](results/figures/p004_a_quality_latency.png), [individual highlighted learning runs](results/figures/p004_b_learning_runs.png), [all test observations by part](results/figures/p004_c_test_distributions.png), and the [paired forward-planning difference](results/figures/p004_c2_paired_forward.png). The original min–max figures above remain available. Test graphics read registry metrics only; latency is explicitly VAL/seed-0/this-machine data.
+
+Stepwise figures use [verified VAL stored-sequence replay](results/visualization/replay_validation_v1.json), without policy calls: [coverage versus time](results/figures/p004_d_val_coverage_time.png), [VAL time components](results/figures/p004_e_val_time_components.png), [test total motion versus time](results/figures/p004_e_test_motion_time.png), galleries and candidate masks. Baseline steps match their full oracle; learner summaries match a partial oracle. Learner final coverage is derived from replay, consistent with that partial oracle; matching AUC alone does not prove final coverage.
+
+The [VAL demo bundle](results/demo/README.md) contains versioned lossless data and its schema/SHA-256 manifest, with separate home steps and invalid-pass animation masks. It contains no test geometry or test replay. Meshes are nominal; points/normals are variant v0 with original sample correspondence. License versions for the exported models are not recorded; this is explicit in every part's attribution rather than an inferred deed. The viewer itself is later work. Reproduction: `uv run python scripts/report_figures.py`, `uv run python scripts/export_demo.py` (fresh destination only), and `uv run python scripts/report_visualization.py`; see the handoff for artifact prerequisites.
+
 ### Secondary metrics and generalization gap
 
 Train evaluation used the same frozen policies without learning; [train_v1.md](results/train_v1.md) is its full record. Generalization gap is train minus test, with the protocol's sign convention. Normalized time is interpreted alongside raw seconds and success, not as a replacement for either.
@@ -337,7 +345,7 @@ Only entries recorded as verified-source or secondary in [LITERATURE.md](docs/LI
 
 ## Data attribution
 
-Base meshes come from [Thingi10K](https://huggingface.co/datasets/Thingi10K/Thingi10K) (Zhou & Jacobson, 2016). The chosen mechanical models have CC BY or CC BY-SA licenses and were filtered for clean, single-component geometry. This is an inspection-motivated proxy dataset, not a measured collection of production castings. Meshes, generated variants, caches and checkpoints are excluded from git. Attribution below is preserved from [split_v1.yaml](configs/split_v1.yaml); distributing derivatives of CC BY-SA models requires the corresponding share-alike license.
+Base meshes come from [Thingi10K](https://huggingface.co/datasets/Thingi10K/Thingi10K) (Zhou & Jacobson, 2016). The chosen mechanical models have CC BY or CC BY-SA licenses and were filtered for clean, single-component geometry. This is an inspection-motivated proxy dataset, not a measured collection of production castings. Raw meshes, generated variant meshes, caches and checkpoints are excluded from git; D-069 permits the attributed, normalized VAL display derivatives in results/demo/. Attribution below is preserved from [split_v1.yaml](configs/split_v1.yaml); distributing derivatives of CC BY-SA models requires the corresponding share-alike license. Exported license versions remain explicitly unknown where the source metadata omits them.
 
 | file_id | Part (Thingiverse thing) | Author | License | Split |
 |---|---|---|---|---|
