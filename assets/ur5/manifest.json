@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "source_repository": "https://github.com/Gepetto/example-robot-data",
+  "source_commit": "d0d9098d752014aec3725b07766962acf06c5418",
+  "upstream": "https://github.com/ros-industrial/universal_robot/tree/kinetic-devel/ur_description",
+  "license": "BSD-3-Clause",
+  "changes": "Only relocation; URDF XML and mesh bytes are unchanged. package:// paths are mapped locally; no download.",
+  "files": {
+    "LICENSE": "6d511b6f094758b4a4825797f450a45d1c91f94114c8b3a72e8b5abbb235411c",
+    "UPSTREAM.md": "f4fc84daf6811fe446a038555f189a42056b279438c64ddf577d0c9a45b5cd86",
+    "model.urdf": "cf5a11b8b164d8b63700acc29dcd00b8aae8b7e60774d73dbf52b8a35ea7a46b",
+    "meshes/ur5/collision/base.stl": "c7af57d109de6a73f57943613bb000346518df06bb5ae119a2e80cf00bcbebde",
+    "meshes/ur5/collision/forearm.stl": "8e79aa80a532494ba5320c30b40363ff63d228e3d59e2904703dca341dcba2ac",
+    "meshes/ur5/collision/shoulder.stl": "1d62e23a8c3ff9e6334fb157c805e6202037bcfca65bc6a36c5c9ae866751b3b",
+    "meshes/ur5/collision/upperarm.stl": "55c11ac0ad1e144f230849b2033532e8b140b2e818ea497296d08dfb88757440",
+    "meshes/ur5/collision/wrist1.stl": "0a1fd12150140efdee91650dcb4c2d0443065551a9207a2d2dbde58ff1fb4eb7",
+    "meshes/ur5/collision/wrist2.stl": "c1d9f7843366068cb331f3f5c43fa716d3eceeb8c80216eccbbc878905dab123",
+    "meshes/ur5/collision/wrist3.stl": "cf7220397b56f1d3047be9465eea1181d471b40fc82728052e31c97588585b4b",
+    "meshes/ur5/visual/base.dae": "263fcff4141a00475534a2cdda4e10c2c0edda63427023bdf625737b855b9265",
+    "meshes/ur5/visual/forearm.dae": "f7990480bd64ea664b475fdb4cd84b08b1547a0ef23b6f7bf752a15d3918dafb",
+    "meshes/ur5/visual/shoulder.dae": "b113ab36542690f77b37b22c61c17a63c4c6ae786a4fad9f054ce4b92a2cbb79",
+    "meshes/ur5/visual/upperarm.dae": "353ccc4691e554a33f75c1292cb0655523e2e156f51f75d7992fdac0420e62ab",
+    "meshes/ur5/visual/wrist1.dae": "9f2641ea1f5e95ab1198f2f51d656cbba81821ffd4509ba16940d33e1f515e98",
+    "meshes/ur5/visual/wrist2.dae": "6b6c95b38a4b62881bd28394858727516bf20a0c786b49a6bb3a8e5f682cb313",
+    "meshes/ur5/visual/wrist3.dae": "9763a4a324a51e998d3a81245474dcf917b1383475571e291305d6e4d0752559"
+  }
+}

@@ -167,9 +167,10 @@ def recorded_session(part,method,directory='results/demo'):
 def create_server(port=8080,*,load_initial=True,recorded=False):
     import viser
     from nbv.visualization.live_scene import DemoController
+    from nbv.visualization.recorded_controller import RecordedController
     server=viser.ViserServer(host='127.0.0.1',port=port,label='NBV / VAL only')
     try:
-        server._nbv_controller=DemoController(server,recorded=recorded,load_initial=load_initial)
+        server._nbv_controller=RecordedController(server,load_initial=load_initial) if recorded else DemoController(server,load_initial=load_initial)
     except Exception:
         server.stop();raise
     return server

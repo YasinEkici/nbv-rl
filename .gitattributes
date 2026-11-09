@@ -4,3 +4,4 @@
 # Manifest hashes and the decimal 12 MB cap apply to the exact serialized bytes.
 # Preserve demo JSON/README line endings on Windows checkouts too.
 results/demo/** -text
+assets/ur5/** -text
