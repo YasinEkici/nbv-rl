@@ -5,3 +5,4 @@
 # Preserve demo JSON/README line endings on Windows checkouts too.
 results/demo/** -text
 assets/ur5/** -text
+assets/fonts/** -text

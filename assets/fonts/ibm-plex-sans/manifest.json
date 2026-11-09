@@ -1,0 +1,17 @@
+{
+  "source_repository": "https://github.com/IBM/plex",
+  "source_commit": "48e8676114c04f29033b4b53da4ec579f8846297",
+  "license": "OFL-1.1",
+  "modified": false,
+  "versions": {
+    "IBMPlexSans-Regular.ttf": "Version 3.005",
+    "IBMPlexSans-SemiBold.ttf": "Version 3.005",
+    "IBMPlexSans-Bold.ttf": "Version 3.005"
+  },
+  "files": {
+    "IBMPlexSans-Regular.ttf": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5",
+    "IBMPlexSans-SemiBold.ttf": "a20caf8286023a6a7a85e40b1d2a4ae9fc3e3b1f9eda8f4c542dd4986af67bb1",
+    "IBMPlexSans-Bold.ttf": "9e6c74a889a700d707613d24548fe4ffa6bc59559a0689d2cf9e133bdcdafb2f",
+    "LICENSE.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  }
+}
