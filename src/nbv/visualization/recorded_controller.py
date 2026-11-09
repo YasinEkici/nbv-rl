@@ -89,7 +89,7 @@ class RecordedController:
                 scene.select(state['pass_index']);hits=self.audit.active(episode['source_run_id'],episode['variant'],state['elapsed_s']) if self.audit else []
                 scene.highlight(hits);scene.draw_q(state['q'])
                 label.text=f"{episode['method']}\n{state['elapsed_s']:.2f} s · {state['coverage']:.1%}"
-                warning=(f"**denetlenmeyen geçiş: çarpışma ({max(h['penetration_mm'] for h in hits):.3f} mm)**" if hits else
+                warning=(f"**denetlenmeyen geçiş: çarpışma ({max(h['penetration_mm'] for h in hits):.3f} mm)** · denetim aralığının maksimumu" if hits else
                          'D-071: bu kayıt çarpışma aralıkları içeriyor.' if self.audit and self.audit.events[(episode['source_run_id'],episode['variant'])] else
                          'D-071 örneklenmiş denetim: bu anda temas yok.' if self.audit else 'D-071 ölçümü yüklenmedi.')
                 verdict='SHA-256 ✓; '+episode['verification'].get('final_coverage_label_tr','kayıtlı doğrulama sonucu korunuyor.')

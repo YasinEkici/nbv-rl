@@ -279,7 +279,7 @@ class DemoController:
                 shown=time_start+duration*fraction
                 hits=self.audit.active(source,variant,shown) if self.audit and self.overlay_valid else []
                 self.scene.highlight(hits)
-                self.audit_warning=(f"**denetlenmeyen geçiş: çarpışma ({max(h['penetration_mm'] for h in hits):.3f} mm)**" if hits else
+                self.audit_warning=(f"**denetlenmeyen geçiş: çarpışma ({max(h['penetration_mm'] for h in hits):.3f} mm)** · denetim aralığının maksimumu" if hits else
                     'Çarpışma aralığı yok (D-071 örneklenmiş denetim).' if self.audit and self.overlay_valid else
                     'Çarpışma durumu doğrulanmadı: kayıtlı yol eşleşmiyor.' if not self.overlay_valid else 'D-071 ölçümü yüklenmedi.')
                 before=time.perf_counter();self.scene.draw_q(end if fraction==1 else start+(end-start)*fraction)
