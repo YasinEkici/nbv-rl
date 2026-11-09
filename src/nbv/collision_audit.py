@@ -311,6 +311,21 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     return report
 
 
+def deepest_events(report,count=3):
+    """Visualize distinct part/body/obstacle/pose states, including non-worst bodies."""
+    seen_paths=set();states={}
+    for event in report['events']:
+        key=event['geometry_id']
+        if key in seen_paths:continue
+        seen_paths.add(key)
+        for i,interval in enumerate(report['geometries'][key]['intervals']):
+            state=(event['part'],interval['body'],interval['obstacle'],np.asarray(interval['worst_q_rad'],dtype='<f8').tobytes())
+            candidate=event|dict(body=interval['body'],obstacle=interval['obstacle'],penetration_mm=interval['penetration_mm'],
+                                 collision_interval=interval,interval_index=i)
+            if state not in states or candidate['penetration_mm']>states[state]['penetration_mm']:states[state]=candidate
+    return sorted(states.values(),key=lambda e:(-e['penetration_mm'],e['geometry_id'],e['interval_index']))[:count]
+
+
 def write_report(report):
     """All counts and distribution cells are generated from the audit's event ledger."""
     lines=['# Recorded-path collision audit (D-071)',
@@ -335,13 +350,9 @@ def write_report(report):
     lines+=['', '## Deepest distinct geometric events', '',
         '| Part | Variant | Method | Phase | Step | Body | Obstacle | Penetration (mm) | Source |',
         '|---|---|---|---|---:|---|---|---:|---|']
-    seen=set()
-    for event in sorted(report['events'],key=lambda e:-e['penetration_mm']):
-        if event['geometry_id'] in seen:continue
-        seen.add(event['geometry_id'])
+    for event in deepest_events(report):
         lines.append(f"| {event['part']} | {event['variant']} | {event['method']} | {event['phase']} | {event['step']} | "
             f"{event['body']} | {event['obstacle']} | {event['penetration_mm']:.6f} | {event['source_run']} |")
-        if len(seen)==3:break
     lines+=['', '## Interpretation and scope', '',
         'Short joint-space paths are not collision-free paths. Per-method rates describe a potential source of '
         'comparison bias in the frozen estimated-cycle-time model; they do not establish a new quality ranking or '
@@ -369,6 +380,9 @@ def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=N
         if bool(sum(v[1] for v in e['phase_counts'].values()))!=e['any_collision']:raise ValueError('episode collision flag mismatch')
     report['by_part_method']=summarize_events(report['episodes'])
     report['transfer_definition']='Start/inter-pass plus return home; raw episode transfer_count field counts start/inter-pass only, phase_counts.home is added by the aggregator.'
+    report['event_schema']='events identifies every colliding motion-segment occurrence with episode/step/phase/times/endpoints; join geometry_id to geometries.intervals for EVERY contiguous body/obstacle collision, not just the worst body copied onto the occurrence.'
+    report['collision_interval_occurrences']=sum(len(report['geometries'][e['geometry_id']]['intervals']) for e in report['events'])
+    report['deepest_visualization_definition']='Three distinct (part, body, obstacle, exact joint pose) states, ranked by penetration over all body/obstacle intervals; repeated episode occurrences at an identical state are represented once for screenshots only.'
     inputs=['configs/parts_v2.yaml','configs/robot_v2.yaml','configs/collision_v1.yaml','configs/split_v1.yaml']
     cfg=parts.load_yaml('configs/parts_v2.yaml')
     for p in sorted({e['part'] for e in report['episodes']}):

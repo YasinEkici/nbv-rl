@@ -84,7 +84,7 @@ def report(registry='results/registry.csv'):
         'hypotheses':test_text.split('Hypotheses and pretest predictions:\n\n',1)[1].split('\nH1',1)[0],
         'cross_split':finding,'planning':planning,'raw_ceiling':ceiling,
         'secondary':test_text.split('Secondary metrics (tail policy; passes to 95% conditional on success):\n\n',1)[1].split('\n\nSecondary coverage',1)[0],
-        'model_limitations':model_limitations().strip().replace('## Model limitations','### Model limitations',1),
+        'model_limitations':model_limitations(collision_prefix='results/').strip().replace('## Model limitations','### Model limitations',1),
     }
     reference_keys=['thingi10k','vanseijen2016','regq','ng1999','grzes2017','wiewiora2003','canonaco2024',
         'patterson2024','smith_winkler2006','eimer2023','zhang2023_sarsa','saravanan2020',

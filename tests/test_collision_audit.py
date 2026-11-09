@@ -96,3 +96,16 @@ def test_transition_rate_includes_return_home_as_a_transfer():
     assert row['transfers']==3 and row['colliding_transfers']==1
     assert row['colliding_transfer_rate']==1/3
     assert row['home_transfers']==1 and row['colliding_home_transfers']==1
+
+
+def test_deepest_views_include_all_bodies_and_deduplicate_identical_states():
+    from nbv.collision_audit import deepest_events
+    a={'body':'forearm','obstacle':'table','penetration_mm':80.,'worst_q_rad':[0.]*6}
+    b={'body':'sensor_head','obstacle':'part','penetration_mm':70.,'worst_q_rad':[.1]*6}
+    c={'body':'wrist_1','obstacle':'part','penetration_mm':60.,'worst_q_rad':[.2]*6}
+    report={'events':[{'part':1,'geometry_id':'a','id':'1'},{'part':1,'geometry_id':'a','id':'2'},
+                      {'part':1,'geometry_id':'b','id':'3'}],
+            'geometries':{'a':{'intervals':[a,b]},'b':{'intervals':[c]}}}
+    result=deepest_events(report)
+    assert [e['body'] for e in result]==['forearm','sensor_head','wrist_1']
+    assert [e['penetration_mm'] for e in result]==[80.,70.,60.]

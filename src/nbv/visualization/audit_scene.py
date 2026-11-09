@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 import numpy as np
 from spatialmath import SE3
-from nbv.collision_audit import allowed_part
+from nbv.collision_audit import allowed_part,deepest_events
 from nbv.visualization.assets import load_scene,robot_description
 from nbv.visualization.live_scene import Scene
 
@@ -22,14 +22,15 @@ def create_audit_server(port=8081,path='results/collision_audit_v1.json'):
     import viser
     report=json.loads(Path(path).read_text(encoding='utf-8'))
     if not report['complete']:raise ValueError('incomplete audit cannot be presented')
-    events=worst_events(report['events'])
+    events=deepest_events(report)
+    for e in events:allowed_part(e['part'])
     server=viser.ViserServer(host='127.0.0.1',port=port,label='D-071 collision diagnosis')
     server.scene.set_up_direction('+z');server.gui.configure_theme(show_share_button=False)
     server.gui.add_markdown('# D-071 — collision diagnosis\nRecorded train/VAL paths; no correction, policy or test access.')
     selector=server.gui.add_dropdown('Event',[str(i+1) for i in range(len(events))],initial_value='1')
     status=server.gui.add_markdown('');current=[None]
     def render():
-        e=events[int(selector.value)-1];g=report['geometries'][e['geometry_id']];worst=g['worst']
+        e=events[int(selector.value)-1];g=report['geometries'][e['geometry_id']];worst=e['collision_interval']
         if current[0]:current[0].root.remove()
         data=load_scene(e['part'],variant=True,variant_index=int(e['variant'].rsplit('_v',1)[1]))
         scene=Scene(server,data,robot_description());current[0]=scene
@@ -40,11 +41,16 @@ def create_audit_server(port=8081,path='results/collision_audit_v1.json'):
             from scipy.spatial.transform import Rotation
             scene.api.add_box('/nbv/sensor',dimensions=hi-lo,position=T[:3,3]+T[:3,:3]@((lo+hi)/2),
                 wxyz=Rotation.from_matrix(T[:3,:3]).as_quat(scalar_first=True),color=(213,30,30))
+        a=scene.credit
         status.content=(f"**{e['variant']} · {e['method']} · seed {e['seed']}**\n\n"
             f"{e['phase']} · step {e['step']} · {e['body']} / {e['obstacle']}\n\n"
             f"Penetration **{e['penetration_mm']:.6f} mm** · 1° sampled path\n\n"
             f"{e['source_run']}\n\nNominal D-042 collision geometry; variant points are display context. "
-            'No self-collision or fixture model. Red = implicated collision body.')
+            'No self-collision or fixture model. Red = implicated collision body.\n\n'
+            f"**Attribution:** {a['name']} — {a['author']} · {a['license']} (version not recorded). "
+            f"[Source]({a['source_url']}) · [CC overview]({a['official_license_overview']}).\n\n"
+            'Changes: 200 mm normalization, area-weighted surface samples, variant deviations and derived visibility. '
+            'BY-SA derivatives retain the same license family.')
         server._nbv_audit_event=e
     selector.on_update(lambda _:render())
     @server.on_client_connect

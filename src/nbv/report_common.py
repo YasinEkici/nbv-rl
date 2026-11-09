@@ -2,16 +2,16 @@
 from pathlib import Path
 
 
-def collision_limitation():
+def collision_limitation(prefix=''):
     return ('D-071 diagnoses sampled train/VAL recorded-path collisions in unchecked transfers and between scan poses; '
-            'see the [collision audit](collision_audit_v1.md). Frozen quality results and hypotheses are unchanged.')
+            f'see the [collision audit]({prefix}collision_audit_v1.md). Frozen quality results and hypotheses are unchanged.')
 
 
-def model_limitations():
+def model_limitations(*,collision_prefix=''):
     protocol=Path('docs/PROTOCOL.md').read_text(encoding='utf-8')
     heading='## Model limitations (reported with every result)'
     body=protocol.split(heading+'\n',1)[1].split('\n## ',1)[0].strip()
-    note='\n\n'+collision_limitation() if Path('results/collision_audit_v1.json').exists() else ''
+    note='\n\n'+collision_limitation(collision_prefix) if Path('results/collision_audit_v1.json').exists() else ''
     return '\n\n'+heading+'\n\n'+body+note+'\n'
 
 
