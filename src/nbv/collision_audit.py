@@ -73,6 +73,13 @@ def inspect_segment(start,end,pose_clearance,*,max_step_deg=1.,near_mm=10.):
         endpoint_collision=bool((values[[0,-1]]<0).any()),worst=worst,intervals=intervals,pose_samples=len(q))
 
 
+class SingleThreadPartDistance(collision.PartDistance):
+    """Identical Open3D query with one worker per part (parallelism is across parts)."""
+    def signed(self,points):
+        query=collision.o3d.core.Tensor(points.astype(np.float32))
+        return self.scene.compute_signed_distance(query,nthreads=1).numpy().astype(float)
+
+
 class NominalCollisionModel:
     def __init__(self,fid):
         self.split=allowed_part(fid);self.part=int(fid)
@@ -80,7 +87,7 @@ class NominalCollisionModel:
         self.collision_cfg=parts.load_yaml('configs/collision_v1.yaml')
         g=cfg['geometry'];self.mesh=parts.load_base(Path(cfg['paths']['raw'])/f'{fid}.ply',g['longest_mm'],g['max_edge_mm'])
         self.model=robot.make_robot(self.robot_cfg);self.geom=collision.ArmGeometry.from_config(self.collision_cfg)
-        self.distance=collision.PartDistance(self.mesh);self.box=self.geom.box_points();self.cache={};self.calls=0
+        self.distance=SingleThreadPartDistance(self.mesh);self.box=self.geom.box_points();self.cache={};self.calls=0
 
     def __call__(self,q):
         q=np.asarray(q,dtype=np.float64)
@@ -175,7 +182,7 @@ def prepare_records(destination='scratch/p004b/audit_records.jsonl'):
         sources[row['run_id']]=dict(sha256=digest(Path('outputs')/row['run_id']/'episodes.jsonl'),commit=row['commit'],
             method=row['method'],seed=row['seed'])
         for stored in stored_records:
-            allowed_part(stored['part'])
+            allowed_part(stored['part'],manifest)
             fresh=replay_episode(env,stored,reference[stored['variant']],stage='A' if baseline else 'B')
             fresh.update(source_run=row['run_id'],method=row['method'] if baseline else f"{row['method']}/{extra['phi']}",
                 seed=int(row['seed'] or 0),split='train',weight_kind='baseline' if baseline else extra['weight_kind'])
@@ -191,6 +198,37 @@ def prepare_records(destination='scratch/p004b/audit_records.jsonl'):
 
 def segment_id(part,start,end):
     return hashlib.sha256(str(part).encode()+np.asarray([start,end],dtype='<f8').tobytes()).hexdigest()
+
+
+def query_equivalence_part(fid):
+    model=NominalCollisionModel(fid)
+    original=collision.PartDistance.__new__(collision.PartDistance)
+    original.scene=model.distance.scene;original.vertices=model.distance.vertices
+    with np.load(f'data/cache/robot/nominal/{fid}_n48.npz') as z:
+        saved=z['q'][z['reachable'].astype(bool)]
+    home=np.deg2rad(model.robot_cfg['q_home_deg']);qs=list(saved.reshape(-1,6))
+    for end in saved[:6,0]:
+        dense,_=sample_joint_segment(home,end)
+        qs.extend(dense[np.unique(np.linspace(0,len(dense)-1,12).astype(int))])
+    start=time.perf_counter()
+    for index,q in enumerate(qs):
+        a=collision.pose_clearance(model.model,q,original,model.geom,model.box)
+        b=collision.pose_clearance(model.model,q,model.distance,model.geom,model.box)
+        if a.keys()!=b.keys() or np.asarray(list(a.values()),dtype='<f8').tobytes()!=np.asarray(list(b.values()),dtype='<f8').tobytes():
+            raise ValueError(f'Raycast threading changed clearance bits: part {fid}, sample {index}')
+    return dict(part=fid,poses=len(qs),all_body_obstacle_clearances_bit_identical=True,wall_s=time.perf_counter()-start)
+
+
+def verify_query_equivalence(workers=11):
+    from concurrent.futures import ProcessPoolExecutor
+    manifest=parts.load_yaml('configs/split_v1.yaml')
+    ids=[p['file_id'] for p in manifest['parts'] if p['split'] in ('train','val')]
+    with ProcessPoolExecutor(max_workers=workers) as pool:results=list(pool.map(query_equivalence_part,ids))
+    result=dict(complete=True,comparison='Open3D default query parallelism vs nthreads=1; unchanged collision.pose_clearance',
+                scope='Every saved reachable IK sample plus dense home-to-pass path samples; no test inputs',
+                parts=results,poses=sum(r['poses'] for r in results),all_bit_identical=True)
+    Path('results/collision_query_equivalence_v1.json').write_text(json.dumps(result,indent=2),encoding='utf-8')
+    return result
 
 
 def audit_part(task):
@@ -235,9 +273,12 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     if digest(path)!=metadata['replay_sha256']:raise ValueError('audit recorded trace hash mismatch')
     gate=json.loads(Path('results/collision_waypoint_gate_v1.json').read_text(encoding='utf-8'))
     if not gate['complete'] or gate['stopped']:raise ValueError('saved waypoint gate required')
-    groups=defaultdict(list)
+    equivalence=json.loads(Path('results/collision_query_equivalence_v1.json').read_text(encoding='utf-8'))
+    if not equivalence['complete'] or not equivalence['all_bit_identical']:raise ValueError('query parallelism equality gate required')
+    groups=defaultdict(list);split_manifest=parts.load_yaml('configs/split_v1.yaml')
     for line in path.read_text(encoding='utf-8').splitlines():
-        e=json.loads(line);allowed_part(e['part']);groups[int(e['part'])].append(e)
+        e=json.loads(line);allowed_part(e['part'],split_manifest);groups[int(e['part'])].append(e)
+    print(f"Allowed trace inventory: {sum(map(len,groups.values()))} episodes / {len(groups)} parts",flush=True)
     directory=Path('scratch/p004b/geometry');directory.mkdir(parents=True,exist_ok=True)
     with ProcessPoolExecutor(max_workers=workers) as pool:
         futures=[pool.submit(audit_part,(fid,records,str(directory))) for fid,records in groups.items()]
@@ -255,6 +296,8 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
         interval_definition='Contiguous colliding sampled poses; boundaries do not certify exact continuous contact onset.',
         penetration_distribution='Maximum penetration per colliding motion segment, retaining repeated episodes.',
         sources=metadata,waypoint_gate_sha256=digest('results/collision_waypoint_gate_v1.json'),
+        query_parallelism='One Open3D query thread per part; processes across parts. Original pose_clearance unchanged.',
+        query_equivalence_sha256=digest('results/collision_query_equivalence_v1.json'),
         episodes=episodes,events=events,geometries=geometries,by_part_method=summarize_events(episodes),
         geometry_work=[{k:r[k] for k in ('part','unique_paths','geometry_calls','wall_s')} for r in results])
     Path('results/collision_audit_v1.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')

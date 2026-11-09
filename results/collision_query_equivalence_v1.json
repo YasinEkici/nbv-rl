@@ -1,0 +1,75 @@
+{
+  "complete": true,
+  "comparison": "Open3D default query parallelism vs nthreads=1; unchanged collision.pose_clearance",
+  "scope": "Every saved reachable IK sample plus dense home-to-pass path samples; no test inputs",
+  "parts": [
+    {
+      "part": 271875,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 33.110556100000395
+    },
+    {
+      "part": 46262,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 9.895308099999966
+    },
+    {
+      "part": 124336,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 13.848056300004828
+    },
+    {
+      "part": 548863,
+      "poses": 257,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 23.634543300002406
+    },
+    {
+      "part": 37275,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 25.64886750000005
+    },
+    {
+      "part": 591247,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 23.783259699994233
+    },
+    {
+      "part": 65149,
+      "poses": 237,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 14.063904800001183
+    },
+    {
+      "part": 702389,
+      "poses": 237,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 15.054684800001269
+    },
+    {
+      "part": 135365,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 28.347455200004333
+    },
+    {
+      "part": 124532,
+      "poses": 237,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 11.5792339000036
+    },
+    {
+      "part": 635751,
+      "poses": 242,
+      "all_body_obstacle_clearances_bit_identical": true,
+      "wall_s": 11.951218700000027
+    }
+  ],
+  "poses": 2662,
+  "all_bit_identical": true
+}

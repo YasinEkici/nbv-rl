@@ -56,3 +56,32 @@ def test_collision_summary_retains_every_episode_denominator():
     row=summarize_events(episodes)[0]
     assert row['episodes']==2 and row['transfers']==4
     assert row['colliding_transfer_rate']==.25 and row['colliding_episode_rate']==.5
+
+
+def test_collision_audit_limitations_note_is_generated_without_environment_access():
+    from nbv.report_common import collision_limitation
+    text=collision_limitation()
+    assert 'collision_audit_v1.md' in text and 'sampled' in text and 'D-071' in text
+
+
+def test_worst_collision_views_are_distinct_paths_and_reject_closed_parts():
+    from nbv.visualization.audit_scene import worst_events
+    events=[{'geometry_id':str(i//2),'penetration_mm':10-i,'part':271875} for i in range(6)]
+    assert [e['geometry_id'] for e in worst_events(events)]==['0','1','2']
+    with pytest.raises(ValueError,match='test'):worst_events([events[0]|{'part':178195}])
+
+
+def test_single_thread_query_preserves_every_pose_clearance_bit():
+    from nbv.collision_audit import SingleThreadPartDistance
+    from nbv import collision,parts,robot
+    import trimesh
+    mesh=trimesh.creation.box([140.,140.,140.]);mesh.apply_translation([0.,0.,70.])
+    original=collision.PartDistance(mesh);serial=SingleThreadPartDistance(mesh)
+    model=robot.make_robot(parts.load_yaml('configs/robot_v2.yaml'))
+    geom=collision.ArmGeometry.from_config(parts.load_yaml('configs/collision_v1.yaml'))
+    rng=np.random.default_rng(69071)
+    for q in rng.uniform(-np.pi,np.pi,(20,6)):
+        a=collision.pose_clearance(model,q,original,geom,geom.box_points())
+        b=collision.pose_clearance(model,q,serial,geom,geom.box_points())
+        assert a.keys()==b.keys()
+        assert np.asarray(list(a.values()),dtype='<f8').tobytes()==np.asarray(list(b.values()),dtype='<f8').tobytes()
