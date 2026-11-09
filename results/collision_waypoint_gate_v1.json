@@ -1,0 +1,297 @@
+{
+  "complete": true,
+  "stopped": false,
+  "parts": [
+    {
+      "part": 271875,
+      "split": "val",
+      "checked": 170,
+      "minimum_clearance_mm": 16.26599884033203,
+      "worst": {
+        "part": 271875,
+        "split": "val",
+        "pass_index": 18,
+        "sample": 4,
+        "q_rad": [
+          -0.3943026505032217,
+          -0.7030439730990103,
+          0.7876508103097747,
+          -0.6330034528661864,
+          -1.2346215223916484,
+          -2.4834591617173816
+        ],
+        "phase": "saved_ik_sample",
+        "body": "upper_arm",
+        "obstacle": "part",
+        "clearance_mm": 16.26599884033203
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 384760
+    },
+    {
+      "part": 46262,
+      "split": "train",
+      "checked": 170,
+      "minimum_clearance_mm": 14.300234018101378,
+      "worst": {
+        "part": 46262,
+        "split": "train",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.8009550848218165,
+          -2.3897220865675894,
+          2.819987411370565,
+          -0.9816629364171217,
+          -2.4423282365228727,
+          0.2450228673299686
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 14.300234018101378
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 272472
+    },
+    {
+      "part": 124336,
+      "split": "train",
+      "checked": 170,
+      "minimum_clearance_mm": 11.334393879433463,
+      "worst": {
+        "part": 124336,
+        "split": "train",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.7021526527506157,
+          -2.4400026001984374,
+          2.8443577349199254,
+          -1.026594787776142,
+          -2.524673644917149,
+          0.15557911970537458
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 11.334393879433463
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 375668
+    },
+    {
+      "part": 548863,
+      "split": "train",
+      "checked": 185,
+      "minimum_clearance_mm": 12.622283770933223,
+      "worst": {
+        "part": 548863,
+        "split": "train",
+        "pass_index": 21,
+        "sample": 4,
+        "q_rad": [
+          -0.10294564009439998,
+          -0.6753879305656,
+          0.766628493852364,
+          -0.6791588846935664,
+          -1.7688765051443445,
+          -1.4586612334589244
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 12.622283770933223
+      },
+      "geometry_calls": 185,
+      "mesh_triangles": 656684
+    },
+    {
+      "part": 37275,
+      "split": "val",
+      "checked": 170,
+      "minimum_clearance_mm": 12.807079185497727,
+      "worst": {
+        "part": 37275,
+        "split": "val",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.879010149058268,
+          -2.292082905907255,
+          2.803257873399275,
+          -1.0187541055623122,
+          -2.374936652627394,
+          0.3039412052336824
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 12.807079185497727
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 636056
+    },
+    {
+      "part": 591247,
+      "split": "val",
+      "checked": 170,
+      "minimum_clearance_mm": 24.250336469050836,
+      "worst": {
+        "part": 591247,
+        "split": "val",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.7729644996979141,
+          -2.398776360455154,
+          2.796015851736981,
+          -0.9667620310888109,
+          -2.466037902873433,
+          0.22157417531863488
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 24.250336469050836
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 840178
+    },
+    {
+      "part": 65149,
+      "split": "train",
+      "checked": 165,
+      "minimum_clearance_mm": 9.10317687627095,
+      "worst": {
+        "part": 65149,
+        "split": "train",
+        "pass_index": 16,
+        "sample": 4,
+        "q_rad": [
+          0.07496113961034306,
+          -0.6409606791234391,
+          0.8293463268860242,
+          -0.7541085717274213,
+          -2.1181813189997056,
+          -0.8166791125286644
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 9.10317687627095
+      },
+      "geometry_calls": 165,
+      "mesh_triangles": 597308
+    },
+    {
+      "part": 702389,
+      "split": "train",
+      "checked": 165,
+      "minimum_clearance_mm": 9.879413230429776,
+      "worst": {
+        "part": 702389,
+        "split": "train",
+        "pass_index": 16,
+        "sample": 4,
+        "q_rad": [
+          0.08694719496609947,
+          -0.6662572122060156,
+          0.8743106007547422,
+          -0.7699165141365238,
+          -2.108050241281192,
+          -0.8092008018325325
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 9.879413230429776
+      },
+      "geometry_calls": 165,
+      "mesh_triangles": 258684
+    },
+    {
+      "part": 135365,
+      "split": "train",
+      "checked": 170,
+      "minimum_clearance_mm": 24.7984518404415,
+      "worst": {
+        "part": 135365,
+        "split": "train",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.7446319258736507,
+          -2.36604508640394,
+          2.792695679279492,
+          -1.0160192433362225,
+          -2.4897578605849993,
+          0.19638312030222246
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 24.7984518404415
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 1963168
+    },
+    {
+      "part": 124532,
+      "split": "train",
+      "checked": 165,
+      "minimum_clearance_mm": 26.045662829293093,
+      "worst": {
+        "part": 124532,
+        "split": "train",
+        "pass_index": 16,
+        "sample": 4,
+        "q_rad": [
+          0.10824470177215675,
+          -0.45624546652226283,
+          0.42845662825508163,
+          -0.5274876170512918,
+          -2.0899893686133755,
+          -0.7961326764040227
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 26.045662829293093
+      },
+      "geometry_calls": 165,
+      "mesh_triangles": 592104
+    },
+    {
+      "part": 635751,
+      "split": "train",
+      "checked": 170,
+      "minimum_clearance_mm": 34.10104285818285,
+      "worst": {
+        "part": 635751,
+        "split": "train",
+        "pass_index": 9,
+        "sample": 0,
+        "q_rad": [
+          1.679007877980259,
+          -2.527832012466497,
+          2.7938585963085694,
+          -0.907933075057643,
+          -2.5433485634544533,
+          0.13162669818476352
+        ],
+        "phase": "saved_ik_sample",
+        "body": "sensor_head",
+        "obstacle": "table",
+        "clearance_mm": 34.10104285818285
+      },
+      "geometry_calls": 170,
+      "mesh_triangles": 317422
+    }
+  ],
+  "checked": 1870,
+  "no_policy_calls": true,
+  "test_access": false,
+  "geometry": "D-042 nominal CAD, original subdivision and exact collision.pose_clearance",
+  "wall_s": 124.32329580000078
+}
