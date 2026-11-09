@@ -235,9 +235,37 @@ def verify_query_equivalence(workers=11):
     return result
 
 
+def geometry_input_hashes(fid):
+    from nbv.visualization.replay import digest
+    allowed_part(fid);cfg=parts.load_yaml('configs/parts_v2.yaml')
+    paths=['configs/parts_v2.yaml','configs/robot_v2.yaml','configs/collision_v1.yaml',
+           f'data/cache/robot/nominal/{fid}_n48.npz',str(Path(cfg['paths']['raw'])/f'{fid}.ply')]
+    return {p:digest(p) for p in paths}
+
+
+def restore_geometries(path,fid,expected_sha,expected_inputs):
+    raw=Path(path).read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=expected_sha:raise ValueError('geometry snapshot hash mismatch')
+    saved=json.loads(raw)
+    if saved['part']!=fid or saved['max_step_deg']!=1. or saved['near_mm']!=10.:
+        raise ValueError('geometry snapshot identity/sampling mismatch')
+    if saved['geometry_input_sha256']!=expected_inputs:raise ValueError('geometry snapshot input hashes mismatch')
+    return saved['geometries']
+
+
+def in_scope(record,scope):
+    if record['split'] not in ('train','val'):return False
+    if scope=='all':return True
+    if scope=='val':return record['split']=='val'
+    if scope=='train-primary':return record['split']=='train' and record['weight_kind'] in ('tail','baseline')
+    if scope=='train-final':return record['split']=='train' and record['weight_kind']=='final'
+    raise ValueError('unknown audit scope')
+
+
 def audit_part(task):
-    fid,records,directory=task;model=NominalCollisionModel(fid);home=np.deg2rad(model.robot_cfg['q_home_deg'])
-    geometries={};episodes=[];events=[];started=time.perf_counter()
+    fid,records,directory,warm=task;model=NominalCollisionModel(fid);home=np.deg2rad(model.robot_cfg['q_home_deg'])
+    geometries=restore_geometries(warm['path'],fid,warm['sha256'],geometry_input_hashes(fid)) if warm else {}
+    reused=len(geometries);episodes=[];events=[];started=time.perf_counter()
     for number,record in enumerate(records):
         identity={k:record[k] for k in ('part','variant','method','seed','split','weight_kind','source_run')}
         identity['id']=f"{record['source_run']}:{record['variant']}"
@@ -259,18 +287,18 @@ def audit_part(task):
                     body=result['worst']['body'],obstacle=result['worst']['obstacle']))
         episodes.append(identity|dict(transfer_count=count,colliding_transfers=hits,any_collision=bool(depths),
                                      penetrations_mm=depths,phase_counts=dict(phase_counts)))
-        if number%100==0:
+        if number%10==0:
             print(f'Audit {fid}: {number+1}/{len(records)} episodes, {len(geometries)} distinct paths, {model.calls} poses',flush=True)
         # Pose cache is only a speed aid; cap RAM without changing exact path-result cache.
         if len(model.cache)>20000:model.cache.clear()
     output=dict(part=fid,episodes=episodes,events=events,
         geometries={k:v for k,v in geometries.items() if v['collided']},
-        unique_paths=len(geometries),geometry_calls=model.calls,wall_s=time.perf_counter()-started)
+        unique_paths=len(geometries),geometry_calls=model.calls,reused_paths=reused,wall_s=time.perf_counter()-started)
     Path(directory,f'part_{fid}.json').write_text(json.dumps(output,allow_nan=False),encoding='utf-8')
     return dict(part=fid,episodes=len(episodes),events=len(events),wall_s=output['wall_s'])
 
 
-def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
+def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8,*,scope='all',warm_cache=None):
     from concurrent.futures import ProcessPoolExecutor,as_completed
     from nbv.visualization.replay import digest
     from nbv import evaluation
@@ -283,11 +311,24 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     if not equivalence['complete'] or not equivalence['all_bit_identical']:raise ValueError('query parallelism equality gate required')
     groups=defaultdict(list);split_manifest=parts.load_yaml('configs/split_v1.yaml')
     for line in path.read_text(encoding='utf-8').splitlines():
-        e=json.loads(line);allowed_part(e['part'],split_manifest);groups[int(e['part'])].append(e)
+        e=json.loads(line);allowed_part(e['part'],split_manifest)
+        if in_scope(e,scope):groups[int(e['part'])].append(e)
+    expected={'all':6895,'val':1095,'train-primary':3400,'train-final':2400}[scope]
+    if sum(map(len,groups.values()))!=expected:raise ValueError('audit scope episode count mismatch')
+    metadata=metadata|dict(input_corpus_records=metadata['records'],records=expected,scope=scope)
+    selected_sources={e['source_run'] for records in groups.values() for e in records}
+    metadata['sources']={k:v for k,v in metadata['sources'].items() if k in selected_sources}
     print(f"Allowed trace inventory: {sum(map(len,groups.values()))} episodes / {len(groups)} parts",flush=True)
-    directory=Path('scratch/p004b/geometry');directory.mkdir(parents=True,exist_ok=True)
+    warm={}
+    if warm_cache:
+        warm=json.loads(Path(warm_cache).read_text(encoding='utf-8'))['parts']
+        for fid,item in warm.items():
+            allowed_part(int(fid),split_manifest)
+            if not Path(item['path']).resolve().is_relative_to(Path('scratch').resolve()):
+                raise ValueError('warm geometry snapshots must be private scratch files')
+    directory=Path('scratch/p004b/geometry')/scope;directory.mkdir(parents=True,exist_ok=True)
     with ProcessPoolExecutor(max_workers=workers) as pool:
-        futures=[pool.submit(audit_part,(fid,records,str(directory))) for fid,records in groups.items()]
+        futures=[pool.submit(audit_part,(fid,records,str(directory),warm.get(str(fid)))) for fid,records in groups.items()]
         try:
             for future in as_completed(futures):print('Part complete:',future.result(),flush=True)
         except BaseException:
@@ -296,7 +337,7 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     results=[json.loads((directory/f'part_{fid}.json').read_text(encoding='utf-8')) for fid in groups]
     episodes=[e for r in results for e in r['episodes']];events=[e for r in results for e in r['events']]
     geometries={k:v for r in results for k,v in r['geometries'].items()}
-    report=dict(schema_version=1,complete=True,sampling_max_joint_degrees=1.,near_mm=10.,measurement_provenance=measurement_state,
+    report=dict(schema_version=1,complete=True,scope=scope,sampling_max_joint_degrees=1.,near_mm=10.,measurement_provenance=measurement_state,
         geometry='Unchanged D-042 nominal CAD/capsules/sensor box/table and exemptions; no self-collision/fixtures.',
         time_mapping='Path fractions mapped linearly to recorded segment times for display only; not certified actuator timing.',
         interval_definition='Contiguous colliding sampled poses; boundaries do not certify exact continuous contact onset.',
@@ -305,9 +346,10 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
         query_parallelism='One Open3D query thread per part; processes across parts. Original pose_clearance unchanged.',
         query_equivalence_sha256=digest('results/collision_query_equivalence_v1.json'),
         episodes=episodes,events=events,geometries=geometries,by_part_method=summarize_events(episodes),
-        geometry_work=[{k:r[k] for k in ('part','unique_paths','geometry_calls','wall_s')} for r in results])
-    Path('results/collision_audit_v1.json').write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
-    write_report(report)
+        geometry_work=[{k:r[k] for k in ('part','unique_paths','geometry_calls','reused_paths','wall_s')} for r in results])
+    target=report_path(scope)
+    target.write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8')
+    finalize_audit(target)
     return report
 
 
@@ -324,6 +366,11 @@ def deepest_events(report,count=3):
                                  collision_interval=interval,interval_index=i)
             if state not in states or candidate['penetration_mm']>states[state]['penetration_mm']:states[state]=candidate
     return sorted(states.values(),key=lambda e:(-e['penetration_mm'],e['geometry_id'],e['interval_index']))[:count]
+
+
+def report_path(scope):
+    suffix={'all':'','val':'_val','train-primary':'_train','train-final':'_train_final'}[scope]
+    return Path(f'results/collision_audit{suffix}_v1.json')
 
 
 def write_report(report):
@@ -362,7 +409,9 @@ def write_report(report):
         'ENV v5 proposal is a retract waypoint plus densely checked motion and recomputed time matrices. That '
         'requires regenerated baseline and learning results; none of it is applied here.', '',
         '[Machine-readable event ledger](collision_audit_v1.json) · [Original waypoint gate](collision_waypoint_gate_v1.json)', '']
-    Path('results/collision_audit_v1.md').write_text('\n'.join(lines),encoding='utf-8')
+    target=report_path(report.get('scope','all')).with_suffix('.md')
+    lines.append(f"Scope: {report.get('scope','all')}. The source corpus may include other scopes; only the listed episodes enter these rates.")
+    target.write_text('\n'.join(lines),encoding='utf-8')
 
 
 def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=None):

@@ -11,6 +11,8 @@ if __name__=='__main__':
     parser.add_argument('--finalize',action='store_true',help='Validate ledger and regenerate summaries only; no geometry evaluation')
     parser.add_argument('--measurement-commit',help='Original core commit for a legacy ledger without embedded code provenance')
     parser.add_argument('--workers',type=int,default=8)
+    parser.add_argument('--scope',choices=['all','val','train-primary','train-final'],default='all')
+    parser.add_argument('--warm-cache',help='Hash-verified private geometry snapshots; unchanged 1-degree sampling')
     args=parser.parse_args()
     if args.waypoints_only:
         r=check_waypoints();print(f"Saved waypoint gate passed: {r['checked']} samples")
@@ -21,4 +23,4 @@ if __name__=='__main__':
     elif args.finalize:
         r=finalize_audit(measurement_commit=args.measurement_commit);print(f"Audit ledger verified: {len(r['episodes'])} episodes")
     else:
-        r=run_audit(workers=args.workers);print(f"Collision audit complete: {len(r['episodes'])} episodes")
+        r=run_audit(workers=args.workers,scope=args.scope,warm_cache=args.warm_cache);print(f"Collision audit complete: {len(r['episodes'])} episodes")

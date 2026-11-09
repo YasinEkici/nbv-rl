@@ -109,3 +109,25 @@ def test_deepest_views_include_all_bodies_and_deduplicate_identical_states():
     result=deepest_events(report)
     assert [e['body'] for e in result]==['forearm','sensor_head','wrist_1']
     assert [e['penetration_mm'] for e in result]==[80.,70.,60.]
+
+
+def test_warm_geometry_requires_exact_snapshot_and_input_hashes(tmp_path):
+    import hashlib,json
+    from nbv.collision_audit import restore_geometries
+    path=tmp_path/'snapshot.json';inputs={'nominal':'abc','robot':'def'}
+    path.write_text(json.dumps({'part':1,'max_step_deg':1.,'near_mm':10.,
+        'geometry_input_sha256':inputs,'geometries':{'segment':{'collided':True,'minimum_clearance_mm':-2.123456789}}}),encoding='utf-8')
+    sha=hashlib.sha256(path.read_bytes()).hexdigest()
+    assert restore_geometries(path,1,sha,inputs)['segment']['minimum_clearance_mm']==-2.123456789
+    for part,digest,current in [(2,sha,inputs),(1,'wrong',inputs),(1,sha,inputs|{'robot':'changed'})]:
+        with pytest.raises(ValueError,match='snapshot|identity|input'):restore_geometries(path,part,digest,current)
+
+
+def test_audit_scope_prioritizes_val_then_primary_train():
+    from nbv.collision_audit import in_scope
+    val={'split':'val','weight_kind':'tail'};primary={'split':'train','weight_kind':'tail'}
+    final={'split':'train','weight_kind':'final'};base={'split':'train','weight_kind':'baseline'}
+    assert in_scope(val,'val') and not in_scope(primary,'val')
+    assert in_scope(base,'train-primary') and in_scope(primary,'train-primary')
+    assert not in_scope(final,'train-primary') and in_scope(final,'train-final')
+    assert not in_scope({'split':'test','weight_kind':'tail'},'all')
