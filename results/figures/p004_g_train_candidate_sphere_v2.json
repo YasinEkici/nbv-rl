@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "commit": "c8456d0",
+  "registry_sha256": "606953b4068de0a83d11988698ae241a6976947bbd715ad9c6266a8ec8c694ad",
+  "styles": {
+    "sarsa/linear": {
+      "color": "#0072B2",
+      "marker": "o",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "regq/linear": {
+      "color": "#D55E00",
+      "marker": "s",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "myopic/linear": {
+      "color": "#009E73",
+      "marker": "^",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "sarsa/none": {
+      "color": "#000000",
+      "marker": "v",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "sarsa/convex": {
+      "color": "#CC79A7",
+      "marker": "D",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "sarsa/value_estimate": {
+      "color": "#E69F00",
+      "marker": "P",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "random": {
+      "color": "#56B4E9",
+      "marker": "x",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "fixed": {
+      "color": "#F0E442",
+      "marker": "*",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "greedy_ig": {
+      "color": "#009E73",
+      "marker": "+",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "greedy_cost": {
+      "color": "#000000",
+      "marker": "X",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "ilp_tsp": {
+      "color": "#0072B2",
+      "marker": ">",
+      "linestyle": "--",
+      "fillstyle": "none"
+    },
+    "mcts": {
+      "color": "#D55E00",
+      "marker": "h",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "joint_opt": {
+      "color": "#CC79A7",
+      "marker": "<",
+      "linestyle": "--",
+      "fillstyle": "none"
+    }
+  },
+  "intervals": "Individual observations; no uncertainty interval unless explicitly labeled.",
+  "test_access": "Registry metrics only; no test cache/output/environment access.",
+  "method_adaptations": {
+    "all": "Frozen canonical methods/settings (D-041/D-053), no tuning, policy selection or changed scientific claim.",
+    "learners": "Primary D-046 tail-average policies; method/Phi labels distinguish the original trained weights, eleven D-049 features.",
+    "baselines": "Original nominal-model planners and recorded repair; actual stochastic seed counts retained.",
+    "mcts": "Original nominal rollout/search budget and saved seed identities; no fresh search for these views.",
+    "replay": "Stored sequence only; full oracle A then partial oracle B (D-069), no policy calls.",
+    "learning_highlights": "Adapted from tanaka2026: ten runs, final official-policy score, actual best/lower-median/worst; rank line styles override method line styles in this panel only."
+  },
+  "split": "train",
+  "source_run_ids": [],
+  "source_commits": {},
+  "transformations": [
+    "2D azimuth/elevation of saved unit directions; original IK and collision masks; legacy filename retained."
+  ],
+  "source_files": {
+    "data/cache/visibility/nominal/points_46262.npz": "33bbe2aff641de01dcf9a618dddb726ef08836cceee4e329e45a4c92e807e772",
+    "data/cache/robot/nominal/46262_n48.npz": "371c5d61ca6281cae1fd01e0ec308fbbbf27e2358079c18e97b58f099388310d",
+    "data/cache/visibility/nominal/46262_n48.npz": "8637365fd0c5f9edf5e813ecee891442301d1a037ac9261f81a6d707f5e7e684",
+    "data/cache/visibility/nominal/points_124336.npz": "067c872eaa1c796d020b6aa4a78c8f1d6f079f7e18902be6133807f1633c02fa",
+    "data/cache/robot/nominal/124336_n48.npz": "7171a495e8b6cad19726b14adfeba76b5ce9b0bad035006e84c2d49836beceb1",
+    "data/cache/visibility/nominal/124336_n48.npz": "5f9917010447052fe8535f42925be36a64840a2981a8bc8ea8f0732a93561f1e",
+    "data/cache/visibility/nominal/points_548863.npz": "9799caacfc35ccaafe881d96f7ccc1eb71d23fd79623be678a921223268a8609",
+    "data/cache/robot/nominal/548863_n48.npz": "4a0cbb1cd14b8e447a808cc22f0f02e1892e8ab0caf114765f840abd9aed7809",
+    "data/cache/visibility/nominal/548863_n48.npz": "319b8a2fe0634a9894795eabb635a25651988fa93df6c24aa6b7791e8227a821",
+    "data/cache/visibility/nominal/points_65149.npz": "953a7e0041e73e0a3b1d97c202deb7f1af61535e490e11a5d31c6a1d6aac5472",
+    "data/cache/robot/nominal/65149_n48.npz": "a26dddaed3e7e4713d634296c09f3e2658cc6f3d15b6d68d11d4fa8dac17698d",
+    "data/cache/visibility/nominal/65149_n48.npz": "63898a5040ce57f6a5137c9c6ec72a56222ac8618407aabe60f2ee5c6c6baaad",
+    "data/cache/visibility/nominal/points_702389.npz": "8c8b78f4807b0a101465585662c6e4307fab2bb1e17c2d375f6fe14a8432e9c5",
+    "data/cache/robot/nominal/702389_n48.npz": "67449d4914b147c28f8f701e5949761a25fda916ca9a19cfe90c2e56ca6e8a0c",
+    "data/cache/visibility/nominal/702389_n48.npz": "727a73ed4857a8bea145ec05a0f3f08f4b62f045abd9f691fc6c66f8cd62fa69",
+    "data/cache/visibility/nominal/points_135365.npz": "4e2636fbe8b04ab2a4346f90b4949d1be597e0dbd463acefc259f71dee6a179a",
+    "data/cache/robot/nominal/135365_n48.npz": "56340dbc27161c7a7e9db7ffdb7aaabd93c617de912f213fa78ab85ffc3ecbce",
+    "data/cache/visibility/nominal/135365_n48.npz": "9da3f2cf902177e9dc11ba8c6dc16769c37fa2b77e87f540517457dee082109c",
+    "data/cache/visibility/nominal/points_124532.npz": "e2239a41336d87e3da8c3d1b443dba5421aa5357bf6570e45e34762a184cfda2",
+    "data/cache/robot/nominal/124532_n48.npz": "c12d615a9e6241fe6beca1055b2484a9a8a07f36b2ccd9b0be3b603b86d90634",
+    "data/cache/visibility/nominal/124532_n48.npz": "a82533b161f449b53e9f6c5bc972f2fb95c2d1ee4d91cffeb343437598f67f21",
+    "data/cache/visibility/nominal/points_635751.npz": "0e549e0ba95d1bb081a9c765a05fc22b7d2670434116d7afdbf14a94f1375dbd",
+    "data/cache/robot/nominal/635751_n48.npz": "5f8db4712992a57382523ea7a220ed4cf36cec73c011a37eb9c3d845e4b0fd57",
+    "data/cache/visibility/nominal/635751_n48.npz": "64bf326cab7e8a933aae888e84743ec19698a8640cf053f29e53f591c9caaeb6"
+  },
+  "base_style": {
+    "joint_opt": {
+      "color": "#3f90da",
+      "marker": "<",
+      "linestyle": "--",
+      "fillstyle": "none"
+    },
+    "ilp_tsp": {
+      "color": "#ffa90e",
+      "marker": ">",
+      "linestyle": "--",
+      "fillstyle": "none"
+    },
+    "sarsa/value_estimate": {
+      "color": "#832db6",
+      "marker": "P",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "mcts": {
+      "color": "#92dadd",
+      "marker": "h",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "regq/linear": {
+      "color": "#bd1f01",
+      "marker": "s",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "greedy_cost": {
+      "color": "#94a4a2",
+      "marker": "X",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "sarsa/convex": {
+      "color": "#a96b59",
+      "marker": "D",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "sarsa/none": {
+      "color": "#e76300",
+      "marker": "v",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "sarsa/linear": {
+      "color": "#717581",
+      "marker": "o",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "myopic/linear": {
+      "color": "#b9ac70",
+      "marker": "^",
+      "linestyle": "-",
+      "fillstyle": "full"
+    },
+    "greedy_ig": {
+      "color": "#a96b59",
+      "marker": "+",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "fixed": {
+      "color": "#e76300",
+      "marker": "*",
+      "linestyle": ":",
+      "fillstyle": "full"
+    },
+    "random": {
+      "color": "#b9ac70",
+      "marker": "x",
+      "linestyle": ":",
+      "fillstyle": "full"
+    }
+  },
+  "render_style": {
+    "random": {
+      "mode": "report",
+      "color": "#b9ac70",
+      "label_color": "#6b6441"
+    },
+    "fixed": {
+      "mode": "report",
+      "color": "#e76300",
+      "label_color": "#863900"
+    },
+    "greedy_ig": {
+      "mode": "report",
+      "color": "#a96b59",
+      "label_color": "#623e34"
+    },
+    "greedy_cost": {
+      "mode": "report",
+      "color": "#94a4a2",
+      "label_color": "#565f5e"
+    },
+    "mcts": {
+      "mode": "report",
+      "color": "#92dadd",
+      "label_color": "#557e80"
+    },
+    "ilp_tsp": {
+      "mode": "report",
+      "color": "#ffa90e",
+      "label_color": "#946208"
+    },
+    "joint_opt": {
+      "mode": "report",
+      "color": "#3f90da",
+      "label_color": "#25547e"
+    },
+    "sarsa/linear": {
+      "mode": "report",
+      "color": "#717581",
+      "label_color": "#42444b"
+    },
+    "sarsa/value_estimate": {
+      "mode": "report",
+      "color": "#832db6",
+      "label_color": "#4c1a6a"
+    },
+    "regq/linear": {
+      "mode": "report",
+      "color": "#bd1f01",
+      "label_color": "#6e1201"
+    },
+    "myopic/linear": {
+      "mode": "report",
+      "color": "#b9ac70",
+      "label_color": "#6b6441"
+    },
+    "sarsa/none": {
+      "mode": "report",
+      "color": "#e76300",
+      "label_color": "#863900"
+    },
+    "sarsa/convex": {
+      "mode": "report",
+      "color": "#a96b59",
+      "label_color": "#623e34"
+    }
+  },
+  "rendered_text": [
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "46262",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "124336",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "548863",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "65149",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "702389",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "135365",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "124532",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "Azimuth (deg)",
+    "−200",
+    "−100",
+    "0",
+    "100",
+    "200",
+    "Elevation (deg)",
+    "0",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "635751",
+    "reachable",
+    "ik unreachable",
+    "collision masked",
+    "TRAIN: saved candidate masks",
+    "Saved nominal geometry and reachability; no new IK or visibility. Part frame, z upward; angle axes in degrees."
+  ],
+  "render_commit": "32257ca",
+  "theme_version": "v2",
+  "display_order": [
+    "joint_opt",
+    "ilp_tsp",
+    "sarsa/value_estimate",
+    "mcts",
+    "regq/linear",
+    "greedy_cost",
+    "sarsa/convex",
+    "sarsa/none",
+    "sarsa/linear",
+    "myopic/linear",
+    "greedy_ig",
+    "fixed",
+    "random"
+  ],
+  "font": {
+    "family": "IBM Plex Sans",
+    "versions": {
+      "IBMPlexSans-Regular.ttf": "Version 3.005",
+      "IBMPlexSans-SemiBold.ttf": "Version 3.005",
+      "IBMPlexSans-Bold.ttf": "Version 3.005"
+    },
+    "files": {
+      "IBMPlexSans-Regular.ttf": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5",
+      "IBMPlexSans-SemiBold.ttf": "a20caf8286023a6a7a85e40b1d2a4ae9fc3e3b1f9eda8f4c542dd4986af67bb1",
+      "IBMPlexSans-Bold.ttf": "9e6c74a889a700d707613d24548fe4ffa6bc59559a0689d2cf9e133bdcdafb2f",
+      "LICENSE.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+    },
+    "license": "OFL-1.1"
+  }
+}
