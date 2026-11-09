@@ -70,7 +70,7 @@ def live_reference_curves(variant,seed):
     for e in records:
         expected=0 if e['method'] in ('greedy_cost','ilp_tsp','joint_opt') else seed
         if e['variant']==variant and e['method'] in METHODS and e['seed']==expected:chosen[e['method']]=e
-    sha=digest('results/visualization/replay_validation_v1.json');home=np.asarray(robot_description()['q_home_rad'])
+    sha=digest('results/visualization/replay_validation_v1.json');home=tuple(float(q) for q in robot_description()['q_home_rad'])
     return [episode_document(chosen[m],home,sha) for m in METHODS]
 
 
