@@ -20,9 +20,17 @@ scratch/
 .env
 .claude/settings.local.json
 
-# Local research/report-writing notes and AI-agent instructions/configuration.
-# These files stay on the maintainer's machine, outside version control.
-/docs/
+# Project documents are versioned; private workflow configuration stays local.
+/docs/*
+!/docs/DECISIONS.md
+!/docs/PROTOCOL.md
+!/docs/LITERATURE.md
+!/docs/PROJECT.md
+!/docs/DEMO_GUIDE.md
+!/docs/plans/
+/docs/AGENT_WORKFLOW.md
+/docs/**/*prompt*
+/docs/**/*PROMPT*
 AGENTS.md
 CLAUDE.md
 .agents/
