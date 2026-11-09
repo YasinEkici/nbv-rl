@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source": "Actual localhost browser screenshot, completed frozen-policy VAL episode",
+  "source_commit": "275a908",
+  "variant": "271875_v0",
+  "seed": 0,
+  "method": "sarsa/value_estimate",
+  "png_sha256": "523462cb5d2f1602956650f928ae506201dc6f2cd5fde9de1c72a7bece15adc2",
+  "visible_text": "NBV / VAL only\nNBV — VAL\n\nCanlı politika / kayıtlı CAD planı.\n\nOynat\nKarşılaştır\nBilgi\n\nParça\n\nVaryant\n\nYöntem\n\nSeed\n\nBaşlat / Duraklat\nAdım\nSıfırla\n\nHız (×)\n\n0.25\n8\n\n48 aday pası göster\n\nÇarpışma modeli\n\nKamera\n\nGenel\nParça\nYan\nKapsama 95.00%\nhedef %95\n\nCanlı politika; ε = 0 · VAL 271875_v0 · sarsa/value_estimate · seed 0\n\nAdım: 14 · Pas: eve dönüş\n\nBirikmiş süre: 67.175118 s\n\nBirincil kapsama: 95.001329% (erişilebilir birleşim)\n\nSon karar/adım: 53.459 ms — canlı, bu makine, görüntüleme yükü dahil; animasyon beklemesi hariç. D-066 ile karşılaştırılmaz.\n\nDoğrulama: Kayıtla birebir ✓\n\nÇarpışma aralığı yok (D-071 örneklenmiş denetim).\n\nKapsama yeniden oynatmadan/canlı ENV adımından türetildi; kayıtlı kısmi oracle ile tutarlılık bölüm sonunda kontrol edilir.\n\nPart: PHIL — Mr_MegaTronic; Creative Commons - Attribution (sürüm kayıtlı değil). Kaynak\nRobot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.\n0\n20\n40\n60\n0%\n20%\n40%\n60%\n80%\n100%\nBirikmiş süre (s)\nKapsama\n\nGrafik: kayıtlı VAL eğrileri soluk; seçili canlı bölüm renkli. İmleç gösterim zamanıdır.",
+  "bundle_manifest_sha256": "6f5d8328a1a2271189f8f550bb99e099b33142eb1f2cb606202289102989111f",
+  "status": "exact recorded-result agreement through home; initialization fix before later theme-v2 presentation"
+}
