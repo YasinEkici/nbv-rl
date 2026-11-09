@@ -49,11 +49,12 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
     output=Path(directory);source=RegistryFigures();test=source.test_records();files=[]
     common=dict(schema_version=1,commit=state['commit'],registry_sha256=digest(source.path),
         adaptation='Presentation adaptation of rougier2014; original report figures and sidecars unchanged.',
-        style_policy='One highlight (two for quality/latency); other methods grey with their distinct original markers. Direct labels; no upper/right spine; horizontal light grid; minimum 18 pt.')
+        style_policy='One highlight (two for quality/latency); other methods grey with their distinct original markers. Direct labels; no upper/right spine; horizontal light grid; minimum 18 pt.',
+        method_adaptations='Frozen canonical policies/settings and tail-weight quality records; no new policy evaluation, tuning or selection. Grey context is the user-authorized presentation exception to report colors; original markers/fill/family lines remain.')
     def finish(fig,name,title,caption,*,sources,split,**metadata):
         fig.suptitle(title,x=.12,y=.95,ha='left',fontsize=27,fontweight='semibold')
         fig.text(.12,.075,caption,fontsize=18,va='bottom')
-        save_slide(fig,output/name,common|dict(source_run_ids=sorted(set(sources)),split=split,
+        save_slide(fig,output/name,common|dict(title=title,caption=caption,source_run_ids=sorted(set(sources)),split=split,
             transformations=metadata.pop('transformations',[]))|metadata)
         files.append(name);print('Presentation slide:',name,flush=True)
 
@@ -171,4 +172,17 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         'VAL recorded paths, unchanged D-042 geometry, maximum 1° joint sampling.\nFaint = individual parts; outlined = pooled transfer rate, including home. Descriptive only.',
         sources=list(collision['sources']['sources']),split='VAL',rates=rates,by_part=groups,
         audit_sha256=digest(audit),highlight_rule='Largest measured transfer rate; visual emphasis only, no policy/setting selection.')
+    index=['# Presentation figures (Plan 004b)', '',
+        'Separate presentation exports. Original report figures and the immutable demo are unchanged. '
+        'All uncertainty/distribution encodings and data splits are stated on the figures and in their JSON receipts.', '',
+        'Presentation principles adapted from [Rougier, Droettboom & Bourne (2014)](https://doi.org/10.1371/journal.pcbi.1003833); '
+        'the exact layout and typography are project choices.', '',
+        '| Figure | PNG | PDF | Sources and transformations |','|---|---|---|---|']
+    manifest={}
+    for name in files:
+        metadata=json.loads((output/f'{name}.json').read_text(encoding='utf-8'))
+        index.append(f"| {metadata['title']} | [PNG]({name}.png) | [PDF]({name}.pdf) | [JSON]({name}.json) |")
+        manifest[name]={suffix:digest(output/f'{name}.{suffix}') for suffix in ('png','pdf','json')}
+    (output/'README.md').write_text('\n'.join(index)+'\n',encoding='utf-8')
+    (output/'manifest_v1.json').write_text(json.dumps(dict(commit=state['commit'],files=manifest),indent=2),encoding='utf-8')
     return files

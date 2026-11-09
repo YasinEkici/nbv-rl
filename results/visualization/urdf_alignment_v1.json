@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "parts": [
+    {
+      "part": 271875,
+      "split": "val",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.3000000008959586,
+      "axis_deg": 2.4148365394514667e-06
+    },
+    {
+      "part": 46262,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.30000000080325495,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 124336,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.3000000006432163,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 548863,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 37,
+      "reachable_passes": 37,
+      "poses": 185,
+      "position_mm": 0.30000000010492467,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 37275,
+      "split": "val",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.3000000008780146,
+      "axis_deg": 2.2588727439225506e-06
+    },
+    {
+      "part": 591247,
+      "split": "val",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.3000000007336717,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 65149,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 33,
+      "reachable_passes": 33,
+      "poses": 165,
+      "position_mm": 0.3000000006251474,
+      "axis_deg": 2.2588727439225506e-06
+    },
+    {
+      "part": 702389,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 33,
+      "reachable_passes": 33,
+      "poses": 165,
+      "position_mm": 0.30000000063025445,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 135365,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.30000000064968335,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 124532,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 33,
+      "reachable_passes": 33,
+      "poses": 165,
+      "position_mm": 0.3000000007430531,
+      "axis_deg": 2.091309789151873e-06
+    },
+    {
+      "part": 635751,
+      "split": "train",
+      "candidates": 48,
+      "finite_passes": 34,
+      "reachable_passes": 34,
+      "poses": 170,
+      "position_mm": 0.300000000615086,
+      "axis_deg": 2.2588727439225506e-06
+    }
+  ],
+  "poses": 1870,
+  "position_limit_mm": 0.5,
+  "axis_limit_deg": 0.1,
+  "joint_offsets_rad": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "base_frame_conversion": "URDF base_link to DH base: Rz(pi); no translational fit and no joint offsets.",
+  "residual": "URDF d1=0.089159 m; frozen roboticstoolbox DH d1=0.089459 m. Original dimensions retained.",
+  "checked": "Both flange (tool0) and TCP at every finite saved pass sample, including masked passes. IK-unsolved NaN plans cannot be checked or animated. Train/VAL only.",
+  "asset_manifest_sha256": "d890317922e3252bca9cf85b28ee262b0a6242192e7a90b13bb3fa35d67635c8",
+  "provenance": {
+    "commit": "697c6f2",
+    "dirty": false,
+    "changed_files": []
+  },
+  "license": "BSD-3-Clause"
+}
