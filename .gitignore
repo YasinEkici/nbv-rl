@@ -19,3 +19,12 @@ scratch/
 *.zip
 .env
 .claude/settings.local.json
+
+# Local research/report-writing notes and AI-agent instructions/configuration.
+# These files stay on the maintainer's machine, outside version control.
+/docs/
+AGENTS.md
+CLAUDE.md
+.agents/
+.claude/
+.codex/

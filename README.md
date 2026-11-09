@@ -2,6 +2,8 @@
 
 ## Abstract and status
 
+Development plans, protocols, literature notes and AI-agent instructions are local working documents and are not distributed in Git. References to those documents below require the maintainer's private copy. Generated reports and demo data in `results/` remain versioned; regenerating reports that read `docs/` also requires the local documents.
+
 A robot-mounted line-laser profilometer must cover a cast part with little robot motion and scanning time. This graduate Deep Reinforcement Learning course project studies a known-CAD, next-best-view problem with discrete scan passes, dual laser/camera occlusion and estimated joint-space cycle time. Phase 1 compares hand-written NumPy true online SARSA(lambda), regularized linear Q-learning and a myopic learner against cost-aware greedy, MCTS, ILP+TSP and a joint planning reference. All predeclared Phase 1 hypotheses are rejected. The value_estimate shaping arm has consistently lower SARSA means across train, validation and test; this is a descriptive finding with an unverified mechanism. Tail averaging improves the reliability of the deployed policy relative to the secondary final weights. Phase 2 will examine richer state-action representations; no deep agent has been trained for this report.
 
 | Plan | Scope | Status |
@@ -9,14 +11,14 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | 001 | Environment, visibility, robot masks and baselines | Completed |
 | 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
-| 004 | [Visualization and demos](docs/plans/done/004-visualization.md) | Completed, including optional local VAL viewer |
+| 004 | Visualization and demos | Completed, including optional local VAL viewer |
 | 005 | Final analysis and paper | Not started |
 
-The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: [Plan 002](docs/plans/done/002-classical-rl.md), [decisions](docs/DECISIONS.md), [frozen PROTOCOL v1](docs/PROTOCOL.md), and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
+The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: Plan 002, decisions, frozen PROTOCOL v1, and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
 
 ## Problem and relationship to the assignment
 
-The assignment is **Ödev 7: 3B Lazer Tarama ve Kalite Kontrol Hücresinde En İyi Sonraki Bakış Açısı (Next-Best-View) Planlama**. Its original wording is preserved in [PROJECT.md](docs/PROJECT.md): select the sensor's next position/orientation from a measured/unmeasured surface representation; reward new information while penalizing robot travel and scanning; the suggested method is SAC.
+The assignment is **Ödev 7: 3B Lazer Tarama ve Kalite Kontrol Hücresinde En İyi Sonraki Bakış Açısı (Next-Best-View) Planlama**. Its original wording is preserved in PROJECT.md: select the sensor's next position/orientation from a measured/unmeasured surface representation; reward new information while penalizing robot travel and scanning; the suggested method is SAC.
 
 We make three explicit adaptations. First, a line laser measures during a sweep, so an action selects a complete scan pass from a fixed candidate set rather than an unconstrained instantaneous viewpoint. Second, the cost is estimated UR5 joint-space movej time plus scan and return-home time, rather than Euclidean distance. Third, the environment reward contains only the task objective; potential-based coverage shaping belongs to the agent. These choices are recorded in D-020, D-022, D-024, D-029 and D-038. Phase 1 follows the course ban on neural networks; SAC remains a proposed Phase 2 main arm, alongside a masked discrete learner (D-008/D-040).
 
@@ -69,7 +71,7 @@ This is a conceptual information-flow diagram, not a rendering of the physical c
 
 ## Baselines and Plan 001
 
-[Plan 001](docs/plans/done/001-environment-and-baselines.md) established the environment before learner results and passed two [independent robustness reviews](docs/reviews/). Its [canonical train/VAL tables](results/baselines_v1.md) show why a cost-aware reference is needed: maximizing information gain alone can waste motion; combining coverage and travel matters.
+Plan 001 established the environment before learner results and passed two independent robustness reviews. Its [canonical train/VAL tables](results/baselines_v1.md) show why a cost-aware reference is needed: maximizing information gain alone can waste motion; combining coverage and travel matters.
 
 The frozen canonical set (D-033/D-035/D-041) contains:
 
@@ -93,7 +95,7 @@ Potential-based reward shaping uses `r + Phi(s') - Phi(s)`, with zero terminal p
 
 ## Experimental design and audit trail
 
-[PROTOCOL v1](docs/PROTOCOL.md) was frozen before Phase 1 results (D-043). The [Plan 002 predeclaration](docs/plans/done/002-classical-rl.md) fixes hypotheses, metrics, grids, selection, seeds and budgets. Amendments were recorded before task results; interpretations written later are labeled as observations.
+PROTOCOL v1 was frozen before Phase 1 results (D-043). The Plan 002 predeclaration fixes hypotheses, metrics, grids, selection, seeds and budgets. Amendments were recorded before task results; interpretations written later are labeled as observations.
 
 Each learner received 12 grid points, three tuning seeds 1000–1002 and 200000 steps per point/seed. Selection used the last two VAL evaluations, then the predeclared tolerance band, seed spread and smaller step. Official seeds 0–9 were disjoint and received 2000000 steps with 20 VAL evaluations. The [complete grid](results/tuning_v1.md), [selected settings](results/selected_settings_v1.json) and [runtime evidence](results/training_speed_v1.md) are recorded. There was one global setting per method, not one per part. The SARSA ablations inherited the main setting; they were not retuned.
 
@@ -223,7 +225,7 @@ The [generated S1/S2 handoff](results/visualization/README.md) indexes every new
 
 Stepwise figures use [verified VAL stored-sequence replay](results/visualization/replay_validation_v1.json), without policy calls: [coverage versus time](results/figures/p004_d_val_coverage_time.png), [VAL time components](results/figures/p004_e_val_time_components.png), [test total motion versus time](results/figures/p004_e_test_motion_time.png), galleries and candidate masks. Baseline steps match their full oracle; learner summaries match a partial oracle. Learner final coverage is derived from replay, consistent with that partial oracle; matching AUC alone does not prove final coverage.
 
-The [VAL demo bundle](results/demo/README.md) contains versioned lossless data and its schema/SHA-256 manifest, with separate home steps and invalid-pass animation masks. It contains no test geometry or test replay. Meshes are nominal; points/normals are variant v0 with original sample correspondence. License versions for the exported models are not recorded; this is explicit in every part's attribution rather than an inferred deed. The [playback and live-demo guide](docs/DEMO_GUIDE.md) gives the local Viser commands and controls. Reproduction: `uv run python scripts/report_figures.py`, `uv run python scripts/export_demo.py` (fresh destination only), and `uv run python scripts/report_visualization.py`; see the handoff for artifact prerequisites.
+The [VAL demo bundle](results/demo/README.md) contains versioned lossless data and its schema/SHA-256 manifest, with separate home steps and invalid-pass animation masks. It contains no test geometry or test replay. Meshes are nominal; points/normals are variant v0 with original sample correspondence. License versions for the exported models are not recorded; this is explicit in every part's attribution rather than an inferred deed. The playback and live-demo guide gives the local Viser commands and controls. Reproduction: `uv run python scripts/report_figures.py`, `uv run python scripts/export_demo.py` (fresh destination only), and `uv run python scripts/report_visualization.py`; see the handoff for artifact prerequisites.
 
 ### Secondary metrics and generalization gap
 
@@ -292,13 +294,13 @@ Additional experimental limitations are SARSA-only alpha/feature-count scaling i
 
 ## Bridge to Phase 2
 
-[Plan 003](docs/plans/003-deep-rl-and-ablations.md) is a draft, not an approved experiment. Its question is whether learned state-action interactions can overcome the Phase 1 representation limit while preserving environment, reward and comparable metrics. A new protocol version must settle deep-agent evaluation details before results. Options, not decisions, include a dueling masked DQN, HuRL-style heuristic guidance, residual learning over a greedy/MCTS base policy, and a controlled test of the value_estimate explanation. Continuous residual control must be adapted carefully to discrete masked scan passes. SAC remains in scope because the assignment explicitly proposes it. New holdout/evaluation policy, budgets and speed feasibility require a fresh predeclaration; this closed Phase 1 test set is not a selection resource.
+Plan 003 is a draft, not an approved experiment. Its question is whether learned state-action interactions can overcome the Phase 1 representation limit while preserving environment, reward and comparable metrics. A new protocol version must settle deep-agent evaluation details before results. Options, not decisions, include a dueling masked DQN, HuRL-style heuristic guidance, residual learning over a greedy/MCTS base policy, and a controlled test of the value_estimate explanation. Continuous residual control must be adapted carefully to discrete masked scan passes. SAC remains in scope because the assignment explicitly proposes it. New holdout/evaluation policy, budgets and speed feasibility require a fresh predeclaration; this closed Phase 1 test set is not a selection resource.
 
 ## Visualization
 
 The [complete figure index](results/visualization/README.md) links every PNG/PDF and its source JSON. Corrected views include [individual learning runs](results/figures/p004_b_learning_runs.png), [paired differences](results/figures/p004_c2_paired_forward.png), the [actual-range surface gallery](results/figures/p004_f_val_gallery.png) and [2D candidate masks](results/figures/p004_g_val_candidate_sphere.png). The [candidate audit](results/visualization/candidate_audit_v1.md) uses train/VAL only. Test graphics use registry metrics exclusively.
 
-For the local viewer, follow [DEMO_GUIDE.md](docs/DEMO_GUIDE.md). Install the optional extra and choose one mode:
+For the local viewer, follow DEMO_GUIDE.md. Install the optional extra and choose one mode:
 
 ```powershell
 uv sync --extra demo
@@ -329,33 +331,33 @@ uv run python scripts/report_phase1.py
 
 The reporting commands read registered metrics/outputs; they do not execute test episodes. Report regeneration requires the ignored original output artifacts where legacy registry rows reference episode files. A source-only checkout does not contain caches, meshes or checkpoints. Recreating those inputs is a separate data-preparation operation, not permission to rerun the closed test campaign.
 
-Historical learning entry points are `scripts/train_agent.py --grid` and `scripts/run_official.py`; the selected settings are frozen in JSON and the per-run output configs. Baseline entry points are `scripts/run_baselines.py`, `scripts/d_plan.py` and `scripts/joint_opt.py`. Baseline records default to exploratory; `--status canonical` requires a clean tree. Data preparation uses `prepare_parts.py fetch/split/variants` with the committed configs. Consult [PROTOCOL.md](docs/PROTOCOL.md) before reproducing a campaign. These commands describe the workflow, not an instruction to append duplicate experiments.
+Historical learning entry points are `scripts/train_agent.py --grid` and `scripts/run_official.py`; the selected settings are frozen in JSON and the per-run output configs. Baseline entry points are `scripts/run_baselines.py`, `scripts/d_plan.py` and `scripts/joint_opt.py`. Baseline records default to exploratory; `--status canonical` requires a clean tree. Data preparation uses `prepare_parts.py fetch/split/variants` with the committed configs. Consult PROTOCOL.md before reproducing a campaign. These commands describe the workflow, not an instruction to append duplicate experiments.
 
 `evaluate_test.py` is intentionally **not** in the reproduction command list: the opening and single incident continuation have completed. Its exclusive claims and existing registry rows prevent another opening. The repaired input-preparation helper is configurable and checks existing hashes; it was tested with synthetic inputs in Slice 6, not executed against real test parts. [Manifest preparation](results/test_input_preparation_v1.json), [input hashes](results/test_input_manifest_v1.json), [execution evidence](results/test_execution_v1.json), and the [Plan 002 run index](results/plan002_registry_v1.csv) connect source snapshots to immutable artifacts. Numbers in generated blocks can be refreshed by the reporting command; handwritten prose must not become a second result registry.
 
 ## References and evidence levels
 
-Only entries recorded as verified-source or secondary in [LITERATURE.md](docs/LITERATURE.md) are included below. Verified-source means the citation and used claim were seen in the source, not that the whole paper was read; secondary means the claim was encountered through another work. Unverified placeholders are excluded. Full-read plus DOI verification is a separate, stricter status (D-044).
+Only entries recorded as verified-source or secondary in LITERATURE.md are included below. Verified-source means the citation and used claim were seen in the source, not that the whole paper was read; secondary means the claim was encountered through another work. Unverified placeholders are excluded. Full-read plus DOI verification is a separate, stricter status (D-044).
 
 <!-- BEGIN GENERATED: references -->
 | Key | Citation | Status | Source/notes |
 |---|---|---|---|
-| thingi10k | Zhou & Jacobson, "Thingi10K: A Dataset of 10,000 3D-Printing Models", arXiv 1605.04797, 2016 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
-| vanseijen2016 | van Seijen, Mahmood, Pilarski, Machado & Sutton, "True Online Temporal-Difference Learning", JMLR 17(145), 2016 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
+| thingi10k | Zhou & Jacobson, "Thingi10K: A Dataset of 10,000 3D-Printing Models", arXiv 1605.04797, 2016 | verified-source (2026-11-03) | literature notes |
+| vanseijen2016 | van Seijen, Mahmood, Pilarski, Machado & Sutton, "True Online Temporal-Difference Learning", JMLR 17(145), 2016 | verified-source (2026-11-03) | literature notes |
 | regq | Lim & Lee, "Regularized Q-Learning", Advances in NeurIPS 37 (NeurIPS 2024), arXiv 2202.05404 | verified-source (2026-11-05; citation and claim supplied by the user from the source) | [source](https://arxiv.org/pdf/2202.05404v1) |
-| ng1999 | Ng, Harada & Russell, "Policy invariance under reward transformations: theory and application to reward shaping", ICML 1999 | secondary (2026-11-03) | [literature notes](docs/LITERATURE.md) |
-| grzes2017 | Grześ, "Reward shaping in episodic reinforcement learning", AAMAS 2017 | secondary (2026-11-03) | [literature notes](docs/LITERATURE.md) |
-| wiewiora2003 | Wiewiora, "Potential-Based Shaping and Q-Value Initialization are Equivalent", JAIR 19:205–208, 2003, DOI 10.1613/jair.1190 | verified-source (2026-11-05; citation and claim supplied by the user from the source) | [literature notes](docs/LITERATURE.md) |
-| canonaco2024 | Canonaco, Ardon, Pozanco & Borrajo, "On the Sample Efficiency of Abstractions and Potential-Based Reward Shaping in Reinforcement Learning", arXiv 2404.07826, 2024 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
-| patterson2024 | Patterson, Neumann, White & White, "Empirical Design in Reinforcement Learning", JMLR 25(318):1–63, 2024 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
+| ng1999 | Ng, Harada & Russell, "Policy invariance under reward transformations: theory and application to reward shaping", ICML 1999 | secondary (2026-11-03) | literature notes |
+| grzes2017 | Grześ, "Reward shaping in episodic reinforcement learning", AAMAS 2017 | secondary (2026-11-03) | literature notes |
+| wiewiora2003 | Wiewiora, "Potential-Based Shaping and Q-Value Initialization are Equivalent", JAIR 19:205–208, 2003, DOI 10.1613/jair.1190 | verified-source (2026-11-05; citation and claim supplied by the user from the source) | literature notes |
+| canonaco2024 | Canonaco, Ardon, Pozanco & Borrajo, "On the Sample Efficiency of Abstractions and Potential-Based Reward Shaping in Reinforcement Learning", arXiv 2404.07826, 2024 | verified-source (2026-11-03) | literature notes |
+| patterson2024 | Patterson, Neumann, White & White, "Empirical Design in Reinforcement Learning", JMLR 25(318):1–63, 2024 | verified-source (2026-11-03) | literature notes |
 | smith_winkler2006 | Smith & Winkler, "The optimizer's curse: Skepticism and postdecision surprise in decision analysis", Management Science 52(3):311–322, 2006, DOI 10.1287/mnsc.1050.0451 | verified-source (2026-11-06; citation and publisher abstract checked) | [source](https://pubsonline.informs.org/doi/abs/10.1287/mnsc.1050.0451) |
 | eimer2023 | Eimer, Lindauer & Raileanu, "Hyperparameters in Reinforcement Learning and How To Tune Them", ICML 2023 | verified-source (2026-11-03) | [source](https://proceedings.mlr.press/v202/eimer23a.html) |
 | zhang2023_sarsa | Zhang, Tachet des Combes & Laroche, "On the Convergence of SARSA with Linear Function Approximation", ICML 2023, PMLR 202:41613–41646, arXiv 2202.06828 | verified-source (2026-11-06; citation, abstract and relevant introduction checked) | [source](https://proceedings.mlr.press/v202/zhang23al.html) |
-| saravanan2020 | Saravanan, Berman & Sober, "Application of the hierarchical bootstrap to multi-level data in neuroscience", Neurons, Behavior, Data analysis, and Theory 3(5), 2020 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
+| saravanan2020 | Saravanan, Berman & Sober, "Application of the hierarchical bootstrap to multi-level data in neuroscience", Neurons, Behavior, Data analysis, and Theory 3(5), 2020 | verified-source (2026-11-03) | literature notes |
 | landgraf2021 | Landgraf et al., "A Reinforcement Learning Approach to View Planning for Automated Inspection Tasks", Sensors 21(6):2030, 2021 | verified-source (2026-11-03) | [source](https://www.mdpi.com/1424-8220/21/6/2030/xml) |
-| kaiser2025_thesis | Kaiser, J.-P., "Autonomous View Planning using Reinforcement Learning: Modeling and Application for Visual Inspection in Remanufacturing", doctoral thesis, KIT 2024; Shaker 2025 (Forschungsberichte aus dem wbk, Band 294) | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
+| kaiser2025_thesis | Kaiser, J.-P., "Autonomous View Planning using Reinforcement Learning: Modeling and Application for Visual Inspection in Remanufacturing", doctoral thesis, KIT 2024; Shaker 2025 (Forschungsberichte aus dem wbk, Band 294) | verified-source (2026-11-03) | literature notes |
 | koch2025 | Koch, Kaiser, Stamer, Stark & Lanza, "Enhancing Visual Inspection in Remanufacturing: A Reinforcement Learning Approach with Integrated Robot Simulation", Procedia CIRP 134:939–944, 2025 (58th CIRP CMS) | verified-source (2026-11-03) | [source](https://publikationen.bibliothek.kit.edu/1000182849/161897271) |
-| roos2025 | Roos-Hoefgeest, S., Roos-Hoefgeest, M., Álvarez & González, "Reinforcement Learning Approach to Optimizing Profilometric Sensor Trajectories for Surface Inspection", Sensors 25(7):2271, 2025 | verified-source (2026-11-03) | [literature notes](docs/LITERATURE.md) |
+| roos2025 | Roos-Hoefgeest, S., Roos-Hoefgeest, M., Álvarez & González, "Reinforcement Learning Approach to Optimizing Profilometric Sensor Trajectories for Surface Inspection", Sensors 25(7):2271, 2025 | verified-source (2026-11-03) | literature notes |
 | cheng2021_hurl | Cheng, Kolobov & Swaminathan, "Heuristic-Guided Reinforcement Learning", NeurIPS 2021, arXiv 2106.02757 | verified-source (2026-11-07; title, authors, introduction and abstract checked) | [source](https://proceedings.neurips.cc/paper/2021/file/70d31b87bd021441e5e6bf23eb84a306-Paper.pdf) |
 | wang2016_dueling | Wang, Schaul, Hessel, van Hasselt, Lanctot & de Freitas, "Dueling Network Architectures for Deep Reinforcement Learning", ICML 2016, PMLR 48:1995–2003 | verified-source (2026-11-07; citation and abstract checked) | [source](https://proceedings.mlr.press/v48/wangf16.html) |
 | silver2018_rpl | Silver, Allen, Tenenbaum & Kaelbling, "Residual Policy Learning", arXiv 1812.06298, 2018 | verified-source (2026-11-07; citation, abstract and related-work passage checked) | [source](https://arxiv.org/abs/1812.06298) |
