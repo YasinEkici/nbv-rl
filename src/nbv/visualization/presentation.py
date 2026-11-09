@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 from scipy.spatial.transform import Rotation
 from nbv.visualization.styles import styles_for
+from nbv.visualization import theme
 
 METHODS=('greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_estimate','regq/linear')
 COLORS=styles_for(METHODS)
@@ -44,10 +45,11 @@ def camera(server,name,*,comparison=False):
 
 def coverage_html(coverage):
     value=float(np.clip(coverage,0,1))*100
+    track=theme.role('coverage_track');fill=theme.role('measured');ink=theme.role('text')
     return (f'<div style="font:13px sans-serif;padding:8px 0">Kapsama <b>{value:.2f}%</b>'
-        '<div style="position:relative;height:15px;background:#dfe5eb;border-radius:4px;margin:8px 0 20px">'
-        f'<div style="width:{value:.8f}%;height:100%;background:#0072B2;border-radius:4px"></div>'
-        '<div style="position:absolute;left:95%;top:-4px;height:23px;border-left:2px solid #222"></div>'
+        f'<div style="position:relative;height:15px;background:{track};border-radius:4px;margin:8px 0 20px">'
+        f'<div style="width:{value:.8f}%;height:100%;background:{fill};border-radius:4px"></div>'
+        f'<div style="position:absolute;left:95%;top:-4px;height:23px;border-left:2px solid {ink}"></div>'
         '<span style="position:absolute;right:0;top:19px;font-size:11px">hedef %95</span></div></div>')
 
 
@@ -112,7 +114,7 @@ def attribution_text(a):
 
 
 def brief_credit(a):
-    return ('<div style="font:11px sans-serif;color:#555;padding:4px 0">'
+    return (f'<div style="font:11px sans-serif;color:{theme.role("muted")};padding:4px 0">'
         f"Part: {html.escape(a['name'])} — {html.escape(a['author'])}; {html.escape(a['license'])} "
         f"(sürüm kayıtlı değil). <a href=\"{html.escape(a['source_url'],quote=True)}\" target=\"_blank\" rel=\"noopener noreferrer\">Kaynak</a>"
         '<br>Robot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.</div>')
@@ -135,12 +137,12 @@ class CoverageChart:
             rows=actual_rows if selected and actual_rows is not None else episode['steps']
             x=[0.]+[r['cumulative_time_s'] for r in rows];y=[0.]+[r['primary_coverage'] for r in rows]
             if selected and actual_rows is not None and time_s>x[-1]:x.append(time_s);y.append(y[-1])
-            fig.add_trace(go.Scatter(x=x,y=y,name=episode['method'],mode='lines',line=dict(shape='hv',
-                color=COLORS[episode['method']]['color'] if selected else 'rgba(110,120,130,0.25)',width=3 if selected else 1)))
-        fig.add_hline(y=.95,line_dash='dash',line_color='#777')
-        fig.add_vline(x=time_s,line_color='#222',line_width=1)
+            fig.add_trace(go.Scatter(x=x,y=y,name=theme.method_name(episode['method'],'tr'),mode='lines',line=dict(shape='hv',
+                color=COLORS[episode['method']]['color'] if selected else theme.rgba('context',.25),width=3 if selected else 1)))
+        fig.add_hline(y=.95,line_dash='dash',line_color=theme.role('threshold'))
+        fig.add_vline(x=time_s,line_color=theme.role('text'),line_width=1)
         maximum=max((e['steps'][-1]['cumulative_time_s'] for e in self.episodes),default=1.)
         fig.update_layout(margin=dict(l=32,r=8,t=10,b=32),showlegend=False,height=250,
-            paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',font=dict(size=11),
+            paper_bgcolor=theme.rgba('background',0),plot_bgcolor=theme.rgba('background',0),font=dict(size=11),
             xaxis=dict(title='Birikmiş süre (s)',range=[0,maximum]),yaxis=dict(title='Kapsama',range=[0,1.03],tickformat='.0%'))
         self.handle.figure=fig

@@ -1,0 +1,299 @@
+{
+  "schema_version": 1,
+  "version": "v2",
+  "palette": {
+    "name": "petroff10",
+    "colors": [
+      "#3f90da",
+      "#ffa90e",
+      "#bd1f01",
+      "#94a4a2",
+      "#832db6",
+      "#a96b59",
+      "#e76300",
+      "#b9ac70",
+      "#717581",
+      "#92dadd"
+    ],
+    "selected_seven": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      8,
+      9
+    ],
+    "selected_triple": [
+      1,
+      4,
+      9
+    ]
+  },
+  "methods": {
+    "joint_opt": {
+      "base_style": {
+        "color": "#3f90da",
+        "marker": "<",
+        "linestyle": "--",
+        "fillstyle": "none"
+      },
+      "names": {
+        "tr": "Ortak optimum",
+        "en": "Joint optimum"
+      },
+      "palette_index": 0
+    },
+    "ilp_tsp": {
+      "base_style": {
+        "color": "#ffa90e",
+        "marker": ">",
+        "linestyle": "--",
+        "fillstyle": "none"
+      },
+      "names": {
+        "tr": "ILP + TSP",
+        "en": "ILP + TSP"
+      },
+      "palette_index": 1
+    },
+    "sarsa/value_estimate": {
+      "base_style": {
+        "color": "#832db6",
+        "marker": "P",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "SARSA · Φ değer tahmini",
+        "en": "SARSA · value-estimate Φ"
+      },
+      "palette_index": 4
+    },
+    "mcts": {
+      "base_style": {
+        "color": "#92dadd",
+        "marker": "h",
+        "linestyle": ":",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "MCTS",
+        "en": "MCTS"
+      },
+      "palette_index": 9
+    },
+    "regq/linear": {
+      "base_style": {
+        "color": "#bd1f01",
+        "marker": "s",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "RegQ",
+        "en": "RegQ"
+      },
+      "palette_index": 2
+    },
+    "greedy_cost": {
+      "base_style": {
+        "color": "#94a4a2",
+        "marker": "X",
+        "linestyle": ":",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "Greedy-IG/maliyet",
+        "en": "Greedy IG / cost"
+      },
+      "palette_index": 3
+    },
+    "sarsa/convex": {
+      "base_style": {
+        "color": "#a96b59",
+        "marker": "D",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "SARSA · Φ dışbükey",
+        "en": "SARSA · convex Φ"
+      },
+      "palette_index": 5
+    },
+    "sarsa/none": {
+      "base_style": {
+        "color": "#e76300",
+        "marker": "v",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "SARSA · Φ yok",
+        "en": "SARSA · no shaping"
+      },
+      "palette_index": 6
+    },
+    "sarsa/linear": {
+      "base_style": {
+        "color": "#717581",
+        "marker": "o",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "SARSA · Φ doğrusal",
+        "en": "SARSA · linear Φ"
+      },
+      "palette_index": 8
+    },
+    "myopic/linear": {
+      "base_style": {
+        "color": "#b9ac70",
+        "marker": "^",
+        "linestyle": "-",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "Miyop",
+        "en": "Myopic"
+      },
+      "palette_index": 7
+    },
+    "greedy_ig": {
+      "base_style": {
+        "color": "#a96b59",
+        "marker": "+",
+        "linestyle": ":",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "Greedy-IG",
+        "en": "Greedy IG"
+      },
+      "palette_index": 5
+    },
+    "fixed": {
+      "base_style": {
+        "color": "#e76300",
+        "marker": "*",
+        "linestyle": ":",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "Sabit sıra",
+        "en": "Fixed order"
+      },
+      "palette_index": 6
+    },
+    "random": {
+      "base_style": {
+        "color": "#b9ac70",
+        "marker": "x",
+        "linestyle": ":",
+        "fillstyle": "full"
+      },
+      "names": {
+        "tr": "Rastgele",
+        "en": "Random"
+      },
+      "palette_index": 7
+    }
+  },
+  "roles": {
+    "measured": "#0072B2",
+    "new": "#E69F00",
+    "available": "#56B4E9",
+    "unmeasurable": "#969696",
+    "reachable": "#009E73",
+    "ik_unreachable": "#777777",
+    "collision_masked": "#CC79A7",
+    "collision": "#D51E1E",
+    "context": "#9CA3AB",
+    "text": "#20252B",
+    "muted": "#555555",
+    "background": "#FFFFFF",
+    "grid": "#DDDDDD",
+    "axis": "#555555",
+    "coverage_track": "#DFE5EB",
+    "part_mean": "#20252B",
+    "split_mean": "#CC79A7",
+    "threshold": "#555555",
+    "highlight": "#0072B2",
+    "table": "#BEC3C9",
+    "part_surface": "#AAB7C2",
+    "robot": "#737D87",
+    "sensor": "#282D32",
+    "laser": "#E69F00",
+    "unseen": "#999999",
+    "table_facing": "#777777"
+  },
+  "colormap": "cividis",
+  "font": {
+    "family": "IBM Plex Sans",
+    "sizes": {
+      "report": 11,
+      "slide": 18,
+      "title": 26,
+      "note": 18
+    }
+  },
+  "axes": {
+    "top": false,
+    "right": false,
+    "grid": "horizontal",
+    "grid_alpha": 0.3
+  },
+  "display_order": [
+    "joint_opt",
+    "ilp_tsp",
+    "sarsa/value_estimate",
+    "mcts",
+    "regq/linear",
+    "greedy_cost",
+    "sarsa/convex",
+    "sarsa/none",
+    "sarsa/linear",
+    "myopic/linear",
+    "greedy_ig",
+    "fixed",
+    "random"
+  ],
+  "display_scores": {
+    "random": 2.112978532440668,
+    "fixed": 1.4950017602493515,
+    "greedy_ig": 1.3216541035285598,
+    "greedy_cost": 1.1980942274095152,
+    "mcts": 1.1447640284612561,
+    "ilp_tsp": 1.0,
+    "joint_opt": 0.9955257691057328,
+    "sarsa/linear": 1.2526140979471714,
+    "sarsa/value_estimate": 1.1423958075930245,
+    "regq/linear": 1.1935882317190616,
+    "myopic/linear": 1.272508918569715,
+    "sarsa/none": 1.2441230947568114,
+    "sarsa/convex": 1.227824496576091
+  },
+  "trio_adjacent": true,
+  "measurement_source": "palette_check_v1.json",
+  "library_versions": {
+    "matplotlib": "3.11.2",
+    "colorspacious": "1.1.2",
+    "numpy": "2.5.4",
+    "python": "3.14.4"
+  },
+  "provenance": {
+    "commit": "216d11a",
+    "dirty": true,
+    "changed_files": [
+      "pyproject.toml",
+      "tests/test_visual_figures.py",
+      "uv.lock",
+      "scripts/build_theme.py",
+      "src/nbv/visualization/palette.py",
+      "src/nbv/visualization/theme.py",
+      "tests/test_theme_v2.py"
+    ]
+  }
+}

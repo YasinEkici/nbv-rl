@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import numpy as np
+from nbv.visualization import theme
 from spatialmath import SE3
 from nbv.collision_audit import allowed_part,deepest_events
 from nbv.visualization.assets import load_scene,robot_description
@@ -35,12 +36,12 @@ def create_audit_server(port=8081,path='results/collision_audit_v1.json'):
         data=load_scene(e['part'],variant=True,variant_index=int(e['variant'].rsplit('_v',1)[1]))
         scene=Scene(server,data,robot_description());current[0]=scene
         q=np.asarray(worst['worst_q_rad']);scene.draw_q(q)
-        if e['body'] in scene.capsules:scene.capsules[e['body']].color=(213,30,30);scene.capsules[e['body']].opacity=1.
+        if e['body'] in scene.capsules:scene.capsules[e['body']].color=theme.rgb('collision');scene.capsules[e['body']].opacity=1.
         else:
             T=scene.robot.fkine(q).A;lo,hi=scene.geom.box_lo/1000,scene.geom.box_hi/1000
             from scipy.spatial.transform import Rotation
             scene.api.add_box('/nbv/sensor',dimensions=hi-lo,position=T[:3,3]+T[:3,:3]@((lo+hi)/2),
-                wxyz=Rotation.from_matrix(T[:3,:3]).as_quat(scalar_first=True),color=(213,30,30))
+                wxyz=Rotation.from_matrix(T[:3,:3]).as_quat(scalar_first=True),color=theme.rgb('collision'))
         a=scene.credit
         status.content=(f"**{e['variant']} · {e['method']} · seed {e['seed']}**\n\n"
             f"{e['phase']} · step {e['step']} · {e['body']} / {e['obstacle']}\n\n"

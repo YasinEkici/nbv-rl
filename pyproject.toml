@@ -39,6 +39,9 @@ dev = [
     "psutil>=7.2.2",
     "pytest>=9.2.0",
 ]
+palette = [
+    "colorspacious>=1.1.2",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -2,6 +2,7 @@
 import threading
 import time
 import numpy as np
+from nbv.visualization import theme
 from nbv import parts
 from nbv.visualization.live_scene import Scene
 from nbv.visualization.live import recorded_session
@@ -14,7 +15,7 @@ class RecordedController:
         self.server=server;self.scenes=[];self.episodes=[];self.clock=None;self.audit=load_audit()
         self.running=False;self.epoch=0;self.worker=False;self.worker_epoch=None;self.lock=threading.RLock();self.setting=False
         server.scene.set_up_direction('+z');lights(server)
-        gui=server.gui;gui.configure_theme(show_share_button=False,control_width='large',brand_color=(0,114,178))
+        gui=server.gui;gui.configure_theme(show_share_button=False,control_width='large',brand_color=theme.rgb('highlight'))
         gui.add_markdown('# NBV · tarama planlama\n**VAL · kayıtlı, SHA-256 doğrulanmış veri**')
         tabs=gui.add_tab_group()
         with tabs.add_tab('Oynat'):

@@ -6,21 +6,20 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import font_manager
 import numpy as np
+from nbv.visualization import theme
 from nbv.visualization.figure_data import RegistryFigures
 from nbv.visualization.styles import STYLES
 from nbv.visualization.replay import digest
 from nbv import evaluation
 
-GREY='#9ca3ab';ACCENT='#E69F00';BLUE='#0072B2'
-LABELS={'sarsa/linear':'SARSA / linear','sarsa/value_estimate':'SARSA / value estimate','regq/linear':'RegQ',
-        'greedy_cost':'Greedy IG / cost','mcts':'MCTS','ilp_tsp':'ILP + TSP','joint_opt':'Joint optimum',
-        'myopic/linear':'Myopic','sarsa/none':'SARSA / none','sarsa/convex':'SARSA / convex'}
+GREY=theme.role('context');ACCENT=theme.role('new');BLUE=theme.role('highlight')
+LABELS={name:theme.method_name(name,'en') for name in theme.DEFINITIONS}
 
 
 def point_style(method,color,*,outline=False):
     hollow=STYLES[method]['fillstyle']=='none'
     return dict(marker=STYLES[method]['marker'],facecolors='none' if hollow else color,
-                edgecolors=color if hollow else '#333' if outline else color)
+                edgecolors=color if hollow else theme.role('text') if outline else color)
 
 
 def slide_figure(*,panels=1):
@@ -30,14 +29,14 @@ def slide_figure(*,panels=1):
     fig,axes=plt.subplots(1,panels,figsize=(16,9),dpi=120,squeeze=False)
     fig.subplots_adjust(left=.12,right=.94,top=.82,bottom=.22,wspace=.22)
     for ax in axes[0]:
-        ax.spines[['top','right']].set_visible(False);ax.grid(axis='y',color='#dddddd',lw=.7);ax.set_axisbelow(True)
+        ax.spines[['top','right']].set_visible(False);ax.grid(axis='y',color=theme.role('grid'),lw=.7);ax.set_axisbelow(True)
     return fig,axes[0][0] if panels==1 else axes[0]
 
 
 def save_slide(fig,target,metadata):
     target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
-    fig.savefig(target.with_suffix('.png'),dpi=120,facecolor='white')
-    fig.savefig(target.with_suffix('.pdf'),facecolor='white')
+    fig.savefig(target.with_suffix('.png'),dpi=120,facecolor=theme.role('background'))
+    fig.savefig(target.with_suffix('.pdf'),facecolor=theme.role('background'))
     target.with_suffix('.json').write_text(json.dumps(metadata|dict(pixels=[1920,1080],aspect='16:9',
         source_policy='Registry/recorded sidecars only; closed test inputs never opened.'),indent=2,allow_nan=False),encoding='utf-8')
     plt.close(fig)
@@ -69,7 +68,7 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         ax.scatter([x]*len(values),values,s=14,**point_style(method,color),alpha=.17)
         average=float(np.mean(values));ax.scatter([x],[average],s=135,**point_style(method,color,outline=True),zorder=5)
         ax.annotate(LABELS[method],(x,average),xytext=(18,offsets[method]),textcoords='offset points',fontsize=18,
-                    arrowprops=dict(arrowstyle='-',color=color,lw=1),bbox=dict(fc='white',ec='none',alpha=.8))
+                    arrowprops=dict(arrowstyle='-',color=color,lw=1),bbox=dict(fc=theme.role('background'),ec='none',alpha=.8))
         point_data[method]=dict(ms_per_decision=x,test_mean=average,observations=values)
     ax.set(xscale='log',xlabel='Decision time (ms, log scale)',ylabel='Test normalized cycle time',xlim=(.075,160))
     finish(fig,'p004b_a_quality_latency',f'Measured MCTS / value-estimate decision time: {ratio:.0f}×',
@@ -122,9 +121,9 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         variants=paired['variants'][part]
         values=[np.mean(seeds) for seeds in variants.values()]
         ax.scatter(range(1,len(values)+1),values,s=70,color=GREY)
-        ax.axhline(0,color='#555',lw=.8);ax.axhline(-.02,color='#555',ls='--',lw=1.5)
+        ax.axhline(0,color=theme.role('muted'),lw=.8);ax.axhline(-.02,color=theme.role('muted'),ls='--',lw=1.5)
         ax.axhline(paired['mean'],color=ACCENT,lw=2.)
-        ax.hlines(np.mean(values),2,4,color='#222',lw=3)
+        ax.hlines(np.mean(values),2,4,color=theme.role('text'),lw=3)
         ax.set(title=str(part),xlabel='Variant',xticks=range(1,len(values)+1))
         ax.set_ylim(lower-padding,upper+padding)
     fig.text(.12,.885,'Threshold −0.02 · split mean '+f"{paired['mean']:.4f}",fontsize=18)
@@ -138,7 +137,7 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
     component=json.loads(component_path.read_text(encoding='utf-8'));data=component['component_data']
     methods=['greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_estimate','regq/linear']
     fig,ax=slide_figure();means={};counts={}
-    for key,color,style in [('move',ACCENT,'-'),('scan',GREY,':'),('home','#555','--')]:
+    for key,color,style in [('move',ACCENT,'-'),('scan',GREY,':'),('home',theme.role('muted'),'--')]:
         values=[]
         for i,method in enumerate(methods):
             group=[e for e in data if e['method']==method];values.append(float(np.mean([e[key] for e in group])));counts[method]=len(group)
@@ -146,7 +145,7 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         means[key]=values;ax.plot(range(len(methods)),values,color=color,ls=style,lw=2.5)
         ax.annotate({'move':'Movement','scan':'Scanning','home':'Return home'}[key],(len(methods)-1,values[-1]),
                     xytext=(12,0),textcoords='offset points',color=color,fontsize=20)
-    ax.set_xticks(range(len(methods)),['Greedy','MCTS','ILP+TSP','Joint opt.','SARSA L','SARSA V','RegQ'])
+    ax.set_xticks(range(len(methods)),['Greedy',theme.method_name('mcts'),'ILP+TSP','Joint opt.','SARSA L','SARSA V',theme.method_name('regq/linear')])
     ax.set(xlim=(-.2,len(methods)+.8),ylabel='Recorded time (s)')
     movement_min=methods[int(np.argmin(means['move']))]
     finish(fig,'p004b_e_val_time_components',f'{LABELS[movement_min]} has the lowest mean VAL movement time',
@@ -169,7 +168,7 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         ax.scatter([r['colliding_transfer_rate']*100 for r in groups if r['method']==method],[i]*3,
                    s=65,**point_style(method,GREY),alpha=.6)
         ax.scatter([rates[method]*100],[i],s=135,**point_style(method,color,outline=True))
-        ax.annotate(f'{rates[method]:.1%}',(rates[method]*100,i),xytext=(12,0),textcoords='offset points',fontsize=18,color='#333')
+        ax.annotate(f'{rates[method]:.1%}',(rates[method]*100,i),xytext=(12,0),textcoords='offset points',fontsize=18,color=theme.role('text'))
     ax.set_yticks(range(len(methods)),[LABELS.get(m,m) for m in methods]);ax.invert_yaxis()
     ax.set(xlabel='Colliding transfers (%)',xlim=(-2,max(rates.values())*100+17))
     fig.subplots_adjust(left=.22)

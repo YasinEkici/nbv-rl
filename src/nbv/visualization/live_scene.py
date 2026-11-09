@@ -2,6 +2,7 @@
 import threading
 import time
 import numpy as np
+from nbv.visualization import theme
 import trimesh
 import roboticstoolbox as rtb
 from spatialmath import SE3
@@ -12,7 +13,7 @@ from nbv.visualization.demo import attribution,decode_array
 from nbv.visualization.styles import MASK_STYLES
 from nbv.visualization.presentation import ScopedScene,UR5Visual,lights,camera,coverage_html,attribution_text,brief_credit,CoverageChart,load_audit,live_reference_curves
 
-POINT_COLORS={'measured':(0,114,178),'new':(230,159,0),'available':(86,180,233),'unmeasurable':(150,150,150)}
+POINT_COLORS={name:theme.rgb(name) for name in ('measured','new','available','unmeasurable')}
 
 
 def point_colors(covered,new,available):
@@ -51,9 +52,9 @@ class Scene:
             midpoint=p['center']+p['standoff'][:,None]*p['direction'];half=p['length'][:,None]*p['sweep']/2
             self.starts,self.ends=midpoint-half,midpoint+half;self.credit=attribution(data['attribution'])
         self.available=self.measured[self.valid].any(0);self.covered=np.zeros(len(self.points),bool);self.path=[]
-        self.api.add_box('/nbv/table',dimensions=(.85,.85,.02),position=(0,0,-.01),color=(190,195,201),opacity=.7)
+        self.api.add_box('/nbv/table',dimensions=(.85,.85,.02),position=(0,0,-.01),color=theme.rgb('table'),opacity=.7)
         self.api.add_frame('/nbv/part-frame',axes_length=.07,axes_radius=.001)
-        self.api.add_mesh_simple('/nbv/part',self.vertices/1000,self.faces,color=(170,183,194),opacity=.65,side='double',material='standard')
+        self.api.add_mesh_simple('/nbv/part',self.vertices/1000,self.faces,color=theme.rgb('part_surface'),opacity=.65,side='double',material='standard')
         self.cloud=self.api.add_point_cloud('/nbv/samples',self.points/1000,point_colors(self.covered,self.covered,self.available),
             point_size=.0021,point_shape='circle',precision='float32')
         colors=np.array([rgb(MASK_STYLES[('reachable','ik_unreachable','collision_masked')[int(r)]]['color']) for r in self.reasons],dtype='u1')
@@ -75,17 +76,17 @@ class Scene:
             a,b=a/1000,b/1000;direction=b-a;length=np.linalg.norm(direction)
             if name not in self.capsules:
                 mesh=trimesh.creation.capsule(height=float(length),radius=r/1000,count=[8,8])
-                self.capsules[name]=self.api.add_mesh_simple(f'/nbv/robot/{name}',mesh.vertices,mesh.faces,color=(115,125,135),opacity=.65)
+                self.capsules[name]=self.api.add_mesh_simple(f'/nbv/robot/{name}',mesh.vertices,mesh.faces,color=theme.rgb('robot'),opacity=.65)
             transform=trimesh.geometry.align_vectors([0,0,1],direction/length) if length>1e-12 else np.eye(4)
             handle=self.capsules[name];handle.position=(a+b)/2;handle.wxyz=Rotation.from_matrix(transform[:3,:3]).as_quat(scalar_first=True)
         T=self.robot.fkine(q).A;lo,hi=self.geom.box_lo/1000,self.geom.box_hi/1000
-        if self.sensor_box is None:self.sensor_box=self.api.add_box('/nbv/sensor',dimensions=hi-lo,color=(40,45,50),opacity=.85)
+        if self.sensor_box is None:self.sensor_box=self.api.add_box('/nbv/sensor',dimensions=hi-lo,color=theme.rgb('sensor'),opacity=.85)
         self.sensor_box.position=T[:3,3]+T[:3,:3]@((lo+hi)/2);self.sensor_box.wxyz=Rotation.from_matrix(T[:3,:3]).as_quat(scalar_first=True)
         # A visual fan only: it does not create within-pass measurements or change coverage.
         sensor=self.sensor
         w,z=sensor['line_width_mm']/2000,sensor['working_distance_mm']/1000
         fan=np.array([[0,0,0],[-w,0,z],[w,0,z]])
-        if self.fan is None:self.fan=self.api.add_mesh_simple('/nbv/laser',fan,np.array([[0,1,2]],dtype='u4'),color=(230,159,0),opacity=.22,side='double',cast_shadow=False)
+        if self.fan is None:self.fan=self.api.add_mesh_simple('/nbv/laser',fan,np.array([[0,1,2]],dtype='u4'),color=theme.rgb('laser'),opacity=.22,side='double',cast_shadow=False)
         self.fan.position=T[:3,3];self.fan.wxyz=Rotation.from_matrix(T[:3,:3]).as_quat(scalar_first=True)
         if self.visual:self.visual.draw(q)
         self.highlight(self.hits)
@@ -94,9 +95,9 @@ class Scene:
         self.hits=hits;bodies={h['body'] for h in hits}
         for name,handle in self.capsules.items():
             handle.visible=self.show_model or name in bodies
-            handle.color=(213,30,30) if name in bodies else (115,125,135)
+            handle.color=theme.rgb('collision') if name in bodies else theme.rgb('robot')
             handle.opacity=.9 if name in bodies else .35 if self.visual else .65
-        if self.sensor_box:self.sensor_box.color=(213,30,30) if 'sensor_head' in bodies else (40,45,50)
+        if self.sensor_box:self.sensor_box.color=theme.rgb('collision') if 'sensor_head' in bodies else theme.rgb('sensor')
 
     def select(self,action):
         if action is None:
@@ -133,7 +134,7 @@ class DemoController:
         server.scene.set_up_direction('+z')
         lights(server)
         gui=server.gui
-        gui.configure_theme(show_share_button=False,control_width='large',brand_color=(0,114,178))
+        gui.configure_theme(show_share_button=False,control_width='large',brand_color=theme.rgb('highlight'))
         gui.add_markdown('# NBV — VAL\n'+('**Kayıtlı paket: SHA-256 doğrulanır.**' if recorded else '**Canlı politika / kayıtlı CAD planı.**'))
         allowed=[str(p['file_id']) for p in parts.load_yaml('configs/split_v1.yaml')['parts'] if p['split']=='val']
         from nbv.visualization.live import METHODS

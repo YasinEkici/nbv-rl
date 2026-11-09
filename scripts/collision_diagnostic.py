@@ -19,6 +19,7 @@ from pathlib import Path
 
 import nbv  # establish thread defaults before NumPy in every spawned worker
 import numpy as np
+from nbv.visualization import theme
 
 from nbv import collision, parts, robot
 
@@ -111,16 +112,16 @@ def figure(fid: int, n: int, rows: list[dict], args: dict, out: str) -> None:
     pts = mesh.sample(4000, seed=0) if hasattr(mesh, "sample") else mesh.vertices[::50]
     fig = plt.figure(figsize=(13, 6))
     ax = fig.add_subplot(1, 2, 1, projection="3d")
-    ax.scatter(*pts.T, s=0.3, c="0.6")
+    ax.scatter(*pts.T, s=0.3, c=theme.role('context'))
     c0 = z["center"]
     for i, c in clr.items():
-        col = "tab:red" if c < 0 else ("tab:orange" if c < cc["near_mm"] else "tab:green")
+        col = theme.role('collision') if c < 0 else (theme.role('new') if c < cc["near_mm"] else theme.role('reachable'))
         ax.plot(*np.c_[c0, c0 + 260 * z["direction"][i]], color=col, lw=1.5 if c < cc["near_mm"] else 0.6)
     ax.set_title(f"{fid}, {n} candidates: red < 0 mm, orange < {cc['near_mm']:.0f} mm, green ok\n(lines: view directions of reachable passes)")
     ax.view_init(elev=25, azim=-60)
     ax.set_box_aspect((1, 1, 0.8))
     ax2 = fig.add_subplot(1, 2, 2, projection="3d")
-    ax2.scatter(*pts.T, s=0.3, c="0.6")
+    ax2.scatter(*pts.T, s=0.3, c=theme.role('context'))
     q_ik = ik_only_plan(rc, z).q[worst]
     q = q_ik[len(q_ik) // 2]
     for name, r, a, b in collision.capsule_axes(arm, q, geom):
@@ -128,7 +129,7 @@ def figure(fid: int, n: int, rows: list[dict], args: dict, out: str) -> None:
     T = arm.fkine(q).A.copy()
     T[:3, 3] *= 1000
     box = geom.box_points()[::7] @ T[:3, :3].T + T[:3, 3]
-    ax2.scatter(*box.T, s=0.5, c="tab:red")
+    ax2.scatter(*box.T, s=0.5, c=theme.role('collision'))
     ax2.set_title(f"worst pass {worst}: clearance {clr[worst]:.0f} mm (mid sweep sample)")
     lim = np.array([[-450, 250], [-300, 300], [0, 650]])
     ax2.set_xlim(*lim[0]), ax2.set_ylim(*lim[1]), ax2.set_zlim(*lim[2])

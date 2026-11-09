@@ -29,3 +29,6 @@ All previously tracked results and immutable model/configuration inputs are hash
 - Stop if colorspacious cannot install or execute on Python 3.14.
 - Original source license versions remain unresolved; do not invent versions.
 - Historical evidence links may require explicit, narrowly scoped exceptions; never rewrite immutable evidence to hide a broken link.
+
+- Step 1 completed in 275a908/216d11a: actual browser playback of the value-estimate VAL episode reached home and exact-record status; new capture/manifest only.
+- Step 2: palette dependency installed and all four conversions passed under Python 3.14.4. Five palette/global-identity checks and one source-literal scan were observed red, then 25 focused checks passed after centralization. D-072 records the measurement and assignment rules.

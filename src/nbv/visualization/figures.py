@@ -7,6 +7,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+from nbv.visualization import theme
 
 from nbv import parts
 from nbv.visualization.assets import load_scene
@@ -19,8 +20,8 @@ DEMO_METHODS=('greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/v
 
 
 def draw_paired_reference(ax,split_mean,part_mean):
-    return {'split':ax.axhline(split_mean,color='#CC79A7',ls='-.',lw=1.5,label='split mean'),
-            'part':ax.hlines(part_mean,1.35,2.65,color='#0072B2',lw=3,label='part mean')}
+    return {'split':ax.axhline(split_mean,color=theme.role('split_mean'),ls='-.',lw=1.5,label='split mean'),
+            'part':ax.hlines(part_mean,1.35,2.65,color=theme.role('highlight'),lw=3,label='part mean')}
 
 
 def candidate_angles(direction):
@@ -123,7 +124,7 @@ def generate(directory='results/figures'):
     for ax,(fid,variants) in zip(axes,paired['variants'].items()):
         values=[float(np.mean(v)) for v in variants.values()]
         dot(ax,range(len(values)),values,'sarsa/linear',s=45)
-        ax.axhline(0,color='#000000',lw=.8,label='zero');ax.axhline(-.02,color='#D55E00',ls='--',label='predeclared -0.02')
+        ax.axhline(0,color=theme.role('text'),lw=.8,label='zero');ax.axhline(-.02,color=theme.role('collision'),ls='--',label='predeclared -0.02')
         draw_paired_reference(ax,paired['mean'],float(np.mean(values)))
         ax.set(title=f'Test part {fid}',xticks=range(5),xticklabels=[v.split('_')[-1] for v in variants],xlabel='Variant');ax.grid(alpha=.15)
     axes[0].set_ylabel('SARSA/linear − myopic normalized cycle time')
@@ -141,7 +142,7 @@ def generate(directory='results/figures'):
         ax.step([0]+times,[0]+cov,where='post',label=r['method'],**style,lw=1.6,markersize=3,zorder=order+2)
         ax.plot([times[-1],r['summary']['cycle_time']],[cov[-1]]*2,color=style['color'],ls=':',lw=2)
         ax.scatter([r['summary']['cycle_time']],[cov[-1]],**scatter_style(style),s=35,zorder=order+2)
-    ax.axhline(.95,color='#000000',ls='--',lw=.8);ax.set(xlabel='Accumulated cycle time (s)',ylabel='Primary coverage',title='VAL 271875_v0: stored sequences, seed 0');ax.legend(fontsize=8);ax.grid(alpha=.2)
+    ax.axhline(.95,color=theme.role('text'),ls='--',lw=.8);ax.set(xlabel='Accumulated cycle time (s)',ylabel='Primary coverage',title='VAL 271875_v0: stored sequences, seed 0');ax.legend(fontsize=8);ax.grid(alpha=.2)
     fig.text(.5,.005,'Dotted final segment = home. Draw order (later on top): greedy, MCTS, ILP, joint, SARSA/linear, SARSA/value, RegQ.\nLearner coverage derived from replay, consistent with partial oracle; baseline steps match full oracle.',ha='center',fontsize=8)
     save(fig,'p004_d_val_coverage_time',split='val',sources=[r['source_run'] for r in demo],transforms=['Exact stored-sequence replay; no policy calls.'],draw_order=list(DEMO_METHODS),overlap='Later methods on top, including shared greedy/SARSA-value prefix.',replay_manifest_sha256=digest('results/visualization/replay_validation_v1.json'),verification={r['method']:r['verification'] for r in demo})
 
@@ -184,8 +185,8 @@ def generate(directory='results/figures'):
             points=scene['points']; count=scene['nominal_measured'][scene['plan']['reachable'].astype(bool)].sum(0)
             table=scene['normals'][:,2]<=-np.cos(np.deg2rad(10)); seen=(count>0)&~table; unseen=(count==0)&~table
             artist=ax.scatter(*points[seen].T,c=count[seen],s=.22,cmap='cividis',vmin=vmin,vmax=vmax,rasterized=True)
-            ax.scatter(*points[unseen].T,s=.1,c='#999999',alpha=.24,marker='x',rasterized=True)
-            ax.scatter(*points[table].T,s=.12,c='#777777',alpha=.24,marker='v',rasterized=True)
+            ax.scatter(*points[unseen].T,s=.1,c=theme.role('unseen'),alpha=.24,marker='x',rasterized=True)
+            ax.scatter(*points[table].T,s=.12,c=theme.role('table_facing'),alpha=.24,marker='v',rasterized=True)
             ax.set(xlabel='x (mm)',ylabel='y (mm)',zlabel='z (mm)',box_aspect=(1,1,1))
             ax.set_title(gallery_credit(scene),fontsize=8,pad=12)
             geometry_sources.update(scene['source_files']);licenses[str(scene['part'])]=scene['attribution']|{

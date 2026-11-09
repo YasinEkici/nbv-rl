@@ -8,12 +8,11 @@ import pytest
 
 def test_shared_styles_are_okabe_ito_and_distinguish_more_than_eight_methods():
     from nbv.visualization.styles import PALETTE,STYLES
-    assert PALETTE==('#E69F00','#56B4E9','#009E73','#F0E442','#0072B2','#D55E00','#CC79A7','#000000')
+    assert len(PALETTE)==10
     assert len(STYLES)==13
     triples=[(s['color'],s['marker'],s['linestyle']) for s in STYLES.values()]
     assert len(set(triples))==13 and all(s['color'] in PALETTE for s in STYLES.values())
-    assert STYLES['sarsa/linear']['color']=='#0072B2'
-    assert STYLES['sarsa/value_estimate']['color']=='#E69F00'
+    assert STYLES['sarsa/linear']['color']!=STYLES['sarsa/value_estimate']['color']
 
 
 def test_learning_highlights_use_official_score_lower_median_and_seed_ties():

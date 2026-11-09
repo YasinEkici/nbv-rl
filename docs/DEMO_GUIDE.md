@@ -104,3 +104,5 @@ In recorded mode, open **Karşılaştır**, enable **İki hücreyi karşılaşt�
 **Bilgi** contains point-color meanings, nominal/variant coordinate notes and full part/robot attribution. Compact attribution is also visible in the play panel. Learner coverage retains its partial-oracle provenance label. URDF loading requires the committed saved-pose check; a missing, mismatched or failed check produces an explicit capsule fallback. The source URDF's base-frame conversion is retained without fitting joint offsets or changing the frozen robot model.
 
 Audit: [recorded-path collision report](../results/collision_audit_v1.md). Presentation-only [figures and receipts](../results/figures/slides/README.md) do not replace the report figures. Neither playback mode opens the test holdout. Do not rerun exporters or edit the demo manifest to start a viewer.
+
+Theme v2 supplies current method and semantic colors. The immutable demo common.json styles are historical v1; playback does not modify the bundle. Palette measurement dependencies are not required to run the viewer.
