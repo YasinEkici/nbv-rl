@@ -1,7 +1,7 @@
 # Plan 004b: Collision diagnosis and presentation polish
 
-Status: active; user approved A then B on 2026-11-09.
-Branch: plan/004b-polish, from main. Local-only research notes (not tracked).
+Status: completed. Opened: 2026-11-09. Closed: 2026-11-10.
+Branch: plan/004b-polish, from main. Project document; private workflow configuration remains excluded.
 
 ## Scope and ordering
 
@@ -29,3 +29,16 @@ B is conditional on A's waypoint gate. Verify a licensed, offline-available UR5 
 - A mandatory scopes completed and combined in results/collision_audit_v1.md/.json; optional final-weight train is unmeasured. Three actual local Viser collision screenshots/PDFs/receipts are in results/visualization/. Source quality registry, existing figures and frozen demo remain unchanged; README/test report receive only the requested generated limitation sentence.
 - DNS push failure from the preceding request is separate from this plan; no push or remote-history operation is authorized here.
 - Future ENV v5: predeclare retract intermediate poses, dense transfer checking and recomputed transfer-time matrices; this requires regenerating every affected result. Not implemented now.
+
+## 5. Closure
+
+- Audit completed for 1095 VAL and 3400 primary train episodes. The optional 2400 final-weight train episodes were not measured and do not enter rates. Saved IK and executed scan sample gates passed; paths, geometry, quality results and closed holdout are unchanged.
+- Offline BSD-3-Clause UR5 visuals passed both flange/TCP checks at 1870 saved poses: maximum position difference 0.300000000896 mm, axis difference 2.41483653945e-06 degrees; no fitted joint offsets. Capsules remain the distinct collision model.
+- Recorded comparison uses two cells and a shared simulated clock. 21 immutable VAL cases passed exact trajectory/time checks; the completed browser inspection and four attributed screenshots are indexed by results/visualization/polish_screenshots_manifest_v1.json. Collision depths are sampled interval maxima; unsafe paths are displayed without correction.
+- Six independent slide sets (PNG/PDF/JSON) and their manifest are in results/figures/slides/. Existing report figures and frozen demo bytes/hashes remain unchanged. The generated Interpretation in results/collision_audit_v1.md states the robot.movej_time fixed-endpoint/rest-to-rest lower bound and explicitly limits normalized-ratio and test extrapolations; it changes no hypothesis.
+- D-071 and the ENV v5 proposal are versioned. Historical evidence is preserved; results/provenance/commit_map_v1.csv resolves referenced rewritten commits separately. Project documents received only neutral editorial substitutions with existing numerical literals preserved. Private workflow files stay excluded. The detached preparation worktree was removed after nonrecursive junction unlinking; root data/docs/outputs remain present.
+
+### Open issues carried to Plan 003
+
+- Source license versions for the three VAL demo parts remain unrecorded; do not infer a version or imply resolved distribution licensing. Existing attribution/change notices are retained.
+- Retract poses, dense transition checking and recomputed time matrices are future ENV v5 work; they require a new protocol and regenerated results. No Phase 2 work is activated by this closure.

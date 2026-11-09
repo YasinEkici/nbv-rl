@@ -12,6 +12,7 @@ A robot-mounted line-laser profilometer must cover a cast part with little robot
 | 002 | Phase 1: classical RL and frozen test report | Completed |
 | 003 | Phase 2: deep RL and ablations | Draft; requires user approval and PROTOCOL v2 |
 | 004 | Visualization and demos | Completed, including optional local VAL viewer |
+| 004b | Recorded-path collision audit and presentation polish | [Completed](docs/plans/done/004b-polish.md) |
 | 005 | Final analysis and paper | Not started |
 
 The source of numerical results is [results/registry.csv](results/registry.csv). Tables between `BEGIN GENERATED` markers are inserted by `uv run python scripts/report_phase1.py`; they are not manually transcribed. Detailed evidence: Plan 002, decisions, frozen PROTOCOL v1, and the [complete test report](results/test_v1.md). This README documents Phase 1, not an industrial deployment or a completed Phase 2 experiment.
@@ -316,6 +317,8 @@ Open the printed loopback URL, normally http://127.0.0.1:8080. Recorded mode ver
 <!-- BEGIN P004B VISUALIZATION -->
 The polished recorded player adds **Oynat / Karşılaştır / Bilgi** tabs, a shared-clock two-cell comparison, coverage/time chart, camera presets and an optional collision-model overlay. Licensed [UR5 visual assets](assets/ur5/SOURCES.md) are vendored for offline use; [saved-pose alignment and recorded-path verification](results/visualization/polish_validation_v1.json) gates their use. The visual mesh and D-042 collision model are distinct. Detected collisions are shown in red with an explicit warning; recorded paths are preserved. [Presentation figures](results/figures/slides/README.md) are separate exports. Reproduce verification into a fresh directory with `uv run python scripts/verify_visualization.py --output-dir scratch/visual-check`; generate slides with `uv run python scripts/report_slides.py` from a clean tree. The existing report figures, quality registry and frozen demo bundle are retained.
 <!-- END P004B VISUALIZATION -->
+
+The completed supplement is indexed by the [presentation gallery](results/figures/slides/README.md), [recorded two-cell comparison](results/visualization/polish_comparison_v1.png) and [screenshot provenance manifest](results/visualization/polish_screenshots_manifest_v1.json), which also covers the deepest collision views. See the [collision interpretation](results/collision_audit_v1.md#interpretation-observation-not-a-decision) for the fixed-endpoint motion-time lower bound and its limits. Source license versions remain unresolved; the original notices are retained.
 
 The GUI has part/variant/method/seed selectors, start/step/reset/speed controls, robot capsules/sensor/fan and measured-point states. Linear motion interpolation and browser float32 geometry are display-only; stored arrays and metrics keep their original precision. Live displayed latency includes scene-update load and excludes intentional animation waits; it is not the D-066 benchmark. Keep attribution/license/change notices visible. Missing license versions remain unresolved; no public sharing tunnel or automatic deployment is used.
 

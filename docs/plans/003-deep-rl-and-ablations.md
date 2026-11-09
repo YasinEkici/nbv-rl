@@ -44,6 +44,8 @@ Draft question: can learned state-action interactions improve planning beyond Ph
 
 - ENV v5 proposal from D-071 (not implemented): retract intermediate poses and densely sampled collision checking for start/inter-pass/home transfers and scan interpolation; recompute every affected transition-time matrix. This changes the motion/environment model and requires regenerated baseline/learner results and a new protocol, not retrospective corrections to frozen Phase 1 numbers. See results/collision_audit_v1.md.
 
+- Plan 004b closure: source license versions for VAL demo parts 271875, 591247 and 37275 remain unrecorded; retain version-unknown notices until source verification. Optional final-weight train collision measurements were omitted, not pooled with primary results.
+
 ## 5. Closure (fill when closing)
 - Outcome (2–5 bullets):
 - Registry rows added (run_ids):

@@ -1,5 +1,7 @@
 # Playing the NBV demos
 
+Presentation outputs: [slide gallery](../results/figures/slides/README.md), [recorded comparison screenshot](../results/visualization/polish_comparison_v1.png) and [capture provenance](../results/visualization/polish_screenshots_manifest_v1.json). Historical source revisions are resolved separately by the [commit map](../results/provenance/commit_map_v1.csv); the frozen demo bundle is unchanged.
+
 Run from the repository root in PowerShell. The viewer is local and uses **VAL only**. It offers two modes: play the already exported data, or run the frozen policies live. Neither mode trains a model or writes experiment results. Test data stays closed.
 
 ## 1. Start with the recorded demo
