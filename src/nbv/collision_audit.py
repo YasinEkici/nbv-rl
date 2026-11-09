@@ -420,6 +420,51 @@ def report_path(scope):
     return Path(f'results/collision_audit{suffix}_v1.json')
 
 
+def motion_model_interpretation(report):
+    """Describe the fixed-endpoint time bound; never infer unmeasured feasible costs."""
+    pooled=summarize_events([e|{'part':'all'} for e in report['episodes']])
+    rates={(r['split'],r['method']):r['colliding_transfer_rate'] for r in pooled if r['weight_kind']!='final'}
+    lines=['## Interpretation (observation, not a decision)', '',
+        '`robot.movej_time` uses d = max_k |dq_k| and the monotone rest-to-rest trapezoidal/triangular '
+        'duration: d/v + v/a when d >= v^2/a, otherwise 2*sqrt(d/a). `robot.transfer` passes the '
+        'actual limit-checked, multi-turn endpoint displacement to that function; ENV v4 uses '
+        '`robot.movej_time` for return home as well. For the same unwrapped endpoints, zero endpoint '
+        'velocities and the same joint velocity/acceleration limits, a straight joint path minimizes '
+        'each joint\'s travel and achieves the largest-axis time bound. A collision-free detour cannot '
+        'have a shorter duration under these assumptions. Intermediate stops can only add constraints. '
+        'This is a lower bound for the fixed endpoints, not a collision-free trajectory construction '
+        'or an optimization over alternative scan poses, winding choices or pass sequences.', '',
+        'Consequently the recorded time of a colliding transfer is an optimistic lower bound on '
+        'its collision-free replacement time. The sampled transfer rates below include return home '
+        'and are generated from the measured event ledger.', '',
+        '| Split | Method | Colliding transfers |', '|---|---|---:|']
+    for (split,method),rate in sorted(rates.items()):
+        if method in ('ilp_tsp','joint_opt','mcts','greedy_cost') or '/' in method:
+            lines.append(f'| {split} | {method} | {rate:.2%} |')
+    lines+=['',
+        'If the ILP + TSP reference remains feasible at its recorded cost, adding nonnegative '
+        'avoidance time to a competing fixed sequence can only increase that sequence\'s normalized '
+        'cycle time. The observed near-zero CAD-planner rates therefore support the Phase 1 finding '
+        'that the main linear learner does not match the CAD reference. However, ILP + TSP itself '
+        'has sampled train collisions, so its normalization denominator may also increase; zero '
+        'sampled collisions is not a continuous safety certificate. The fixed-endpoint bound '
+        'does not prove every hypothesis robust or determine corrected normalized rankings.', '']
+    pair={s:(rates[(s,'sarsa/value_estimate')],rates[(s,'mcts')]) for s in ('val','train')
+          if (s,'sarsa/value_estimate') in rates and (s,'mcts') in rates}
+    for split,(value,mcts) in pair.items():
+        lines.append(f'{split}: SARSA/value_estimate has {value:.2%} colliding transfers; MCTS has {mcts:.2%}.')
+    if len(pair)==2 and (pair['val'][0]-pair['val'][1])*(pair['train'][0]-pair['train'][1])<0:
+        lines.append('Their collision-rate ordering reverses between VAL and train.')
+    lines+=['The reported test-quality proximity of SARSA/value_estimate and MCTS remains within '
+        'this unquantified modeling uncertainty. Additional collision-free time was not measured; '
+        'a collision frequency alone does not determine its size.', '',
+        'No test-part collision measurement was performed: the holdout is closed and independent '
+        'test joint-step traces are not available from the registry. Any statement about test '
+        'robustness here is an analogy from VAL/train, not a test-set geometry finding. No result, '
+        'setting, policy choice or hypothesis verdict is changed.']
+    return '\n'.join(lines)
+
+
 def write_report(report):
     """All counts and distribution cells are generated from the audit's event ledger."""
     lines=['# Recorded-path collision audit (D-071)',
@@ -470,6 +515,7 @@ def write_report(report):
                 'This is a descriptive comparison of recorded paths, not a causal relation between joint-path length and collision. '
                 'Different pass counts change the transfer denominator. Feasible collision-aware cycle times were not measured, '
                 'so neither the magnitude nor direction of a corrected quality-ranking bias is established.')
+    lines+=['',motion_model_interpretation(report),'']
     target=report_path(report.get('scope','all')).with_suffix('.md')
     lines.append(f"Scope: {report.get('scope','all')}. The source corpus may include other scopes; only the listed episodes enter these rates.")
     if 'scope_status' in report:lines.append('Scope status: '+json.dumps(report['scope_status'])+'. Unmeasured episodes never enter rates.')

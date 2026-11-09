@@ -184,5 +184,44 @@ D-021/D-042 checked only saved scan poses, not transfers or the intervals betwee
 
 train: ILP + TSP has 0.22% colliding transfers versus MCTS 7.81%; ILP's rate is higher on 0 of 8 parts. This is a descriptive comparison of recorded paths, not a causal relation between joint-path length and collision. Different pass counts change the transfer denominator. Feasible collision-aware cycle times were not measured, so neither the magnitude nor direction of a corrected quality-ranking bias is established.
 val: ILP + TSP has 0.00% colliding transfers versus MCTS 5.60%; ILP's rate is higher on 0 of 3 parts. This is a descriptive comparison of recorded paths, not a causal relation between joint-path length and collision. Different pass counts change the transfer denominator. Feasible collision-aware cycle times were not measured, so neither the magnitude nor direction of a corrected quality-ranking bias is established.
+
+## Interpretation (observation, not a decision)
+
+`robot.movej_time` uses d = max_k |dq_k| and the monotone rest-to-rest trapezoidal/triangular duration: d/v + v/a when d >= v^2/a, otherwise 2*sqrt(d/a). `robot.transfer` passes the actual limit-checked, multi-turn endpoint displacement to that function; ENV v4 uses `robot.movej_time` for return home as well. For the same unwrapped endpoints, zero endpoint velocities and the same joint velocity/acceleration limits, a straight joint path minimizes each joint's travel and achieves the largest-axis time bound. A collision-free detour cannot have a shorter duration under these assumptions. Intermediate stops can only add constraints. This is a lower bound for the fixed endpoints, not a collision-free trajectory construction or an optimization over alternative scan poses, winding choices or pass sequences.
+
+Consequently the recorded time of a colliding transfer is an optimistic lower bound on its collision-free replacement time. The sampled transfer rates below include return home and are generated from the measured event ledger.
+
+| Split | Method | Colliding transfers |
+|---|---|---:|
+| train | greedy_cost | 6.81% |
+| train | ilp_tsp | 0.22% |
+| train | joint_opt | 0.22% |
+| train | mcts | 7.81% |
+| train | myopic/linear | 12.62% |
+| train | regq/linear | 7.90% |
+| train | sarsa/convex | 8.85% |
+| train | sarsa/linear | 9.66% |
+| train | sarsa/none | 9.52% |
+| train | sarsa/value_estimate | 6.35% |
+| val | greedy_cost | 9.80% |
+| val | ilp_tsp | 0.00% |
+| val | joint_opt | 0.00% |
+| val | mcts | 5.60% |
+| val | myopic/linear | 10.34% |
+| val | regq/linear | 10.80% |
+| val | sarsa/convex | 12.05% |
+| val | sarsa/linear | 11.37% |
+| val | sarsa/none | 11.22% |
+| val | sarsa/value_estimate | 7.37% |
+
+If the ILP + TSP reference remains feasible at its recorded cost, adding nonnegative avoidance time to a competing fixed sequence can only increase that sequence's normalized cycle time. The observed near-zero CAD-planner rates therefore support the Phase 1 finding that the main linear learner does not match the CAD reference. However, ILP + TSP itself has sampled train collisions, so its normalization denominator may also increase; zero sampled collisions is not a continuous safety certificate. The fixed-endpoint bound does not prove every hypothesis robust or determine corrected normalized rankings.
+
+val: SARSA/value_estimate has 7.37% colliding transfers; MCTS has 5.60%.
+train: SARSA/value_estimate has 6.35% colliding transfers; MCTS has 7.81%.
+Their collision-rate ordering reverses between VAL and train.
+The reported test-quality proximity of SARSA/value_estimate and MCTS remains within this unquantified modeling uncertainty. Additional collision-free time was not measured; a collision frequency alone does not determine its size.
+
+No test-part collision measurement was performed: the holdout is closed and independent test joint-step traces are not available from the registry. Any statement about test robustness here is an analogy from VAL/train, not a test-set geometry finding. No result, setting, policy choice or hypothesis verdict is changed.
+
 Scope: all. The source corpus may include other scopes; only the listed episodes enter these rates.
 Scope status: {"val": "complete", "train-primary": "complete", "train-final": "not measured"}. Unmeasured episodes never enter rates.
