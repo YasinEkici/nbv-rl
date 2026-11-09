@@ -85,3 +85,14 @@ def test_single_thread_query_preserves_every_pose_clearance_bit():
         b=collision.pose_clearance(model,q,serial,geom,geom.box_points())
         assert a.keys()==b.keys()
         assert np.asarray(list(a.values()),dtype='<f8').tobytes()==np.asarray(list(b.values()),dtype='<f8').tobytes()
+
+
+def test_transition_rate_includes_return_home_as_a_transfer():
+    from nbv.collision_audit import summarize_events
+    episode={'id':'x','part':1,'split':'val','method':'m','weight_kind':'tail',
+        'transfer_count':2,'colliding_transfers':0,'any_collision':True,'penetrations_mm':[5.],
+        'phase_counts':{'transfer':[2,0],'home':[1,1],'intra_pass':[8,0]}}
+    row=summarize_events([episode])[0]
+    assert row['transfers']==3 and row['colliding_transfers']==1
+    assert row['colliding_transfer_rate']==1/3
+    assert row['home_transfers']==1 and row['colliding_home_transfers']==1

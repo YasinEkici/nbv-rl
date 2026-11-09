@@ -149,10 +149,14 @@ def summarize_events(episodes):
     for e in episodes:groups[(e['split'],e['weight_kind'],e['part'],e['method'])].append(e)
     rows=[]
     for (split,kind,part,method),records in sorted(groups.items()):
-        transfers=sum(e['transfer_count'] for e in records);hits=sum(e['colliding_transfers'] for e in records)
+        homes=sum(e.get('phase_counts',{}).get('home',[0,0])[0] for e in records)
+        home_hits=sum(e.get('phase_counts',{}).get('home',[0,0])[1] for e in records)
+        transfers=sum(e['transfer_count'] for e in records)+homes;hits=sum(e['colliding_transfers'] for e in records)+home_hits
         depths=[d for e in records for d in e['penetrations_mm']]
         rows.append(dict(split=split,weight_kind=kind,part=part,method=method,episodes=len(records),
             transfers=transfers,colliding_transfers=hits,colliding_transfer_rate=hits/transfers if transfers else 0.,
+            start_interpass_transfers=transfers-homes,colliding_start_interpass_transfers=hits-home_hits,
+            home_transfers=homes,colliding_home_transfers=home_hits,
             colliding_episodes=sum(e['any_collision'] for e in records),
             colliding_episode_rate=sum(e['any_collision'] for e in records)/len(records),
             colliding_motion_segments=len(depths),penetration_mm=dict(zip(('min','median','p95','max'),
@@ -269,6 +273,8 @@ def audit_part(task):
 def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     from concurrent.futures import ProcessPoolExecutor,as_completed
     from nbv.visualization.replay import digest
+    from nbv import evaluation
+    measurement_state=evaluation.git_state()|dict(code_sha256=evaluation.code_hash())
     path=Path(source);metadata=json.loads(path.with_suffix('.sources.json').read_text(encoding='utf-8'))
     if digest(path)!=metadata['replay_sha256']:raise ValueError('audit recorded trace hash mismatch')
     gate=json.loads(Path('results/collision_waypoint_gate_v1.json').read_text(encoding='utf-8'))
@@ -290,7 +296,7 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8):
     results=[json.loads((directory/f'part_{fid}.json').read_text(encoding='utf-8')) for fid in groups]
     episodes=[e for r in results for e in r['episodes']];events=[e for r in results for e in r['events']]
     geometries={k:v for r in results for k,v in r['geometries'].items()}
-    report=dict(schema_version=1,complete=True,sampling_max_joint_degrees=1.,near_mm=10.,
+    report=dict(schema_version=1,complete=True,sampling_max_joint_degrees=1.,near_mm=10.,measurement_provenance=measurement_state,
         geometry='Unchanged D-042 nominal CAD/capsules/sensor box/table and exemptions; no self-collision/fixtures.',
         time_mapping='Path fractions mapped linearly to recorded segment times for display only; not certified actuator timing.',
         interval_definition='Contiguous colliding sampled poses; boundaries do not certify exact continuous contact onset.',
@@ -312,8 +318,8 @@ def write_report(report):
         'quality-metric or hypothesis changes. Original D-042 nominal geometry and exemptions are retained.', '',
         f"Recorded episodes: {len(report['episodes'])}; saved IK waypoint gate: passed. Maximum joint sample spacing: "
         f"{report['sampling_max_joint_degrees']:g} degree; near-contact threshold: {report['near_mm']:g} mm.", '',
-        'Transfers are start/inter-pass movements; home and four in-pass subsegments are also checked and enter the '
-        'any-collision episode flag. Transfer rates exclude home and intra-pass segments. Penetration quantiles use '
+        'Transfers include start/inter-pass movements and return home. Four in-pass subsegments are separately checked '
+        'and enter the any-collision episode flag; they are excluded from the transfer denominator. Penetration quantiles use '
         'the deepest sampled penetration per colliding motion segment, with repeated episode occurrences retained. '
         'Primary tail policies/baselines and final-weight train policies remain separate. A safe discrete sample is not '
         'a continuous clearance guarantee. Display times linearly map path fractions to recorded time; they do not '
@@ -346,3 +352,30 @@ def write_report(report):
         'requires regenerated baseline and learning results; none of it is applied here.', '',
         '[Machine-readable event ledger](collision_audit_v1.json) · [Original waypoint gate](collision_waypoint_gate_v1.json)', '']
     Path('results/collision_audit_v1.md').write_text('\n'.join(lines),encoding='utf-8')
+
+
+def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=None):
+    """Validate the measured ledger and regenerate aggregates, never geometry or episodes."""
+    from collections import Counter
+    from nbv.visualization.replay import digest
+    from nbv import evaluation
+    report=json.loads(Path(path).read_text(encoding='utf-8'))
+    if not report['complete'] or len(report['episodes'])!=report['sources']['records']:
+        raise ValueError('incomplete collision measurement')
+    counts=Counter((e['id'],e['phase']) for e in report['events'])
+    for e in report['episodes']:
+        for phase,(total,hits) in e['phase_counts'].items():
+            if not 0<=hits<=total or counts[(e['id'],phase)]!=hits:raise ValueError('event/phase count mismatch')
+        if bool(sum(v[1] for v in e['phase_counts'].values()))!=e['any_collision']:raise ValueError('episode collision flag mismatch')
+    report['by_part_method']=summarize_events(report['episodes'])
+    report['transfer_definition']='Start/inter-pass plus return home; raw episode transfer_count field counts start/inter-pass only, phase_counts.home is added by the aggregator.'
+    inputs=['configs/parts_v2.yaml','configs/robot_v2.yaml','configs/collision_v1.yaml','configs/split_v1.yaml']
+    cfg=parts.load_yaml('configs/parts_v2.yaml')
+    for p in sorted({e['part'] for e in report['episodes']}):
+        allowed_part(p);inputs.extend([str(Path(cfg['paths']['raw'])/f'{p}.ply'),f'data/cache/robot/nominal/{p}_n48.npz'])
+    report['geometry_input_sha256']={p:digest(p) for p in inputs}
+    report['measurement_core_commit']=report.get('measurement_core_commit') or report.get('measurement_provenance',{}).get('commit') or measurement_commit
+    if not report['measurement_core_commit']:raise ValueError('original measurement core commit must be specified')
+    report['aggregation_provenance']=evaluation.git_state()|dict(code_sha256=evaluation.code_hash())
+    Path(path).write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8');write_report(report)
+    return report
