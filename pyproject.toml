@@ -24,6 +24,8 @@ dependencies = [
 
 [project.optional-dependencies]
 demo = [
+    "plotly==7.1.0",
+    "pycollada==0.9.3",
     "viser==1.1.1",
 ]
 
