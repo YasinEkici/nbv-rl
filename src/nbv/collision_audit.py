@@ -456,6 +456,20 @@ def write_report(report):
         'ENV v5 proposal is a retract waypoint plus densely checked motion and recomputed time matrices. That '
         'requires regenerated baseline and learning results; none of it is applied here.', '',
         f"[Machine-readable event ledger]({report_path(report.get('scope','all')).name}) · [Original waypoint gate](collision_waypoint_gate_v1.json)", '']
+    for split in sorted({r['split'] for r in overall}):
+        methods={r['method']:r for r in overall if r['split']==split and r['weight_kind']!='final'}
+        if 'ilp_tsp' in methods and 'mcts' in methods:
+            ilp,mcts=methods['ilp_tsp'],methods['mcts'];higher=[]
+            for r in report['by_part_method']:
+                if r['split']!=split or r['method']!='ilp_tsp':continue
+                peer=next(p for p in report['by_part_method'] if p['split']==split and p['part']==r['part'] and p['method']=='mcts')
+                if r['colliding_transfer_rate']>peer['colliding_transfer_rate']:higher.append(r['part'])
+            lines.append(f"{split}: ILP + TSP has {ilp['colliding_transfer_rate']:.2%} colliding transfers versus MCTS "
+                f"{mcts['colliding_transfer_rate']:.2%}; ILP's rate is higher on {len(higher)} of "
+                f"{len({r['part'] for r in report['by_part_method'] if r['split']==split})} parts. "
+                'This is a descriptive comparison of recorded paths, not a causal relation between joint-path length and collision. '
+                'Different pass counts change the transfer denominator. Feasible collision-aware cycle times were not measured, '
+                'so neither the magnitude nor direction of a corrected quality-ranking bias is established.')
     target=report_path(report.get('scope','all')).with_suffix('.md')
     lines.append(f"Scope: {report.get('scope','all')}. The source corpus may include other scopes; only the listed episodes enter these rates.")
     if 'scope_status' in report:lines.append('Scope status: '+json.dumps(report['scope_status'])+'. Unmeasured episodes never enter rates.')

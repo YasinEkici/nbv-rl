@@ -288,6 +288,8 @@ The cited industrial literature spans proof-of-concept view planning (Landgraf),
 - Single setup without turntable (D-025, D-027): interior and table-facing surfaces are not measurable by any optical sensor from outside; coverage is relative to the reachable union (D-023).
 - Reachability is checked at 5 samples along each sweep with a joint-step limit (D-021); transfers between passes are not checked. Robot–part and robot–table collisions are checked statically at those samples with capsules and a sensor-head box (D-042); transfers, self-collision and fixtures are not.
 - Cycle time excludes data processing (registration, CAD comparison) (D-036).
+
+D-071 diagnoses sampled train/VAL recorded-path collisions in unchecked transfers and between scan poses; see the [collision audit](results/collision_audit_v1.md). Frozen quality results and hypotheses are unchanged.
 <!-- END GENERATED: model_limitations -->
 
 Additional experimental limitations are SARSA-only alpha/feature-count scaling in the grid; ablations inheriting one tuned setting; the small number of test base parts; fixed handcrafted features; nearly identical small-deviation variants; limited pose augmentation; fixed-step bias; and seed ranges that do not measure all sources of uncertainty. H3 is descriptive only. Missing learner test step traces limit independent audit to recorded consistency, so future evaluation must save them. D-060 also records delayed cross-seed divergence stopping that must be corrected before training infrastructure is reused; no existing run diverged. Neither negative hypothesis decisions nor close numerical means prove policy equivalence.

@@ -200,3 +200,5 @@ Appendix: final weights (secondary, never selected).
 - Single setup without turntable (D-025, D-027): interior and table-facing surfaces are not measurable by any optical sensor from outside; coverage is relative to the reachable union (D-023).
 - Reachability is checked at 5 samples along each sweep with a joint-step limit (D-021); transfers between passes are not checked. Robot–part and robot–table collisions are checked statically at those samples with capsules and a sensor-head box (D-042); transfers, self-collision and fixtures are not.
 - Cycle time excludes data processing (registration, CAD comparison) (D-036).
+
+D-071 diagnoses sampled train/VAL recorded-path collisions in unchecked transfers and between scan poses; see the [collision audit](collision_audit_v1.md). Frozen quality results and hypotheses are unchanged.

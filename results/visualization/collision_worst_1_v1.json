@@ -1,0 +1,79 @@
+{
+  "source": "Actual local Viser browser screenshot; no image compositing or trajectory correction",
+  "audit_sha256": "d1b162434fcc6d8984f9789053e8920e9e3dd41a6fb20e3fa74fff48d9ceaa9a",
+  "event": {
+    "part": 548863,
+    "variant": "548863_v4",
+    "method": "random",
+    "seed": 9,
+    "split": "train",
+    "weight_kind": "baseline",
+    "source_run": "p001s6-random-n48-train-s9-v4-20261103T170747-9439c1",
+    "id": "p001s6-random-n48-train-s9-v4-20261103T170747-9439c1:548863_v4",
+    "step": 8,
+    "pass_index": 2,
+    "phase": "transfer",
+    "start": [
+      0.9708940884181354,
+      -1.6203488938640986,
+      2.3202814146406565,
+      -1.6641048043051851,
+      -2.8963506303855415,
+      5.547713268261576
+    ],
+    "end": [
+      -1.1283962118285809,
+      -1.1723992776257317,
+      1.6872480848144198,
+      -0.7472799152156293,
+      -1.2247233125938064,
+      3.2407285008001008
+    ],
+    "time_s": [
+      31.49303495857638,
+      34.440163308539695
+    ],
+    "geometry_id": "8965874af91af152b44b3573c3e243231e69f6a2c44a9394c125acf325406c39",
+    "penetration_mm": 64.2912368774414,
+    "body": "sensor_head",
+    "obstacle": "part",
+    "collision_interval": {
+      "body": "sensor_head",
+      "obstacle": "part",
+      "start_fraction": 0.2631578947368421,
+      "end_fraction": 0.7894736842105263,
+      "first_sample": 35,
+      "last_sample": 105,
+      "sample_count": 71,
+      "worst_fraction": 0.706766917293233,
+      "worst_q_rad": [
+        -0.5128148455908219,
+        -1.3037529244926214,
+        1.8728743995754966,
+        -1.0161233037456494,
+        -1.7148997441267213,
+        3.9172127559203833
+      ],
+      "clearance_mm": -64.2912368774414,
+      "penetration_mm": 64.2912368774414
+    },
+    "interval_index": 1
+  },
+  "provenance": {
+    "commit": "62ba4b3",
+    "dirty": true,
+    "changed_files": [
+      "README.md",
+      "results/test_v1.md",
+      "src/nbv/collision_audit.py",
+      "results/collision_audit_train_v1.json",
+      "results/collision_audit_train_v1.md",
+      "results/collision_audit_v1.json",
+      "results/collision_audit_v1.md",
+      "results/visualization/collision_worst_1_v1.pdf",
+      "results/visualization/collision_worst_1_v1.png"
+    ]
+  },
+  "code_sha256": "50b5d68bdf0538bd",
+  "png_sha256": "0c573e4a1d4a9f6c79f49a1d7da41dd1aefb62de29e6f86c0c33da4a3cdc0405"
+}

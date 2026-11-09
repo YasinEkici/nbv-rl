@@ -1,0 +1,85 @@
+{
+  "source": "Actual local Viser browser screenshot; no image compositing or trajectory correction",
+  "audit_sha256": "d1b162434fcc6d8984f9789053e8920e9e3dd41a6fb20e3fa74fff48d9ceaa9a",
+  "event": {
+    "part": 271875,
+    "variant": "271875_v1",
+    "method": "mcts",
+    "seed": 8,
+    "split": "val",
+    "weight_kind": "baseline",
+    "source_run": "p001s6-mcts-n48-val-s8-v4-20261103T170747-eda192",
+    "id": "p001s6-mcts-n48-val-s8-v4-20261103T170747-eda192:271875_v1",
+    "step": 9,
+    "pass_index": 7,
+    "phase": "transfer",
+    "start": [
+      1.0049705470118204,
+      -1.5190221942418196,
+      2.1617700119942067,
+      -1.503737398564159,
+      -2.875476821784577,
+      -0.6288346072890342
+    ],
+    "end": [
+      -1.8397484049108277,
+      -1.7309259753683244,
+      2.303069083967746,
+      -0.8862085533773134,
+      -1.370727947363302,
+      -3.2330972261282813
+    ],
+    "time_s": [
+      44.61934680937046,
+      48.0786029540587
+    ],
+    "geometry_id": "3103c9cc08fe5a803e8a4c7a4bcca6bbf57553a6538591d52237e01dfe2d2d5f",
+    "penetration_mm": 56.83573532104492,
+    "body": "wrist_3",
+    "obstacle": "part",
+    "collision_interval": {
+      "body": "wrist_3",
+      "obstacle": "part",
+      "start_fraction": 0.3067484662576687,
+      "end_fraction": 0.5521472392638037,
+      "first_sample": 50,
+      "last_sample": 90,
+      "sample_count": 41,
+      "worst_fraction": 0.46625766871165647,
+      "worst_q_rad": [
+        -0.32140147965150034,
+        -1.6178239572210489,
+        2.2276517878837097,
+        -1.2158098388451388,
+        -2.1738761196004246,
+        -1.8430920246619347
+      ],
+      "clearance_mm": -56.83573532104492,
+      "penetration_mm": 56.83573532104492
+    },
+    "interval_index": 1
+  },
+  "provenance": {
+    "commit": "62ba4b3",
+    "dirty": true,
+    "changed_files": [
+      "README.md",
+      "results/test_v1.md",
+      "src/nbv/collision_audit.py",
+      "results/collision_audit_train_v1.json",
+      "results/collision_audit_train_v1.md",
+      "results/collision_audit_v1.json",
+      "results/collision_audit_v1.md",
+      "results/visualization/collision_worst_1_v1.json",
+      "results/visualization/collision_worst_1_v1.pdf",
+      "results/visualization/collision_worst_1_v1.png",
+      "results/visualization/collision_worst_2_v1.json",
+      "results/visualization/collision_worst_2_v1.pdf",
+      "results/visualization/collision_worst_2_v1.png",
+      "results/visualization/collision_worst_3_v1.pdf",
+      "results/visualization/collision_worst_3_v1.png"
+    ]
+  },
+  "code_sha256": "50b5d68bdf0538bd",
+  "png_sha256": "443f02e6f0f29ca7e5958ff47b223bc50e82a53fff9dfa2dc3912c4e54fbf813"
+}
