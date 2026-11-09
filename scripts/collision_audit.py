@@ -15,6 +15,8 @@ if __name__=='__main__':
     parser.add_argument('--warm-cache',help='Hash-verified private geometry snapshots; unchanged 1-degree sampling')
     parser.add_argument('--combine',action='store_true',help='Combine completed VAL/primary train ledgers only; no geometry work')
     parser.add_argument('--include-final',action='store_true')
+    parser.add_argument('--shards-per-part',type=int,default=1)
+    parser.add_argument('--reuse-complete-parts',action='store_true')
     args=parser.parse_args()
     if args.waypoints_only:
         r=check_waypoints();print(f"Saved waypoint gate passed: {r['checked']} samples")
@@ -27,4 +29,5 @@ if __name__=='__main__':
     elif args.combine:
         r=combine_audits(include_final=args.include_final);print(f"Combined measured episodes: {len(r['episodes'])}")
     else:
-        r=run_audit(workers=args.workers,scope=args.scope,warm_cache=args.warm_cache);print(f"Collision audit complete: {len(r['episodes'])} episodes")
+        r=run_audit(workers=args.workers,scope=args.scope,warm_cache=args.warm_cache,
+                    shards=args.shards_per_part,reuse_parts=args.reuse_complete_parts);print(f"Collision audit complete: {len(r['episodes'])} episodes")

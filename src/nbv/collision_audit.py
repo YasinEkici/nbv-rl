@@ -293,12 +293,36 @@ def audit_part(task):
         if len(model.cache)>20000:model.cache.clear()
     output=dict(part=fid,episodes=episodes,events=events,
         geometries={k:v for k,v in geometries.items() if v['collided']},
-        unique_paths=len(geometries),geometry_calls=model.calls,reused_paths=reused,wall_s=time.perf_counter()-started)
+        unique_paths=len(geometries),geometry_calls=model.calls,reused_paths=reused,wall_s=time.perf_counter()-started,
+        geometry_input_sha256=geometry_input_hashes(fid),max_step_deg=1.,near_mm=10.)
     Path(directory,f'part_{fid}.json').write_text(json.dumps(output,allow_nan=False),encoding='utf-8')
     return dict(part=fid,episodes=len(episodes),events=len(events),wall_s=output['wall_s'])
 
 
-def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8,*,scope='all',warm_cache=None):
+def merge_part_results(results,ordered_ids):
+    episodes=[];events=[];geometries={};seen=set()
+    for result in results:
+        for e in result['episodes']:
+            if e['id'] in seen:raise ValueError('duplicate episode across shards')
+            seen.add(e['id']);episodes.append(e)
+        events.extend(result['events'])
+        for key,value in result['geometries'].items():
+            if key in geometries and not same_geometry(geometries[key],value):raise ValueError('geometry bits differ across shards')
+            geometries[key]=value
+    if seen!=set(ordered_ids) or len(ordered_ids)!=len(episodes):raise ValueError('shard episode set mismatch')
+    order={key:i for i,key in enumerate(ordered_ids)};episodes.sort(key=lambda e:order[e['id']])
+    events.sort(key=lambda e:(order[e['id']],e['step'],{'transfer':0,'intra_pass':1,'home':2}[e['phase']],e.get('subsegment',0)))
+    return dict(part=results[0]['part'],episodes=episodes,events=events,geometries=geometries,
+        geometry_calls=sum(r['geometry_calls'] for r in results),reused_paths=max(r['reused_paths'] for r in results),
+        wall_s=max(r['wall_s'] for r in results),worker_statistics=[{k:r[k] for k in ('geometry_calls','reused_paths','wall_s')} for r in results])
+
+
+def same_geometry(a,b):
+    # Full-precision JSON float representations round-trip to binary64, including signed zero.
+    return json.dumps(a,sort_keys=True,allow_nan=False)==json.dumps(b,sort_keys=True,allow_nan=False)
+
+
+def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8,*,scope='all',warm_cache=None,shards=1,reuse_parts=False):
     from concurrent.futures import ProcessPoolExecutor,as_completed
     from nbv.visualization.replay import digest
     from nbv import evaluation
@@ -327,13 +351,36 @@ def run_audit(source='scratch/p004b/audit_records.jsonl',workers=8,*,scope='all'
             if not Path(item['path']).resolve().is_relative_to(Path('scratch').resolve()):
                 raise ValueError('warm geometry snapshots must be private scratch files')
     directory=Path('scratch/p004b/geometry')/scope;directory.mkdir(parents=True,exist_ok=True)
+    jobs=[];planned={}
+    for fid,records in groups.items():
+        target=directory/f'part_{fid}.json';ids=[f"{e['source_run']}:{e['variant']}" for e in records]
+        if reuse_parts and target.exists():
+            cached=json.loads(target.read_text(encoding='utf-8'))
+            if (cached.get('geometry_input_sha256')!=geometry_input_hashes(fid) or cached.get('max_step_deg')!=1.
+                or cached.get('near_mm')!=10. or len(cached['episodes'])!=len(ids) or {e['id'] for e in cached['episodes']}!=set(ids)):
+                raise ValueError('completed part cache identity/input mismatch')
+            print(f'Reused complete part {fid}: {len(ids)} exact episode results',flush=True);continue
+        planned[fid]=[]
+        for i in range(max(1,shards)):
+            selected=records[i::max(1,shards)]
+            if not selected:continue
+            worker_dir=directory/f'worker_{fid}_{i}';worker_dir.mkdir(parents=True,exist_ok=True)
+            jobs.append((fid,selected,str(worker_dir),warm.get(str(fid))));planned[fid].append(worker_dir/f'part_{fid}.json')
     with ProcessPoolExecutor(max_workers=workers) as pool:
-        futures=[pool.submit(audit_part,(fid,records,str(directory),warm.get(str(fid)))) for fid,records in groups.items()]
+        futures=[pool.submit(audit_part,task) for task in jobs]
         try:
             for future in as_completed(futures):print('Part complete:',future.result(),flush=True)
         except BaseException:
             pool.terminate_workers()
             raise
+    for fid,paths in planned.items():
+        selected=[json.loads(path.read_text(encoding='utf-8')) for path in paths]
+        records=groups[fid];ordered=[f"{e['source_run']}:{e['variant']}" for e in records]
+        joined=merge_part_results(selected,ordered)
+        home=robot.q_home(parts.load_yaml('configs/robot_v2.yaml'))
+        keys={segment_id(fid,s['start'],s['end']) for e in records for s in episode_segments(e,home)}
+        joined.update(unique_paths=len(keys),geometry_input_sha256=geometry_input_hashes(fid),max_step_deg=1.,near_mm=10.)
+        (directory/f'part_{fid}.json').write_text(json.dumps(joined,allow_nan=False),encoding='utf-8')
     results=[json.loads((directory/f'part_{fid}.json').read_text(encoding='utf-8')) for fid in groups]
     episodes=[e for r in results for e in r['episodes']];events=[e for r in results for e in r['events']]
     geometries={k:v for r in results for k,v in r['geometries'].items()}
@@ -473,7 +520,7 @@ def merge_ledgers(reports):
         events.extend(r['events']);work.extend(r['geometry_work']);sources.update(r['sources']['sources'])
         warm.update(r.get('warm_geometry_snapshots',{}))
         for key,value in r['geometries'].items():
-            if key in geometries and geometries[key]!=value:raise ValueError('shared geometry differs across scopes')
+            if key in geometries and not same_geometry(geometries[key],value):raise ValueError('shared geometry differs across scopes')
             geometries[key]=value
         for key,value in r.get('geometry_input_sha256',{}).items():
             if key in inputs and inputs[key]!=value:raise ValueError('geometry inputs differ across scopes')

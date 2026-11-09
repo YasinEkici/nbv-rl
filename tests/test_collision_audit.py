@@ -144,3 +144,18 @@ def test_combined_audit_explicitly_marks_unmeasured_secondary_and_rejects_duplic
     assert len(result['episodes'])==2 and result['scope_status']['train-final']=='not measured'
     b['episodes'][0]['id']='val-episode'
     with pytest.raises(ValueError,match='duplicate'):merge_ledgers([a,b])
+
+
+def test_parallel_episode_shards_rejoin_once_and_preserve_geometry_bits():
+    from nbv.collision_audit import merge_part_results
+    def result(id):
+        return {'part':1,'episodes':[{'id':id}],'events':[],'geometries':{'g':{'depth':2.123456789}},
+                'geometry_calls':4,'reused_paths':2,'wall_s':1.}
+    a,b=result('a'),result('b')
+    joined=merge_part_results([b,a],['a','b'])
+    assert [e['id'] for e in joined['episodes']]==['a','b']
+    assert joined['geometries']['g']['depth']==2.123456789
+    b['geometries']['g']['depth']=2.123456788
+    with pytest.raises(ValueError,match='geometry'):merge_part_results([a,b],['a','b'])
+    a['geometries']['g']['depth']=-0.;b['geometries']['g']['depth']=0.
+    with pytest.raises(ValueError,match='geometry'):merge_part_results([a,b],['a','b'])
