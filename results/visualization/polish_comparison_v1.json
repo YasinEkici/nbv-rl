@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "source": "Actual local Viser recorded-mode browser screenshot; no compositing, policy calls or path correction",
+  "source_commit": "09c982dfb14a78f42990beff94cdb83ecbabbb6f",
+  "source_mode": "immutable recorded VAL bundle",
+  "variant": "271875_v0",
+  "seed": 0,
+  "methods": [
+    "greedy_cost",
+    "sarsa/linear"
+  ],
+  "common_display_time_s": 20.6,
+  "capture_timestamp": "not separately recorded",
+  "png_sha256": "05fedd77bede7cdfc3d72542f195f3ad6bacc8dd8af537c58490c3ca7c19323e",
+  "audit_sha256": "d1b162434fcc6d8984f9789053e8920e9e3dd41a6fb20e3fa74fff48d9ceaa9a",
+  "bundle_manifest_sha256": "6f5d8328a1a2271189f8f550bb99e099b33142eb1f2cb606202289102989111f",
+  "original_browser_inspection": {
+    "source": "Actual localhost recorded-mode browser inspection; no new policy evaluation",
+    "url": "http://127.0.0.1:8086/",
+    "dom": "NBV / VAL only\nNBV · tarama planlama\n\nVAL · kayıtlı, SHA-256 doğrulanmış veri\n\nOynat\nKarşılaştır\nBilgi\n\nParça\n\nYöntem\n\nBaşlat / Duraklat\nAdım\nSıfırla\n\nHız (×)\n\n0.25\n8\n\nGösterim zamanı (s)\n\n0\n72.015407\n\n48 aday pası göster\n\nÇarpışma modeli\n\nKamera\n\nGenel\nParça\nYan\nKapsama 73.80%\nhedef %95\n\nVAL 271875_v0 · seed 0 · ortak zaman 20.600000 s\n\ngreedy_cost · adım 4 · pas 7\n\n20.600000 s · kapsama 73.796863%\n\ndenetlenmeyen geçiş: çarpışma (40.000 mm) · denetim aralığının maksimumu\n\nSHA-256 ✓; kayitli adimlarla birebir\n\nsarsa/linear · adım 4 · pas 7\n\n20.600000 s · kapsama 73.796863%\n\ndenetlenmeyen geçiş: çarpışma (40.000 mm) · denetim aralığının maksimumu\n\nSHA-256 ✓; yeniden oynatmadan türetildi; kısmi oracle ile tutarlı\n\nPart: PHIL — Mr_MegaTronic; Creative Commons - Attribution (sürüm kayıtlı değil). Kaynak\nRobot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.\n0\n20\n40\n60\n0%\n20%\n40%\n60%\n80%\n100%\nBirikmiş süre (s)\nKapsama\n\nKayıtlı kapsama–zaman eğrileri; imleç iki hücrenin ortak gösterim zamanıdır. Eve dönüş ayrı hareket olarak korunur."
+  },
+  "verification": "Both cells show the same simulated time and the audited interval-maximum warning. Full-step vs partial-summary oracle labels are preserved."
+}

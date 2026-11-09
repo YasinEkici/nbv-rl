@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "delivery_date": "2026-11-10",
+  "delivery_commit_parent": "d022ce4f0859681b8ef40f9eb590df059fc405fd",
+  "existing_collision_captures": "Already committed in 641db4c; retained byte-for-byte with their original capture provenance, including dirty-tree flags.",
+  "screenshots": [
+    {
+      "receipt": "polish_comparison_v1.json",
+      "source_commit": "09c982dfb14a78f42990beff94cdb83ecbabbb6f",
+      "source_tree_dirty": false,
+      "files": {
+        "polish_comparison_v1.png": "05fedd77bede7cdfc3d72542f195f3ad6bacc8dd8af537c58490c3ca7c19323e",
+        "polish_comparison_v1.json": "94d3232e92dd3305cf5a6afab649934b2ec8973c7f8f2e25f30120ea089f9d27"
+      }
+    },
+    {
+      "receipt": "collision_worst_1_v1.json",
+      "source_commit": "62ba4b3",
+      "source_tree_dirty": true,
+      "files": {
+        "collision_worst_1_v1.png": "0c573e4a1d4a9f6c79f49a1d7da41dd1aefb62de29e6f86c0c33da4a3cdc0405",
+        "collision_worst_1_v1.json": "215edab4434844823563edf829392637a7d868ecda0088f3d37bba69d24d81b1",
+        "collision_worst_1_v1.pdf": "69a24d6b94b585350152ac3423aef6036f991048e934720e8b5be60bbbc7b35f"
+      }
+    },
+    {
+      "receipt": "collision_worst_2_v1.json",
+      "source_commit": "62ba4b3",
+      "source_tree_dirty": true,
+      "files": {
+        "collision_worst_2_v1.png": "3cb5ea3cd8a7e40b2f2871cffe3e7a6cbe968b34db0550a86f3ab8aca7646b6d",
+        "collision_worst_2_v1.json": "099967c42102c24be4791bdd495c28dd614d6e60412880b6cc1f04021e43aae1",
+        "collision_worst_2_v1.pdf": "e4b3e755ccc89bb6788ade71273f50437f768077ec5efede149f41008fda7052"
+      }
+    },
+    {
+      "receipt": "collision_worst_3_v1.json",
+      "source_commit": "62ba4b3",
+      "source_tree_dirty": true,
+      "files": {
+        "collision_worst_3_v1.png": "443f02e6f0f29ca7e5958ff47b223bc50e82a53fff9dfa2dc3912c4e54fbf813",
+        "collision_worst_3_v1.json": "acffdc968d68f86a5c99685bb217c5cd2babfab02540f91a3d164c2b464a2420",
+        "collision_worst_3_v1.pdf": "e442c6c855f159683b37c1aeae9a856049f8bd5ae283062134c862016ca759fc"
+      }
+    }
+  ]
+}
