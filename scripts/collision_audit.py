@@ -1,7 +1,7 @@
 """Read-only allowed-split D-042 collision measurement; never calls a policy."""
 import argparse
 import nbv
-from nbv.collision_audit import check_waypoints,prepare_records,run_audit,verify_query_equivalence,finalize_audit
+from nbv.collision_audit import check_waypoints,prepare_records,run_audit,verify_query_equivalence,finalize_audit,report_path,combine_audits
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
@@ -13,6 +13,8 @@ if __name__=='__main__':
     parser.add_argument('--workers',type=int,default=8)
     parser.add_argument('--scope',choices=['all','val','train-primary','train-final'],default='all')
     parser.add_argument('--warm-cache',help='Hash-verified private geometry snapshots; unchanged 1-degree sampling')
+    parser.add_argument('--combine',action='store_true',help='Combine completed VAL/primary train ledgers only; no geometry work')
+    parser.add_argument('--include-final',action='store_true')
     args=parser.parse_args()
     if args.waypoints_only:
         r=check_waypoints();print(f"Saved waypoint gate passed: {r['checked']} samples")
@@ -21,6 +23,8 @@ if __name__=='__main__':
     elif args.verify_query_equivalence:
         r=verify_query_equivalence(args.workers);print(f"Query parallelism: {r['poses']} poses bit-identical")
     elif args.finalize:
-        r=finalize_audit(measurement_commit=args.measurement_commit);print(f"Audit ledger verified: {len(r['episodes'])} episodes")
+        r=finalize_audit(report_path(args.scope),measurement_commit=args.measurement_commit,warm_manifest=args.warm_cache);print(f"Audit ledger verified: {len(r['episodes'])} episodes")
+    elif args.combine:
+        r=combine_audits(include_final=args.include_final);print(f"Combined measured episodes: {len(r['episodes'])}")
     else:
         r=run_audit(workers=args.workers,scope=args.scope,warm_cache=args.warm_cache);print(f"Collision audit complete: {len(r['episodes'])} episodes")

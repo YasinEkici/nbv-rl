@@ -131,3 +131,16 @@ def test_audit_scope_prioritizes_val_then_primary_train():
     assert in_scope(base,'train-primary') and in_scope(primary,'train-primary')
     assert not in_scope(final,'train-primary') and in_scope(final,'train-final')
     assert not in_scope({'split':'test','weight_kind':'tail'},'all')
+
+
+def test_combined_audit_explicitly_marks_unmeasured_secondary_and_rejects_duplicates():
+    from nbv.collision_audit import merge_ledgers
+    def ledger(scope,id):
+        return {'complete':True,'scope':scope,'sampling_max_joint_degrees':1.,'near_mm':10.,
+            'episodes':[{'id':id}], 'events':[],'geometries':{},'geometry_work':[],
+            'sources':{'records':1,'sources':{id:{'sha256':'abc'}}},'geometry_input_sha256':{}}
+    a,b=ledger('val','val-episode'),ledger('train-primary','train-episode')
+    result=merge_ledgers([a,b])
+    assert len(result['episodes'])==2 and result['scope_status']['train-final']=='not measured'
+    b['episodes'][0]['id']='val-episode'
+    with pytest.raises(ValueError,match='duplicate'):merge_ledgers([a,b])

@@ -408,13 +408,14 @@ def write_report(report):
         'D-021/D-042 checked only saved scan poses, not transfers or the intervals between scan samples. A future '
         'ENV v5 proposal is a retract waypoint plus densely checked motion and recomputed time matrices. That '
         'requires regenerated baseline and learning results; none of it is applied here.', '',
-        '[Machine-readable event ledger](collision_audit_v1.json) · [Original waypoint gate](collision_waypoint_gate_v1.json)', '']
+        f"[Machine-readable event ledger]({report_path(report.get('scope','all')).name}) · [Original waypoint gate](collision_waypoint_gate_v1.json)", '']
     target=report_path(report.get('scope','all')).with_suffix('.md')
     lines.append(f"Scope: {report.get('scope','all')}. The source corpus may include other scopes; only the listed episodes enter these rates.")
+    if 'scope_status' in report:lines.append('Scope status: '+json.dumps(report['scope_status'])+'. Unmeasured episodes never enter rates.')
     target.write_text('\n'.join(lines),encoding='utf-8')
 
 
-def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=None):
+def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=None,warm_manifest=None):
     """Validate the measured ledger and regenerate aggregates, never geometry or episodes."""
     from collections import Counter
     from nbv.visualization.replay import digest
@@ -432,13 +433,63 @@ def finalize_audit(path='results/collision_audit_v1.json',*,measurement_commit=N
     report['event_schema']='events identifies every colliding motion-segment occurrence with episode/step/phase/times/endpoints; join geometry_id to geometries.intervals for EVERY contiguous body/obstacle collision, not just the worst body copied onto the occurrence.'
     report['collision_interval_occurrences']=sum(len(report['geometries'][e['geometry_id']]['intervals']) for e in report['events'])
     report['deepest_visualization_definition']='Three distinct (part, body, obstacle, exact joint pose) states, ranked by penetration over all body/obstacle intervals; repeated episode occurrences at an identical state are represented once for screenshots only.'
+    if warm_manifest:
+        warm=json.loads(Path(warm_manifest).read_text(encoding='utf-8'))
+        report['warm_geometry_snapshots']={str(p):warm['parts'][str(p)] for p in {e['part'] for e in report['episodes']}}
+    if 'input_corpus_split_counts' not in report['sources']:
+        report['sources']['input_corpus_split_counts']={k:report['sources'].pop(k) for k in ('val','train') if k in report['sources']}
+    report['selected_split_counts']=dict(Counter(e['split'] for e in report['episodes']))
+    report['status']='exploratory diagnostic measurement; canonical source identities retained; no registry write'
     inputs=['configs/parts_v2.yaml','configs/robot_v2.yaml','configs/collision_v1.yaml','configs/split_v1.yaml']
     cfg=parts.load_yaml('configs/parts_v2.yaml')
     for p in sorted({e['part'] for e in report['episodes']}):
         allowed_part(p);inputs.extend([str(Path(cfg['paths']['raw'])/f'{p}.ply'),f'data/cache/robot/nominal/{p}_n48.npz'])
     report['geometry_input_sha256']={p:digest(p) for p in inputs}
+    gate=json.loads(Path('results/collision_waypoint_gate_v1.json').read_text(encoding='utf-8'))
+    original={p['part']:p['minimum_clearance_mm'] for p in gate['parts']};agreements=[]
+    for fid in sorted({e['part'] for e in report['episodes']}):
+        with np.load(f'data/cache/robot/nominal/{fid}_n48.npz') as z:
+            saved=float(z['min_clearance'][z['reachable'].astype(bool)].min())
+        if np.float64(saved).tobytes()!=np.float64(original[fid]).tobytes():raise ValueError('original D-042 cache minimum differs from waypoint gate')
+        agreements.append(dict(part=fid,original_minimum_mm=saved,gate_minimum_mm=original[fid],bit_identical=True))
+    report['original_cache_clearance_agreement']=agreements
     report['measurement_core_commit']=report.get('measurement_core_commit') or report.get('measurement_provenance',{}).get('commit') or measurement_commit
     if not report['measurement_core_commit']:raise ValueError('original measurement core commit must be specified')
     report['aggregation_provenance']=evaluation.git_state()|dict(code_sha256=evaluation.code_hash())
     Path(path).write_text(json.dumps(report,indent=2,allow_nan=False),encoding='utf-8');write_report(report)
     return report
+
+
+def merge_ledgers(reports):
+    """Join completed diagnostic scopes; never imply omitted final-weight data was measured."""
+    scopes={r['scope'] for r in reports}
+    if not {'val','train-primary'}<=scopes or len(scopes)!=len(reports):raise ValueError('VAL and primary train scopes required exactly once')
+    merged=dict(reports[0]);episodes=[];events=[];geometries={};work=[];sources={};inputs={};seen=set();warm={}
+    for r in reports:
+        if not r['complete'] or r['sampling_max_joint_degrees']!=1. or r['near_mm']!=10.:raise ValueError('incomplete or changed audit sampling')
+        for e in r['episodes']:
+            if e['id'] in seen:raise ValueError('duplicate episode in combined audit')
+            seen.add(e['id']);episodes.append(e)
+        events.extend(r['events']);work.extend(r['geometry_work']);sources.update(r['sources']['sources'])
+        warm.update(r.get('warm_geometry_snapshots',{}))
+        for key,value in r['geometries'].items():
+            if key in geometries and geometries[key]!=value:raise ValueError('shared geometry differs across scopes')
+            geometries[key]=value
+        for key,value in r.get('geometry_input_sha256',{}).items():
+            if key in inputs and inputs[key]!=value:raise ValueError('geometry inputs differ across scopes')
+            inputs[key]=value
+    merged.update(scope='all',episodes=episodes,events=events,geometries=geometries,geometry_work=work,
+        sources=merged['sources']|dict(records=len(episodes),sources=sources,scope='all'),geometry_input_sha256=inputs,
+        warm_geometry_snapshots=warm,scope_measurement_provenance={r['scope']:r.get('measurement_provenance') for r in reports},
+        scope_status={s:'complete' if s in scopes else 'not measured' for s in ('val','train-primary','train-final')})
+    return merged
+
+
+def combine_audits(*,include_final=False):
+    scopes=['val','train-primary']+(['train-final'] if include_final else [])
+    reports=[json.loads(report_path(s).read_text(encoding='utf-8')) for s in scopes]
+    merged=merge_ledgers(reports)
+    merged['scope_ledger_sha256']={s:hashlib.sha256(report_path(s).read_bytes()).hexdigest() for s in scopes}
+    merged['optional_unmeasured_episodes']=0 if include_final else 2400
+    target=report_path('all');target.write_text(json.dumps(merged,indent=2,allow_nan=False),encoding='utf-8')
+    return finalize_audit(target)
