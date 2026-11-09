@@ -95,6 +95,8 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
     # c: the complete small-sample distribution, retaining baseline observation counts.
     methods=['sarsa/linear','sarsa/value_estimate','greedy_cost','mcts','ilp_tsp'];parts=sorted({e['part'] for e in test},key=str)
     fig,axes=slide_figure(panels=3);dot_data={}
+    all_values=[e['normalized_cycle_time'] for e in test if e['label'] in methods]
+    lower,upper=min(all_values),max(all_values);padding=(upper-lower)*.04
     for ax,part in zip(axes,parts):
         dot_data[str(part)]={}
         for i,method in enumerate(methods):
@@ -106,6 +108,7 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
             dot_data[str(part)][method]=dict(records=records,mean=float(np.mean(values)))
         ax.set_title(str(part));ax.set_yticks(range(len(methods)),[LABELS[m] for m in methods] if ax is axes[0] else ['']*len(methods))
         ax.invert_yaxis();ax.set_xlabel('Normalized cycle time')
+        ax.set_xlim(lower-padding,upper+padding)
     fig.subplots_adjust(left=.18,right=.97,wspace=.14)
     finish(fig,'p004b_c_test_parts','Test quality varies across parts and individual runs',
         'Test registry, primary tail policies. Every variant × seed observation is shown.\nDeterministic baselines retain their actual point counts; outlined markers = means.',
@@ -113,6 +116,8 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
 
     # c2: the exact frozen paired estimator, with split mean on every part panel.
     paired=source.paired();fig,axes=slide_figure(panels=3)
+    differences=[float(np.mean(seeds)) for variants in paired['variants'].values() for seeds in variants.values()]
+    lower,upper=min([-.02,0.,*differences]),max([-.02,0.,*differences]);padding=(upper-lower)*.08
     for ax,part in zip(axes,sorted(paired['variants'])):
         variants=paired['variants'][part]
         values=[np.mean(seeds) for seeds in variants.values()]
@@ -121,8 +126,8 @@ def generate(directory='results/figures/slides',audit='results/collision_audit_v
         ax.axhline(paired['mean'],color=ACCENT,lw=2.)
         ax.hlines(np.mean(values),2,4,color='#222',lw=3)
         ax.set(title=str(part),xlabel='Variant',xticks=range(1,len(values)+1))
-        ax.text(.02,.02,'Threshold −0.02\nSplit mean '+f"{paired['mean']:.4f}",transform=ax.transAxes,fontsize=18,
-                bbox=dict(fc='white',ec='none',alpha=.85))
+        ax.set_ylim(lower-padding,upper+padding)
+    fig.text(.12,.885,'Threshold −0.02 · split mean '+f"{paired['mean']:.4f}",fontsize=18)
     axes[0].set_ylabel('SARSA / linear − myopic')
     finish(fig,'p004b_c2_paired_forward',f"Improvement misses the target by {(.02+paired['mean']):.6f}",
         f"Test, paired variant seed-means. Exact split estimator: {paired['mean']:.15f}.\nOrange = split mean; short black = part mean; dashed = −0.02 threshold. Verdict unchanged.",
