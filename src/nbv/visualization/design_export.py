@@ -68,6 +68,36 @@ def display_summary():
     t=theme.load_theme()
     return dict(order=t['display_order'],scores=t['display_scores'],trio_adjacent=t['trio_adjacent'])
 
+
+def inspect_committed_exports():
+    """Verify published artifacts without opening any cache or episode output."""
+    from PIL import Image
+    result=dict(reports=0,slides=0,missing_glyphs=[])
+    cmap=TTFont(FONT_ROOT/'IBMPlexSans-Regular.ttf').getBestCmap()
+    for root,kind in ((theme.ROOT/'results/figures','reports'),(theme.ROOT/'results/figures/slides','slides')):
+        manifest=json.loads((root/'manifest_v2.json').read_text(encoding='utf-8'))
+        for filename,sha in manifest['files'].items():
+            if hashlib.sha256((root/filename).read_bytes()).hexdigest()!=sha:raise ValueError('Artifact hash mismatch: '+filename)
+        for stem in manifest['figures']:
+            current=json.loads((root/(stem+'.json')).read_text(encoding='utf-8'))
+            original=json.loads((root/(stem.split('_v2')[0]+'.json')).read_text(encoding='utf-8'))
+            validate_invariance(original,current)
+            if current['base_style']!=theme.base_styles():raise ValueError('Inconsistent global base style')
+            if current['display_order']!=theme.display_order():raise ValueError('Inconsistent global order')
+            for text in current['rendered_text']:
+                if any(m in text for m in theme.DEFINITIONS):raise ValueError('Visible internal identifier')
+                if kind=='slides' and re.search(r'\d+\.\d+',text):raise ValueError('Visible decimal point')
+                result['missing_glyphs'].extend(c for c in text if not c.isspace() and ord(c) not in cmap)
+            if kind=='slides':
+                with Image.open(root/(stem+'.png')) as im:
+                    if im.size!=(1920,1080):raise ValueError('Slide is not HD')
+            if '<text' in (root/(stem+'.svg')).read_text(encoding='utf-8'):raise ValueError('SVG text not converted to paths')
+            if b'/FontFile2' not in (root/(stem+'.pdf')).read_bytes():raise ValueError('PDF font not embedded')
+            if stem=='p004_c2_paired_forward_v2':result['paired_difference']=current['paired']['mean']
+            result[kind]+=1
+    result['missing_glyphs']=sorted(set(result['missing_glyphs']))
+    return result
+
 def save_figure(fig,target,original,*,language,slide,render_styles=None,title=None,caption=None):
     target=Path(target);target.parent.mkdir(parents=True,exist_ok=True)
     if any(target.with_suffix(ext).exists() for ext in ('.png','.svg','.pdf','.json')):raise FileExistsError(target)

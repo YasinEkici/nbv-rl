@@ -35,7 +35,7 @@ def load_theme():
     return value
 
 def base_styles():return {m:dict(s['base_style']) for m,s in load_theme()['methods'].items()}
-def method_name(method,language='en'):return DEFINITIONS[method][1 if language=='tr' else 2]
+def method_name(method,language='en'):return load_theme()['methods'][method]['names'][language]
 def role(name):return load_theme()['roles'][name]
 def rgb(name):
     value=role(name).lstrip('#')

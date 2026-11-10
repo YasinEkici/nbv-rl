@@ -67,3 +67,15 @@ def test_compact_panel_uses_readable_choices_and_collapsed_details(recorded):
             assert not any('/linear' in name or 'greedy_cost' in name for name in options)
             assert 'Kapsama' in c.summary_panel.content
     finally:server.stop()
+
+
+def test_compact_recorded_panel_keeps_active_collision_warning_visible():
+    server=_server(recorded=True)
+    try:
+        c=server._nbv_controller
+        with c.lock:
+            c.reset();episode=c.episodes[0]
+            hit=c.audit.events[(episode['source_run_id'],episode['variant'])][0]
+            c.seek((hit['start_s']+hit['end_s'])/2)
+            assert 'çarpışma (' in c.status.content
+    finally:server.stop()

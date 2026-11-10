@@ -48,7 +48,7 @@ def generate(directory='results/visualization'):
         methods[name]=dict(base_style=dict(color=colors[assigned[name]],marker=theme.DEFINITIONS[name][0],
             linestyle='-' if '/' in name else '--' if name in ('ilp_tsp','joint_opt') else ':',
             fillstyle='none' if name in ('ilp_tsp','joint_opt') else 'full'),
-            names={'tr':theme.method_name(name,'tr'),'en':theme.method_name(name,'en')},palette_index=assigned[name])
+            names={'tr':theme.DEFINITIONS[name][1],'en':theme.DEFINITIONS[name][2]},palette_index=assigned[name])
     weakest=min((float(distances[i,j]),i,j) for i,j in itertools.combinations(chosen,2))
     _,i,j=weakest;vision=min(matrices,key=lambda n:matrices[n][i,j])
     gray=np.repeat(luminance(rgb)[:,None],3,axis=1)

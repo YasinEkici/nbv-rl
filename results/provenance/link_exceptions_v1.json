@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "exceptions": [
+    {"file": "docs/DECISIONS.md", "link": "../../results/visualization/README.md", "reason": "Historical append-only D-069 link; corrected target recorded in D-070."},
+    {"file": "docs/DECISIONS.md", "link": "../../results/visualization/replay_validation_v1.json", "reason": "Historical append-only D-069 link; corrected target recorded in D-070."},
+    {"file": "docs/DECISIONS.md", "link": "../../results/visualization/static_figures_v1.json", "reason": "Historical append-only D-069 link; corrected target recorded in D-070."},
+    {"file": "docs/DECISIONS.md", "link": "../../results/visualization/demo_export_v1.json", "reason": "Historical append-only D-069 link; corrected target recorded in D-070."}
+  ]
+}

@@ -13,6 +13,14 @@ def test_method_identity_does_not_depend_on_figure_subset():
     assert a['mcts']==b['mcts']
 
 
+def test_runtime_names_are_read_from_committed_theme(monkeypatch):
+    import copy
+    from nbv.visualization import theme
+    data=copy.deepcopy(theme.load_theme());data['methods']['mcts']['names']['tr']='Saved theme label'
+    monkeypatch.setattr(theme,'load_theme',lambda:data)
+    assert theme.method_name('mcts','tr')=='Saved theme label'
+
+
 def test_maximin_has_known_optimum_and_lexicographic_tie_rule():
     from nbv.visualization.palette import select_maximin
     d=np.array([[0,1,5,5,2],[1,0,4,4,2],[5,4,0,5,1],[5,4,5,0,1],[2,2,1,1,0]],float)

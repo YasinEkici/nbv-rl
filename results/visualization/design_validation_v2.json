@@ -1,0 +1,82 @@
+{
+  "reports": 11,
+  "slides": 12,
+  "missing_glyphs": [],
+  "paired_difference": -0.019894820622543344,
+  "order": [
+    "joint_opt",
+    "ilp_tsp",
+    "sarsa/value_estimate",
+    "mcts",
+    "regq/linear",
+    "greedy_cost",
+    "sarsa/convex",
+    "sarsa/none",
+    "sarsa/linear",
+    "myopic/linear",
+    "greedy_ig",
+    "fixed",
+    "random"
+  ],
+  "scores": {
+    "random": 2.112978532440668,
+    "fixed": 1.4950017602493515,
+    "greedy_ig": 1.3216541035285598,
+    "greedy_cost": 1.1980942274095152,
+    "mcts": 1.1447640284612561,
+    "ilp_tsp": 1.0,
+    "joint_opt": 0.9955257691057328,
+    "sarsa/linear": 1.2526140979471714,
+    "sarsa/value_estimate": 1.1423958075930245,
+    "regq/linear": 1.1935882317190616,
+    "myopic/linear": 1.272508918569715,
+    "sarsa/none": 1.2441230947568114,
+    "sarsa/convex": 1.227824496576091
+  },
+  "trio_adjacent": true,
+  "source_commit": "44e686017b52217735efa501656af2de7d771077",
+  "frozen_files_checked": 170,
+  "changed_protected_files": [
+    "results/visualization/README.md"
+  ],
+  "panel_font": "Viser default; supported local GUI-font API unavailable in 1.1.1",
+  "glyph_substitutions": [],
+  "test_holdout": "Closed; registry metrics only; no test cache, output or environment access",
+  "red_green": {
+    "initialized_sessions": {
+      "red": "7 failed, 2 passed",
+      "green": "9 passed"
+    },
+    "theme_identity_and_measurement": {
+      "red": "5 failures; separate source-literal scan also failed before centralization",
+      "green": "25 focused passed"
+    },
+    "rendered_text_and_payload": {
+      "red": "4 missing-implementation failures",
+      "green": "4 passed"
+    },
+    "compact_panel": {
+      "red": "2 failed",
+      "green": "16 focused passed"
+    },
+    "delivery_links_and_artifacts": {
+      "red": "3 failed",
+      "green": "3 passed",
+      "staging_note": "Tracked-only gate also correctly rejected the not-yet-staged new gallery; passed after all approved files entered the index."
+    },
+    "runtime_theme_and_visible_warning": {
+      "red": "2 failed",
+      "green": "both included in 21 passed focused checks"
+    },
+    "exact_byte_checkout": {
+      "red": "1 failed",
+      "green": "4 delivery checks passed"
+    },
+    "manifest_git_bytes": {
+      "red": "1 failed: Git normalization changed serialized JSON/SVG bytes",
+      "green": "5 delivery checks passed after staging only explicitly listed new-version files"
+    }
+  },
+  "git_index_figure_hashes_checked": 92,
+  "historical_manifest_hashes_changed": false
+}

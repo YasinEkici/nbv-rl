@@ -6,3 +6,15 @@
 results/demo/** -text
 assets/ur5/** -text
 assets/fonts/** -text
+
+# Versioned presentation manifests address exact bytes on every platform.
+# Historical v1 assets retain their original attributes and contents.
+results/figures/*_v2.* -text
+results/figures/slides/*_v2_*.* -text
+results/figures/manifest_v2.json -text
+results/figures/slides/manifest_v2.json -text
+results/visualization/viewer_*_v2.* -text
+results/visualization/*_v2.json -text
+results/visualization/viewer_theme_v2_manifest.json -text
+results/visualization/theme_v2.json -text
+results/visualization/palette_check_v1.json -text

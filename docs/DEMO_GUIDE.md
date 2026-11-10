@@ -106,3 +106,7 @@ In recorded mode, open **Karşılaştır**, enable **İki hücreyi karşılaşt�
 Audit: [recorded-path collision report](../results/collision_audit_v1.md). Presentation-only [figures and receipts](../results/figures/slides/README.md) do not replace the report figures. Neither playback mode opens the test holdout. Do not rerun exporters or edit the demo manifest to start a viewer.
 
 Theme v2 supplies current method and semantic colors. The immutable demo common.json styles are historical v1; playback does not modify the bundle. Palette measurement dependencies are not required to run the viewer.
+
+The method selectors display readable Turkish names. The play panel emphasizes elapsed time and coverage; **Ayrıntılar** starts collapsed and retains timing/provenance explanations. Exact live validation appears only after the completed episode, including home return. Recorded comparisons load two chosen saved episodes on one simulated clock. Viser 1.1.1 has no supported local panel-font setting, so its default web font remains; exported figures embed the vendored IBM Plex Sans instead.
+
+Current [theme-v2 gallery](../results/visualization/design_v2.md), [capture manifest](../results/visualization/viewer_theme_v2_manifest.json) and [palette measurements](../results/visualization/palette_check_v1.json) retain earlier evidence under its original names. New captures: [live](../results/visualization/viewer_live_theme_v2.png), [recorded](../results/visualization/viewer_recorded_theme_v2.png), [comparison](../results/visualization/viewer_comparison_theme_v2.png).

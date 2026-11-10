@@ -87,7 +87,7 @@ class RecordedController:
 
     def render(self):
         if self.clock is None:return
-        states=self.clock.states();messages=[]
+        states=self.clock.states();messages=[];active_warnings=[]
         with self.server.atomic():
             for scene,episode,state,label in zip(self.scenes,self.episodes,states,self.labels):
                 scans=[r for r in episode['steps'] if r['kind']=='scan']
@@ -99,6 +99,7 @@ class RecordedController:
                 warning=(f"**denetlenmeyen geçiş: çarpışma ({max(h['penetration_mm'] for h in hits):.3f} mm)** · denetim aralığının maksimumu" if hits else
                          'D-071: bu kayıt çarpışma aralıkları içeriyor.' if self.audit and self.audit.events[(episode['source_run_id'],episode['variant'])] else
                          'D-071 örneklenmiş denetim: bu anda temas yok.' if self.audit else 'D-071 ölçümü yüklenmedi.')
+                if hits:active_warnings.append(theme.method_name(episode['method'],'tr')+': '+warning)
                 verdict='SHA-256 ✓; '+episode['verification'].get('final_coverage_label_tr','kayıtlı doğrulama sonucu korunuyor.')
                 messages.append(f"**{theme.method_name(episode['method'],'tr')}** · adım {state['completed']} · pas {state['pass_index'] if state['pass_index'] is not None else 'eve dönüş'}\n\n"
                     f"{state['elapsed_s']:.6f} s · kapsama {state['coverage']:.6%}\n\n{warning}\n\n{verdict}")
@@ -106,6 +107,7 @@ class RecordedController:
             visual_warning=('**'+self.scenes[0].visual_note+'**\n\n') if self.scenes[0].visual is None else ''
             self.summary_panel.content=''.join(summary_html(s['completed'],s['elapsed_s'],s['coverage'],e['method']) for s,e in zip(states,self.episodes))
             self.status.content='Kayıtla birebir · SHA-256 doğrulandı; kayıtlı doğrulama korunuyor.'
+            if active_warnings:self.status.content+='\n\n'+'\n\n'.join(active_warnings)
             self.details.content=visual_warning+f"**VAL {self.part.value}_v0 · seed 0 · ortak zaman {self.clock.time:.6f} s**\n\n"+'\n\n---\n\n'.join(messages)
             self.setting=True;self.time_slider.value=self.clock.time;self.setting=False
             self.chart.update(self.clock.time)

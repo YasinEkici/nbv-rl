@@ -28,6 +28,9 @@ scratch/
 !/docs/PROJECT.md
 !/docs/DEMO_GUIDE.md
 !/docs/plans/
+!/docs/inventories/
+/docs/inventories/*
+!/docs/inventories/004-visualization-s0.md
 /docs/AGENT_WORKFLOW.md
 /docs/**/*prompt*
 /docs/**/*PROMPT*

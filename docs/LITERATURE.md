@@ -557,3 +557,33 @@ Source: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1
 Used claims: choose a clear message and adapt complexity, line/point size and text to the display medium; oral-presentation figures need simpler, more visible content than article figures. Captions explain the encoding and its limits.
 Plan 004b adapts these principles. The user-specified 16:9/1920×1080 format, minimum 18 pt text, grey context/highlight scheme and direct labels are our presentation choices, not reproduced experimental results or literal numeric prescriptions from the paper. Original report figures stay unchanged.
 
+## petroff2021 — Matthew A. Petroff, "Accessible Color Sequences for Data Visualization", arXiv 2107.02270
+Status: verified-source (2026-11-10; citation and abstract checked, version 3 revised 2024; not a full read).
+Role: visualization practice
+Used claim: categorical sequences can combine perceptual-distance constraints under simulated color-vision deficiencies with lightness and white-background contrast criteria. Our seven-color exhaustive subset search is adapted from this motivation, not a reproduction or accessibility guarantee.
+Source: https://arxiv.org/abs/2107.02270. The installed Matplotlib petroff10 values and version are recorded in the palette receipt.
+
+## crameri2020 — Crameri, Shephard & Heron, "The misuse of colour in science communication", Nature Communications 11:5444, 2020
+Status: verified-source (2026-11-10; publisher citation, abstract and used passages checked; not a full read).
+Role: visualization practice
+Used claim: uneven rainbow-like maps can introduce apparent boundaries and hide variation; perceptually ordered maps and color-vision accessibility matter. Sequential surface maps retain cividis; categorical method colors are a separate encoding.
+Source: https://www.nature.com/articles/s41467-020-19160-7.
+
+## franconeri2021 — Franconeri, Padilla, Shah, Zacks & Hullman, "The Science of Visual Data Communication: What Works", Psychological Science in the Public Interest 22(3), 2021
+Status: verified-source (2026-11-10; publisher citation, abstract and introduction checked; not a full read).
+Role: visualization practice
+Used claim: direct comparisons are harder than extracting overall patterns; attention, grouping, working-memory demands and audience conventions should guide design. The registry-derived fixed order takes precedence over adjacency; the main trio's observed adjacency is checked, not imposed by altering data.
+Source: https://journals.sagepub.com/doi/10.1177/15291006211051956.
+
+## midway2020 — Stephen R. Midway, "Principles of Effective Data Visualization", Patterns 1(9):100141, 2020
+Status: verified-source (2026-11-10; publisher DOI-page citation, summary and used passages checked; not a full read).
+Role: visualization practice
+Used claim: designing the intended message, accessible color choices and consistent small-multiple geometry can improve scientific figures. Our report/presentation variants retain the same source observations.
+Source: https://doi.org/10.1016/j.patter.2020.100141.
+
+## wilke2019 — Claus O. Wilke, Fundamentals of Data Visualization, O'Reilly, 2019
+Status: verified-source (2026-11-10; author-hosted book and relevant author teaching material checked; not a full read).
+Role: visualization practice
+Used claim: legends add lookup effort; ordering them to match the graphic and using clear titles/captions help readers. The project uses fixed global order and direct labels for presentations.
+Source: https://clauswilke.com/dataviz/redundant-coding.html; https://clauswilke.com/dataviz/figure-titles-captions.html. Author's explicit legend-order examples: https://wilkelab.org/dataviz_shortcourse/slides/effective-communication.html.
+
