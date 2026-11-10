@@ -1,0 +1,13 @@
+{
+  "source_commit": "4f6a85afc2e2c62fdb92863705187b3cc6fe14ed",
+  "theme_version": "v2",
+  "mode": "live",
+  "split": "val",
+  "variant": "271875_v0",
+  "seed": 0,
+  "capture": "Actual localhost browser; no image composition",
+  "png_sha256": "7551b5bfc0fc3b212c39069f8da1f53aeef6573e93539d025cf9c886e7433411",
+  "panel_font": "Viser default; installed 1.1.1 configure_theme has no local font API",
+  "visible_text": "NBV / VAL only\nNBV — VAL\n\nCanlı politika / kayıtlı CAD planı.\n\nOynat\nKarşılaştır\nBilgi\n\nParça\n\nVaryant\n\nYöntem\n\nSeed\n\nBaşlat / Duraklat\nAdım\nSıfırla\n\nHız (×)\n\n0.25\n8\n\n48 aday pası göster\n\nÇarpışma modeli\n\nKamera\n\nGenel\nParça\nYan\nKapsama 95.00%\nhedef %95\nSARSA · Φ değer tahmini · Adım 14\nBirikmiş süre\n67,18 s\nKapsama\n%95,00\n\nKayıtla birebir ✓\n\nÇarpışma aralığı yok (D-071 örneklenmiş denetim).\n\nAyrıntılar\nPart: PHIL — Mr_MegaTronic; Creative Commons - Attribution (sürüm kayıtlı değil). Kaynak\nRobot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.\n0\n20\n40\n60\n0%\n20%\n40%\n60%\n80%\n100%\nBirikmiş süre (s)\nKapsama\n\nGrafik: kayıtlı VAL eğrileri soluk; seçili canlı bölüm renkli. İmleç gösterim zamanıdır.",
+  "sha256": "7551b5bfc0fc3b212c39069f8da1f53aeef6573e93539d025cf9c886e7433411"
+}

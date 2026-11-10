@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "source_commit": "4f6a85afc2e2c62fdb92863705187b3cc6fe14ed",
+  "theme_version": "v2",
+  "panel_font": "Viser default; installed 1.1.1 configure_theme has no local font API",
+  "captures": [
+    {
+      "path": "viewer_live_theme_v2.png",
+      "sha256": "7551b5bfc0fc3b212c39069f8da1f53aeef6573e93539d025cf9c886e7433411",
+      "evidence": "viewer_live_theme_v2.json",
+      "evidence_sha256": "02626dd962766f716bffd18de7b3e89807dd3f089c2921395a838a14c4ccca64"
+    },
+    {
+      "path": "viewer_recorded_theme_v2.png",
+      "sha256": "c7c0e3c2af23726cfd15078ec55cb3a53ae95a665e64bdea28e0de80dfe62d42",
+      "evidence": "viewer_recorded_theme_v2.json",
+      "evidence_sha256": "82928f48902adbb14347354de5938aff7f08de9bc887a61d91b8186e5ea09c85"
+    },
+    {
+      "path": "viewer_comparison_theme_v2.png",
+      "sha256": "25e38a2e9e22761714ea4b3dfdef2690ff5a463c71cb7c23fa0e445e7a3e297a",
+      "evidence": "viewer_comparison_theme_v2.json",
+      "evidence_sha256": "80231ae509bb33da52d1e8ef53e6011896dee4c90a642ccfd5f89fabaf120bbc"
+    }
+  ]
+}

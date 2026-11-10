@@ -1,0 +1,13 @@
+{
+  "source_commit": "4f6a85afc2e2c62fdb92863705187b3cc6fe14ed",
+  "theme_version": "v2",
+  "mode": "comparison",
+  "split": "val",
+  "variant": "271875_v0",
+  "seed": 0,
+  "capture": "Actual localhost browser; no image composition",
+  "png_sha256": "25e38a2e9e22761714ea4b3dfdef2690ff5a463c71cb7c23fa0e445e7a3e297a",
+  "panel_font": "Viser default; installed 1.1.1 configure_theme has no local font API",
+  "visible_text": "NBV / VAL only\nNBV · tarama planlama\n\nVAL · kayıtlı, SHA-256 doğrulanmış veri\n\nOynat\nKarşılaştır\nBilgi\n\nParça\n\nYöntem\n\nBaşlat / Duraklat\nAdım\nSıfırla\n\nHız (×)\n\n0.25\n8\n\nGösterim zamanı (s)\n\n0\n67.164573\n\n48 aday pası göster\n\nÇarpışma modeli\n\nKamera\n\nGenel\nParça\nYan\nKapsama 24.05%\nhedef %95\n\nKayıtla birebir · SHA-256 doğrulandı; kayıtlı doğrulama korunuyor.\n\nGreedy-IG/maliyet · Adım 1\nBirikmiş süre\n4,05 s\nKapsama\n%24,05\nMCTS · Adım 0\nBirikmiş süre\n4,05 s\nKapsama\n%0,00\nAyrıntılar\nPart: PHIL — Mr_MegaTronic; Creative Commons - Attribution (sürüm kayıtlı değil). Kaynak\nRobot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.\n0\n20\n40\n60\n0%\n20%\n40%\n60%\n80%\n100%\nBirikmiş süre (s)\nKapsama\n\nKayıtlı kapsama–zaman eğrileri; imleç iki hücrenin ortak gösterim zamanıdır. Eve dönüş ayrı hareket olarak korunur.",
+  "sha256": "25e38a2e9e22761714ea4b3dfdef2690ff5a463c71cb7c23fa0e445e7a3e297a"
+}
