@@ -51,3 +51,19 @@ def test_recorded_first_session_and_distinct_comparison_have_ready_chart(compari
                 assert c.episodes[0]['method']!=c.episodes[1]['method']
                 assert c.episodes[0]['source_run_id']!=c.episodes[1]['source_run_id']
     finally:server.stop()
+
+
+@pytest.mark.parametrize('recorded',[False,True])
+def test_compact_panel_uses_readable_choices_and_collapsed_details(recorded):
+    server=_server(recorded=recorded)
+    try:
+        c=server._nbv_controller
+        with c.lock:
+            c.reset()
+            assert c.summary_panel.content
+            assert not c.details_folder.expand_by_default
+            assert c.error_text==''
+            options=c.method.handle.options
+            assert not any('/linear' in name or 'greedy_cost' in name for name in options)
+            assert 'Kapsama' in c.summary_panel.content
+    finally:server.stop()

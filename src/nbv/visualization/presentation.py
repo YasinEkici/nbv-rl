@@ -14,6 +14,31 @@ METHODS=('greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_
 COLORS=styles_for(METHODS)
 
 
+class MethodSelect:
+    """Readable GUI choices with stable internal identifiers at the boundary."""
+    def __init__(self,gui,label,methods,initial):
+        self.names={theme.method_name(m,'tr'):m for m in theme.display_order(methods)}
+        self.handle=gui.add_dropdown(label,tuple(self.names),initial_value=theme.method_name(initial,'tr'))
+
+    @property
+    def value(self):return self.names[self.handle.value]
+
+    @value.setter
+    def value(self,value):self.handle.value=theme.method_name(value,'tr')
+
+    def on_update(self,callback):return self.handle.on_update(callback)
+
+
+def summary_html(step,elapsed,coverage,method):
+    number=lambda value:f'{value:.2f}'.replace('.',',')
+    return (f'<section style="color:{theme.role("text")};padding:8px 0">'
+        f'<div>{html.escape(theme.method_name(method,"tr"))} · Adım {step}</div>'
+        '<div style="display:flex;gap:24px;margin-top:6px">'
+        f'<div><small>Birikmiş süre</small><br><b style="font-size:24px">{number(elapsed)} s</b></div>'
+        f'<div><small>Kapsama</small><br><b style="font-size:24px">%{number(coverage*100)}</b></div>'
+        '</div></section>')
+
+
 class ScopedScene:
     def __init__(self,api,prefix):self.api=api;self.prefix=prefix
     def __getattr__(self,name):
@@ -144,5 +169,5 @@ class CoverageChart:
         maximum=max((e['steps'][-1]['cumulative_time_s'] for e in self.episodes),default=1.)
         fig.update_layout(margin=dict(l=32,r=8,t=10,b=32),showlegend=False,height=250,
             paper_bgcolor=theme.rgba('background',0),plot_bgcolor=theme.rgba('background',0),font=dict(size=11),
-            xaxis=dict(title='Birikmiş süre (s)',range=[0,maximum]),yaxis=dict(title='Kapsama',range=[0,1.03],tickformat='.0%'))
+            separators=',.',xaxis=dict(title='Birikmiş süre (s)',range=[0,maximum]),yaxis=dict(title='Kapsama',range=[0,1.03],tickformat='.0%'))
         self.handle.figure=fig

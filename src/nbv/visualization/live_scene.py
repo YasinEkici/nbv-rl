@@ -12,6 +12,7 @@ from nbv.visualization import assets
 from nbv.visualization.demo import attribution,decode_array
 from nbv.visualization.styles import MASK_STYLES
 from nbv.visualization.presentation import ScopedScene,UR5Visual,lights,camera,coverage_html,attribution_text,brief_credit,CoverageChart,load_audit,live_reference_curves
+from nbv.visualization.presentation import MethodSelect,summary_html
 
 POINT_COLORS={name:theme.rgb(name) for name in ('measured','new','available','unmeasurable')}
 
@@ -105,7 +106,7 @@ class Scene:
             return
         if not self.valid[action]:raise ValueError('refusing to highlight a masked pass')
         points=np.array([[self.starts[action],self.ends[action]]])/1000
-        self.current=self.api.add_line_segments('/nbv/current',points,np.array([[[230,159,0],[230,159,0]]],dtype='u1'),thickness=4,thickness_units='screen')
+        self.current=self.api.add_line_segments('/nbv/current',points,np.array([[theme.rgb('new')]*2],dtype='u1'),thickness=4,thickness_units='screen')
 
     def reset_measurements(self):
         self.covered.fill(False);self.path=[];self.path_frame.remove();self.order_frame.remove()
@@ -118,7 +119,7 @@ class Scene:
             if not self.valid[action]:raise ValueError('refusing to animate masked pass')
             new=self.measured[action]&~self.covered;self.covered|=self.measured[action];self.path.append(action)
             self.api.add_line_segments(f'/nbv/path/{len(self.path)}',np.array([[self.starts[action],self.ends[action]]])/1000,
-                np.array([[[230,159,0],[230,159,0]]],dtype='u1'),thickness=2,thickness_units='screen')
+                np.array([[theme.rgb('new')]*2],dtype='u1'),thickness=2,thickness_units='screen')
             self.api.add_label(f'/nbv/order/{len(self.path)}',str(len(self.path)),position=(self.starts[action]+self.ends[action])/2000,font_screen_scale=.65)
         else:new=np.zeros(len(self.points),bool)
         self.cloud.colors=point_colors(self.covered,new,self.available)
@@ -130,7 +131,7 @@ class DemoController:
         self.server=server;self.recorded=recorded;self.store=None;self.session=None;self.bundle=None;self.scene=None
         self.running=False;self.worker=False;self.epoch=0;self.lock=threading.RLock();self.position=0;self.home_done=False
         self.rows=[];self.last_time=0.;self.last_coverage=0.;self.last_pass='—';self.last_ms=0.;self.verdict=None
-        self.audit=load_audit();self.audit_warning='';self.overlay_valid=True
+        self.audit=load_audit();self.audit_warning='';self.overlay_valid=True;self.error_text=''
         server.scene.set_up_direction('+z')
         lights(server)
         gui=server.gui
@@ -142,7 +143,7 @@ class DemoController:
         with tabs.add_tab('Oynat'):
             self.part=gui.add_dropdown('Parça',allowed,initial_value=allowed[0])
             self.variant=gui.add_dropdown('Varyant',[str(i) for i in range(1 if recorded else 5)],initial_value='0')
-            self.method=gui.add_dropdown('Yöntem',METHODS,initial_value='greedy_cost')
+            self.method=MethodSelect(gui,'Yöntem',METHODS,'greedy_cost')
             self.seed=gui.add_dropdown('Seed',['0'],initial_value='0')
             self.start=gui.add_button('Başlat / Duraklat');self.next=gui.add_button('Adım');self.reset_button=gui.add_button('Sıfırla')
             self.speed=gui.add_slider('Hız (×)',.25,8.,.25,initial_value=4.)
@@ -150,7 +151,10 @@ class DemoController:
             self.show_collision=gui.add_checkbox('Çarpışma modeli',False)
             gui.add_button_group('Kamera',('Genel','Parça','Yan')).on_click(lambda e:camera(server,e.target.value))
             self.coverage_bar=gui.add_html(coverage_html(0.))
+            self.summary_panel=gui.add_html('')
             self.status=gui.add_markdown('Hazır. Bölüm henüz çalıştırılmadı.')
+            self.details_folder=gui.add_folder('Ayrıntılar',expand_by_default=False)
+            with self.details_folder:self.details=gui.add_markdown('')
             self.credit_brief=gui.add_html('')
             self.chart=CoverageChart(gui)
             gui.add_markdown('Grafik: kayıtlı VAL eğrileri soluk; seçili canlı bölüm renkli. İmleç gösterim zamanıdır.')
@@ -181,6 +185,7 @@ class DemoController:
         from nbv.visualization.live import SourceStore,LiveSession,recorded_session
         self.running=False;self.epoch+=1
         with self.lock:
+            self.error_text=''
             self.status.content='Hazırlanıyor; henüz doğrulama sonucu yok.'
             try:
                 method=self.method.value
@@ -208,6 +213,7 @@ class DemoController:
                 elif self.bundle:self.chart.reset(self.bundle['part_data']['episodes'],method)
                 self.update_status()
             except Exception as exc:
+                self.error_text=str(exc)
                 self.session=None;self.bundle=None;self.status.content=f'**HATA — oynatma durduruldu:** {type(exc).__name__}: {exc}'
 
     def update_status(self,display_time=None):
@@ -220,7 +226,9 @@ class DemoController:
         mode='Kayıtlı paket' if self.recorded else 'Kayıtlı plan' if self.method.value in ('ilp_tsp','joint_opt') else 'Canlı politika; ε = 0'
         timing='Kayıtlı oynatma; canlı karar ölçümü yok.' if self.recorded or self.method.value in ('ilp_tsp','joint_opt') else f'{self.last_ms:.3f} ms — canlı, bu makine, görüntüleme yükü dahil; animasyon beklemesi hariç. D-066 ile karşılaştırılmaz.'
         visual_warning=('**'+self.scene.visual_note+'**\n\n') if self.scene and self.scene.visual is None else ''
-        self.status.content=(visual_warning+f'**{mode}** · VAL {self.part.value}_v{self.variant.value} · {self.method.value} · seed {self.seed.value}\n\n'
+        self.summary_panel.content=summary_html(self.position,shown,self.last_coverage,self.method.value)
+        self.status.content=verification+('\n\n'+self.audit_warning if self.audit_warning else '')
+        self.details.content=(visual_warning+f'**{mode}** · VAL {self.part.value}_v{self.variant.value} · {theme.method_name(self.method.value,"tr")} · seed {self.seed.value}\n\n'
             f'Adım: **{self.position}** · Pas: **{self.last_pass}**\n\nBirikmiş süre: **{shown:.6f} s**\n\nBirincil kapsama: **{self.last_coverage:.6%}** (erişilebilir birleşim)\n\nSon karar/adım: {timing}\n\n**Doğrulama:** {verification}\n\n{self.audit_warning}\n\nKapsama yeniden oynatmadan/canlı ENV adımından türetildi; kayıtlı kısmi oracle ile tutarlılık bölüm sonunda kontrol edilir.')
 
     def play(self):
@@ -307,5 +315,6 @@ class DemoController:
                     self.update_status()
                 if not auto or not self.running:break
         except Exception as exc:
+            self.error_text=str(exc)
             self.running=False;self.status.content=f'**HATA / doğrulama tamamlanmadı:** {type(exc).__name__}: {exc}'
         finally:self.worker=False
