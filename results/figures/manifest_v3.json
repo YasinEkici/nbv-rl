@@ -1,0 +1,16 @@
+{
+  "theme_version": "v2",
+  "figure_revision": "v3",
+  "figures": [
+    "p004_e_test_motion_time_v3"
+  ],
+  "files": {
+    "p004_e_test_motion_time_v3.png": "97d030f3b452d27dc1d1c84d720e5fb1938818c7556e3344acdf1abc4ec89e49",
+    "p004_e_test_motion_time_v3.pdf": "3189c81ef65fa62df614fe828cef7f91989ee25dc34280229cd175f6868c11d3",
+    "p004_e_test_motion_time_v3.svg": "b072a45d20c376cd098b8e9b28a01428be7b8965b6c7e3e3a4d93aaf17b57538",
+    "p004_e_test_motion_time_v3.json": "20db9d5ca7b1c0dafc6c7231cb8224685b1d50772b64e3947e54b83be89a341f"
+  },
+  "source_manifest": "manifest_v2.json",
+  "render_commit": "5272ba4",
+  "correction": "Apply hollow CAD markers; all original numeric and source fields unchanged."
+}

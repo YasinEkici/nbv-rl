@@ -58,3 +58,16 @@ def test_every_drawn_cad_marker_is_hollow_after_canvas_draw(monkeypatch,family,s
             {'ilp_tsp','joint_opt'} if kind in ('motion','collision') else set())
         assert required<=found,'Expected CAD artists were not inspected'
     finally:plt.close(fig)
+
+
+def test_corrected_motion_export_preserves_every_field_except_render_commit():
+    import hashlib
+    root=Path('results/figures');stem='p004_e_test_motion_time'
+    old=json.loads((root/(stem+'_v2.json')).read_text(encoding='utf-8'))
+    current=json.loads((root/(stem+'_v3.json')).read_text(encoding='utf-8'))
+    assert current['render_commit']!=old['render_commit']
+    current['render_commit']=old['render_commit']
+    assert json.dumps(current,sort_keys=True,ensure_ascii=False)==json.dumps(old,sort_keys=True,ensure_ascii=False)
+    manifest=json.loads((root/'manifest_v3.json').read_text(encoding='utf-8'))
+    for name,sha in manifest['files'].items():
+        assert hashlib.sha256((root/name).read_bytes()).hexdigest()==sha

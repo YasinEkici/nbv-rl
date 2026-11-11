@@ -18,3 +18,7 @@ results/visualization/*_v2.json -text
 results/visualization/viewer_theme_v2_manifest.json -text
 results/visualization/theme_v2.json -text
 results/visualization/palette_check_v1.json -text
+
+# Corrected motion-plot revision; preserve earlier v1/v2 evidence unchanged.
+results/figures/*_v3.* -text
+results/figures/manifest_v3.json -text
