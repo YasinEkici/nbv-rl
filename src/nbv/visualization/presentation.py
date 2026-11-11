@@ -163,7 +163,8 @@ class CoverageChart:
             x=[0.]+[r['cumulative_time_s'] for r in rows];y=[0.]+[r['primary_coverage'] for r in rows]
             if selected and actual_rows is not None and time_s>x[-1]:x.append(time_s);y.append(y[-1])
             fig.add_trace(go.Scatter(x=x,y=y,name=theme.method_name(episode['method'],'tr'),mode='lines',line=dict(shape='hv',
-                color=COLORS[episode['method']]['color'] if selected else theme.rgba('context',.25),width=3 if selected else 1)))
+                color=COLORS[episode['method']]['color'] if selected else theme.rgba('context',.25),width=3 if selected else 1,
+                dash=theme.plotly_dash(episode['method']))))
         fig.add_hline(y=.95,line_dash='dash',line_color=theme.role('threshold'))
         fig.add_vline(x=time_s,line_color=theme.role('text'),line_width=1)
         maximum=max((e['steps'][-1]['cumulative_time_s'] for e in self.episodes),default=1.)

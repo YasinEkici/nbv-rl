@@ -71,3 +71,22 @@ def test_corrected_motion_export_preserves_every_field_except_render_commit():
     manifest=json.loads((root/'manifest_v3.json').read_text(encoding='utf-8'))
     for name,sha in manifest['files'].items():
         assert hashlib.sha256((root/name).read_bytes()).hexdigest()==sha
+
+
+@pytest.mark.parametrize('chosen',[
+    'greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_estimate','regq/linear'])
+def test_viewer_selected_and_context_traces_match_global_line_styles(chosen):
+    from types import SimpleNamespace
+    from nbv.visualization.presentation import CoverageChart
+    from nbv.visualization import theme
+    class GUI:
+        def add_plotly(self,figure,**kwargs):return SimpleNamespace(figure=figure)
+    chart=CoverageChart(GUI())
+    episodes=[dict(method=m,steps=[dict(cumulative_time_s=1.,primary_coverage=.95)]) for m in theme.CORE]
+    chart.reset(episodes,chosen)
+    traces={t.name:t for t in chart.handle.figure.data}
+    expected={'-':'solid',':':'dot','--':'dash','-.':'dashdot'}
+    for method in theme.CORE:
+        trace=traces[theme.method_name(method,'tr')]
+        assert trace.line.dash==expected[theme.base_styles()[method]['linestyle']],method
+        assert tuple(trace.x)==(0.,1.) and tuple(trace.y)==(0.,.95)

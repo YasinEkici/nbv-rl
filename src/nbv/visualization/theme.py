@@ -41,6 +41,10 @@ def rgb(name):
     value=role(name).lstrip('#')
     return tuple(int(value[i:i+2],16) for i in (0,2,4))
 def rgba(name,alpha):return 'rgba('+','.join(str(v) for v in (*rgb(name),alpha))+')'
+
+def plotly_dash(method):
+    """Translate the committed Matplotlib-style token without changing family identity."""
+    return {'-':'solid',':':'dot','--':'dash','-.':'dashdot'}[base_styles()[method]['linestyle']]
 def display_order(names=None):
     names=set(DEFINITIONS if names is None else names)
     return [m for m in load_theme()['display_order'] if m in names]
