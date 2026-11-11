@@ -150,7 +150,7 @@ def draw(kind,old,lang,stage=None):
         fig,axes=make_figure(1,slide);ax=axes[0]
         for m in theme.display_order():
             group=[r for r in test if r['label']==m]
-            ax.scatter([r['total_joint_motion'] for r in group],[r['normalized_cycle_time'] for r in group],color=theme.base_styles()[m]['color'],marker=theme.base_styles()[m]['marker'],s=12,alpha=.2,label=theme.method_name(m,lang))
+            points(ax,[r['total_joint_motion'] for r in group],[r['normalized_cycle_time'] for r in group],m,theme.base_styles()[m]['color'],s=12,alpha=.2,label=theme.method_name(m,lang))
         ax.set(xlabel='Total joint motion (rad)',ylabel='Normalized cycle time');ax.legend(ncol=2)
         title='Test joint movement and recorded cycle time';caption='Registry observations only; no test geometry or time decomposition. Individual variant-by-seed points, primary policies.'
     else:
