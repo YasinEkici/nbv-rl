@@ -44,3 +44,5 @@ All previously tracked results and immutable model/configuration inputs are hash
 - The private preparation inventory checked all frozen files: only the explicitly authorized theme-compatibility wording in results/visualization/README.md differs. Registry, demo/common styles and hashes, prior metric/evidence files, ENV v4 and collision calculations are unchanged. No training, setting choice or test-holdout access occurred.
 
 Open issues carried forward: unknown source license versions for the three VAL meshes; limited manual GUI coverage; Viser's supported API has no local panel-font setting, so its default remains. Phase 2 remains the separate unapproved draft Plan 003. Close by locally fast-forwarding main after a full passing pytest chain and deleting the fix branch; never publish remote changes.
+
+Final correction addendum (2026-11-11): [004-final closure](004-final.md) resolves actual CAD-marker fill, viewer dash mapping and missing clean-clone scratch setup. The corrected motion graphic is a new v3 revision; original v2 files and scientific data remain intact. D-072's semantics are unchanged.

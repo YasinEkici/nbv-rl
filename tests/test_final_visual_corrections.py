@@ -90,3 +90,61 @@ def test_viewer_selected_and_context_traces_match_global_line_styles(chosen):
         trace=traces[theme.method_name(method,'tr')]
         assert trace.line.dash==expected[theme.base_styles()[method]['linestyle']],method
         assert tuple(trace.x)==(0.,1.) and tuple(trace.y)==(0.,.95)
+
+
+def test_cache_free_export_starts_without_scratch_in_tracked_worktree():
+    import os
+    import subprocess
+    import sys
+    import tempfile
+    root=Path(__file__).resolve().parents[1];scratch=root/'scratch'
+    scratch.mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='004-final-check-',dir=scratch) as directory:
+        container=Path(directory).resolve();assert container.is_relative_to(scratch.resolve())
+        tree=container/'tree';assert tree.resolve().is_relative_to(scratch.resolve())
+        subprocess.run(['git','worktree','add','--detach',str(tree),'HEAD'],cwd=root,check=True,capture_output=True)
+        try:
+            tracked=set(subprocess.check_output(['git','ls-files'],cwd=tree,text=True,encoding='utf-8').splitlines())
+            actual={p.relative_to(tree).as_posix() for p in tree.rglob('*') if p.is_file()}
+            assert actual==tracked|{'.git'}
+            assert not any((tree/p).exists() for p in ('scratch','data/cache','outputs'))
+            # Pending renderer edits run in memory; every file/resource remains the clean tracked HEAD.
+            # Once committed, these overlays are byte-identical to the worktree source too.
+            overlay={name:dict(path=path,source=(root/path).read_text(encoding='utf-8')) for name,path in {
+                'nbv.visualization':'src/nbv/visualization/__init__.py',
+                'nbv.visualization.design_figures':'src/nbv/visualization/design_figures.py'}.items()}
+            program=r'''
+import importlib.abc,importlib.util,json,os,sys
+from pathlib import Path
+payload=json.load(sys.stdin);tree=Path.cwd().resolve()
+os.environ.pop('MPLCONFIGDIR',None)
+class Overlay(importlib.abc.MetaPathFinder,importlib.abc.Loader):
+ def find_spec(self,fullname,path=None,target=None):
+  if fullname not in payload['modules']:return None
+  filename=tree/payload['modules'][fullname]['path']
+  return importlib.util.spec_from_file_location(fullname,filename,loader=self,
+   submodule_search_locations=[str(filename.parent)] if filename.name=='__init__.py' else None)
+ def create_module(self,spec):return None
+ def exec_module(self,module):exec(compile(payload['modules'][module.__name__]['source'],module.__file__,'exec'),module.__dict__)
+sys.meta_path.insert(0,Overlay())
+import nbv
+assert Path(nbv.__file__).resolve().is_relative_to(tree)
+sys.argv=['scripts/report_figures.py','--figure','p004_a_quality_latency','--figure','p004_e_test_motion_time',
+ '--output-dir','scratch/generated','--version','v3']
+exec(compile(payload['entry'],str(tree/'scripts/report_figures.py'),'exec'),{'__name__':'__main__','__file__':str(tree/'scripts/report_figures.py')})
+import matplotlib
+assert Path(matplotlib.get_configdir()).resolve().is_relative_to(tree/'scratch')
+assert Path(matplotlib.get_configdir()).is_dir()
+'''
+            env=os.environ|{'PYTHONPATH':str(tree/'src'),'MPLBACKEND':'Agg','PYTHONDONTWRITEBYTECODE':'1'}
+            payload={'modules':overlay,'entry':(root/'scripts/report_figures.py').read_text(encoding='utf-8')}
+            result=subprocess.run([sys.executable,'-c',program],input=json.dumps(payload),cwd=tree,
+                                  env=env,text=True,encoding='utf-8',capture_output=True,timeout=90)
+            assert result.returncode==0,result.stdout+'\n'+result.stderr
+            manifest=json.loads((tree/'scratch/generated/manifest_v3.json').read_text(encoding='utf-8'))
+            assert len(manifest['figures'])==2 and len(manifest['files'])==8
+            assert not (tree/'data/cache').exists() and not (tree/'outputs').exists()
+            assert not subprocess.check_output(['git','status','--porcelain'],cwd=tree,text=True).strip()
+        finally:
+            assert tree.resolve().is_relative_to(scratch.resolve())
+            subprocess.run(['git','worktree','remove','--force',str(tree)],cwd=root,check=True,capture_output=True)

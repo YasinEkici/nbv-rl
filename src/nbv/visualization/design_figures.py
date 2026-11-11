@@ -2,7 +2,9 @@
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
+import re
 import shutil
 import tempfile
 import textwrap
@@ -10,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 from nbv.visualization import theme,assets
+from nbv.visualization import prepare_export_workspace
 from nbv.visualization.figure_data import RegistryFigures,rank_runs
 from nbv.visualization.replay import validated_records
 from nbv.visualization.design_export import setup_fonts,save_figure,validate_invariance
@@ -188,26 +191,37 @@ REPORTS={'p004_a_quality_latency':'a','p004_b_learning_runs':'b','p004_c_test_di
 SLIDES={'p004b_a_quality_latency':'a','p004b_b_learning':'b','p004b_c_test_parts':'c','p004b_c2_paired_forward':'c2',
         'p004b_e_val_time_components':'e','p004b_collision_rates':'collision'}
 
-def generate(*,slides=False):
+def generate(*,slides=False,figures=None,output_dir=None,version='v2'):
     from nbv.evaluation import git_state
     if git_state()['dirty']:raise ValueError('Commit rendering code before publishing versioned figures')
-    root=Path('results/figures/slides' if slides else 'results/figures');items=SLIDES if slides else REPORTS
-    stage=Path(tempfile.mkdtemp(prefix='theme-v2-',dir='scratch'));files={};outputs=[]
-    for stem,kind in items.items():
-        old=json.loads((root/(stem+'.json')).read_text(encoding='utf-8'))
-        for variant in ('a','b') if slides else (None,):
-            fig,title,caption,styles=draw(kind,old,'tr' if slides else 'en',variant)
-            name=stem+'_v2'+('_'+variant if variant else '')
-            save_figure(fig,stage/name,old,language='tr' if slides else 'en',slide=slides,render_styles=styles,title=title,caption=caption)
-            outputs.append(name)
-            for ext in ('.png','.pdf','.svg','.json'):
-                p=stage/(name+ext);files[p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
-            print('Validated v2 figure:',name,flush=True)
-    # Publication occurs only after every staged export passes the exact payload/text/font gates.
-    for name in files:
-        if (root/name).exists():raise FileExistsError('Versioned figure already exists: '+name)
-    for name in files:shutil.copyfile(stage/name,root/name)
-    manifest=root/'manifest_v2.json'
-    if manifest.exists():raise FileExistsError(manifest)
-    manifest.write_text(json.dumps(dict(theme_version='v2',files=files,figures=outputs,source_manifest='manifest_v1.json' if slides else '../../results/visualization/static_figures_v1.json'),indent=2),encoding='utf-8')
+    if not re.fullmatch(r'v[1-9][0-9]*',version):raise ValueError('Expected a version token such as v3')
+    root=Path('results/figures/slides' if slides else 'results/figures');catalog=SLIDES if slides else REPORTS
+    selected=list(catalog) if figures is None else list(figures)
+    if not selected or len(set(selected))!=len(selected) or set(selected)-set(catalog):raise ValueError('Select distinct known figure names')
+    destination=Path(output_dir) if output_dir is not None else root
+    variants=('a','b') if slides else (None,)
+    names=[stem+'_'+version+('_'+v if v else '') for stem in selected for v in variants]
+    manifest=destination/('manifest_'+version+'.json')
+    targets=[destination/(name+ext) for name in names for ext in ('.png','.pdf','.svg','.json')]+[manifest]
+    if any(p.exists() for p in targets):raise FileExistsError('Versioned export destination already contains a target')
+    workspace=prepare_export_workspace();files={};outputs=[]
+    with tempfile.TemporaryDirectory(prefix='theme-'+version+'-',dir=workspace) as directory:
+        stage=Path(directory).resolve();assert stage.is_relative_to(workspace)
+        for stem in selected:
+            old=json.loads((root/(stem+'.json')).read_text(encoding='utf-8'))
+            for variant in variants:
+                fig,title,caption,styles=draw(catalog[stem],old,'tr' if slides else 'en',variant)
+                name=stem+'_'+version+('_'+variant if variant else '')
+                save_figure(fig,stage/name,old,language='tr' if slides else 'en',slide=slides,render_styles=styles,title=title,caption=caption)
+                outputs.append(name)
+                for ext in ('.png','.pdf','.svg','.json'):
+                    p=stage/(name+ext);files[p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
+                print('Validated '+version+' figure:',name,flush=True)
+        # Publish only fully validated new artifacts, and clean staging on success or failure.
+        destination.mkdir(parents=True,exist_ok=True)
+        for name in files:shutil.copyfile(stage/name,destination/name)
+        source=root/'manifest_v1.json' if slides else Path('results/visualization/static_figures_v1.json')
+        reference=Path(os.path.relpath(source,destination)).as_posix()
+        with manifest.open('x',encoding='utf-8',newline='\n') as stream:
+            json.dump(dict(theme_version='v2',figure_revision=version,files=files,figures=outputs,source_manifest=reference),stream,indent=2)
     return outputs
