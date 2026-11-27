@@ -366,18 +366,18 @@ Son ağırlıklar bu dosyada yoktur. Dosyadan yüklenen bir politika tek bir do�
 
 Proje kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf robot ve font varlıkları kendi BSD-3-Clause ve OFL lisanslarını; parça ve türetilmiş veriler kendi Creative Commons koşullarını korur. Kodun MIT olması veri varlıklarını MIT yapmaz.
 
-Tablodaki lisans aileleri kayıtlı veri metadatasından gelir. Kaynak sayfalar tek tek kontrol edilmeye çalışılmış, erişim engeli nedeniyle sürüm bilgisi doğrulanamamıştır. Bu nedenle “kaynak sayfada sürüm belirtilmemiş” sonucu çıkarılmamış ve sürüm tahmin edilmemiştir.
+Tablodaki lisanslar kayıtlı veri metadatası ve açıkça belirtilen kaynak sayfa kontrollerinden gelir. PHIL, R. Maker – Mark I ve Mechanical Clock için kaynak sayfalardaki lisans bağlantıları depo sahibi tarafından kontrol edilmiş ve CC BY-SA 4.0 olarak bildirilmiştir. Bu kontrol, otomatik erişim engeli kayıtlarından ayrı tutulur. Diğer parçalarda erişim engeli nedeniyle lisans sürümü doğrulanamamıştır; sürüm tahmin edilmez. [Veri lisansı ve atıf bildirimi](docs/DATA_LICENSES.md).
 
-| Parça | Yazar | Bölme | Kayıtlı lisans ailesi | Sürüm / kaynak | Değişiklikler |
+| Parça | Yazar | Bölme | Lisans | Sürüm / kaynak kontrolü | Değişiklikler |
 |---|---|---|---|---|---|
-| PHIL | Mr_MegaTronic | Doğrulama | CC BY | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:136235) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
+| PHIL | Mr_MegaTronic | Doğrulama | CC BY-SA 4.0 | [Depo sahibi doğruladı (2026-11-27)](https://www.thingiverse.com/thing:136235) · [lisans](https://creativecommons.org/licenses/by-sa/4.0/) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
 | PrintrBot Clone | PacManFan | Eğitim | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:14130) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | VEND - the totally printed candy dispenser | Mr_MegaTronic | Eğitim | CC BY | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:45347) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | Dremel Devil | MAKE | Test | CC BY | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:266035) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | Turbine Rotary Tool 60000 rpm | RichMac | Test | CC BY | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:76369) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | RAPIRO - The Humanoid Robot for your Raspberry Pi | ShotaIshiwatari | Eğitim | CC BY | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:309466) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
-| R. Maker - Mark I | Mr_MegaTronic | Doğrulama | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:11654) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
-| 3D printed mechanical Clock with Anchor Escapement | TheGoofy | Doğrulama | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:328569) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
+| R. Maker - Mark I | Mr_MegaTronic | Doğrulama | CC BY-SA 4.0 | [Depo sahibi doğruladı (2026-11-27)](https://www.thingiverse.com/thing:11654) · [lisans](https://creativecommons.org/licenses/by-sa/4.0/) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
+| 3D printed mechanical Clock with Anchor Escapement | TheGoofy | Doğrulama | CC BY-SA 4.0 | [Depo sahibi doğruladı (2026-11-27)](https://www.thingiverse.com/thing:328569) · [lisans](https://creativecommons.org/licenses/by-sa/4.0/) | Ölçekleme, hizalama, örnekleme ve varyantlar; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i |
 | Functional Differential Gear System | Thing-O-Fun | Eğitim | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:11836) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | OpenRC 1:10 4WD Truggy Concept RC Car | barspin | Eğitim | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:42198) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | Customizable Battery Case (magnetic) | walter | Eğitim | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:51376) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
@@ -385,7 +385,7 @@ Tablodaki lisans aileleri kayıtlı veri metadatasından gelir. Kaynak sayfalar 
 | Adabot | adafruit | Eğitim | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:367226) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 | Guitar Hero Whammy Bar Replacement Part | falconphysics | Test | CC BY-SA | [Kaynak sayfa okunamadı; sürüm doğrulanamadı](https://www.thingiverse.com/thing:26714) | Ölçekleme, hizalama, örnekleme ve varyantlar; ham mesh dağıtılmıyor |
 
-Uygulanan değişiklikler: nominal modelin ölçeklenmesi ve hizalanması; alan ağırlıklı yüzey örneklemesi; varyant noktalarında geometrik sapmalar; görünürlük bitlerinin türetilmesi. Gösterim mesh'leri nominal, noktalar ilgili varyant geometrisindedir. Paylaşılan gösterim mesh'leri sadeleştirilmemiştir. BY-SA türevlerinin aynı lisans koşullarını koruması, yazar/kaynak atfı, değişiklik açıklaması ve doğrulanmış lisans bağlantısı gerekir. Lisans sürümü eksikleri donmuş veri paketinde sessizce değiştirilmemiştir.
+Uygulanan değişiklikler: nominal modelin ölçeklenmesi ve hizalanması; alan ağırlıklı yüzey örneklemesi; varyant noktalarında geometrik sapmalar; görünürlük bitlerinin türetilmesi. Gösterim mesh'leri nominal, noktalar ilgili varyant geometrisindedir. Paylaşılan gösterim mesh'leri sadeleştirilmemiştir. Demo paketindeki bu modellerin geometrileri ve türevlerine ait katkılar CC BY-SA 4.0 altında paylaşılır; kod MIT olarak kalır. Donmuş paket değişmez: PHIL'in eski metadata kaydındaki CC BY ailesi ile güncel kaynak kontrolündeki CC BY-SA 4.0 farkı ve diğer sürüm eksikleri ayrı veri lisansı bildiriminde açıklanır. Görüntüleyici güncel atıf bilgisini bu kaynak kontrolüyle gösterir.
 
 ## Kaynakça
 

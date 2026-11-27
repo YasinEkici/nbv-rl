@@ -2,6 +2,16 @@
   {
     "file_id": 271875,
     "url": "https://www.thingiverse.com/thing:136235",
+    "source_confirmation": {
+      "source_url": "https://www.thingiverse.com/thing:136235",
+      "confirmed_on": "2026-11-27",
+      "confirmation_method": "repository owner inspected the model page license link",
+      "license_id": "CC-BY-SA-4.0",
+      "license_label": "CC BY-SA 4.0",
+      "license_version": "4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "differs_from_recorded_family": true
+    },
     "checked_on": "2026-11-27",
     "status": 403,
     "final_url": "https://www.thingiverse.com/thing:136235",
@@ -62,6 +72,16 @@
   {
     "file_id": 37275,
     "url": "https://www.thingiverse.com/thing:11654",
+    "source_confirmation": {
+      "source_url": "https://www.thingiverse.com/thing:11654",
+      "confirmed_on": "2026-11-27",
+      "confirmation_method": "repository owner inspected the model page license link",
+      "license_id": "CC-BY-SA-4.0",
+      "license_label": "CC BY-SA 4.0",
+      "license_version": "4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "differs_from_recorded_family": false
+    },
     "checked_on": "2026-11-27",
     "status": 403,
     "final_url": "https://www.thingiverse.com/thing:11654",
@@ -72,6 +92,16 @@
   {
     "file_id": 591247,
     "url": "https://www.thingiverse.com/thing:328569",
+    "source_confirmation": {
+      "source_url": "https://www.thingiverse.com/thing:328569",
+      "confirmed_on": "2026-11-27",
+      "confirmation_method": "repository owner inspected the model page license link",
+      "license_id": "CC-BY-SA-4.0",
+      "license_label": "CC BY-SA 4.0",
+      "license_version": "4.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "differs_from_recorded_family": false
+    },
     "checked_on": "2026-11-27",
     "status": 403,
     "final_url": "https://www.thingiverse.com/thing:328569",

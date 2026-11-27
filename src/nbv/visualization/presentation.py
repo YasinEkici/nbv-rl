@@ -9,6 +9,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 from nbv.visualization.styles import styles_for
 from nbv.visualization import theme
+from nbv.data_licenses import display_attribution
 
 METHODS=('greedy_cost','mcts','ilp_tsp','joint_opt','sarsa/linear','sarsa/value_estimate','regq/linear')
 COLORS=styles_for(METHODS)
@@ -130,8 +131,11 @@ class UR5Visual:
 
 
 def attribution_text(a):
+    a=display_attribution(a)
+    version=a.get('version_status_tr','sürüm kayıtlı değil')
+    license_url=a.get('official_specific_license_url') or a['official_license_overview']
     return (f"**{a['name']}** — {a['author']}\n\n[Thingi10K / kaynak]({a['source_url']}) · "
-        f"{a['license']} · **sürüm kayıtlı değil**. [CC genel bakış]({a['official_license_overview']}).\n\n"
+        f"{a['license']} · **{version}**. [Lisans]({license_url}).\n\n"
         'Değişiklikler: 200 mm ölçekleme, alan ağırlıklı örnekler, varyant sapmaları ve türetilmiş görünürlük. '
         'BY-SA türevleri aynı lisans ailesini korur.\n\n'
         '**Robot:** example-robot-data / ROS-Industrial UR5; BSD-3-Clause. Ağlar görsel modeldir; '
@@ -139,9 +143,13 @@ def attribution_text(a):
 
 
 def brief_credit(a):
+    a=display_attribution(a)
+    version=a.get('version_status_tr','sürüm kayıtlı değil')
+    license_url=a.get('official_specific_license_url') or a.get('official_license_overview','https://creativecommons.org/licenses/')
     return (f'<div style="font:11px sans-serif;color:{theme.role("muted")};padding:4px 0">'
         f"Part: {html.escape(a['name'])} — {html.escape(a['author'])}; {html.escape(a['license'])} "
-        f"(sürüm kayıtlı değil). <a href=\"{html.escape(a['source_url'],quote=True)}\" target=\"_blank\" rel=\"noopener noreferrer\">Kaynak</a>"
+        f"({html.escape(version)}). <a href=\"{html.escape(a['source_url'],quote=True)}\" target=\"_blank\" rel=\"noopener noreferrer\">Kaynak</a> · "
+        f'<a href="{html.escape(license_url,quote=True)}" target="_blank" rel="noopener noreferrer">Lisans</a>'
         '<br>Robot: UR5 / example-robot-data, BSD-3-Clause. Ayrıntı ve değişiklikler: Bilgi.</div>')
 
 

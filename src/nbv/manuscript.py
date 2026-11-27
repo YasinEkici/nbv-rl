@@ -200,16 +200,25 @@ def render(root=ROOT):
     values['table.settings']='\n'.join(lines)
 
     attribution=_load(root,'provenance/part_sources.json')
-    lines=['| Parça | Yazar | Bölme | Kayıtlı lisans ailesi | Sürüm / kaynak | Değişiklikler |','|---|---|---|---|---|---|']
+    lines=['| Parça | Yazar | Bölme | Lisans | Sürüm / kaynak kontrolü | Değişiklikler |','|---|---|---|---|---|---|']
     for p in split['parts']:
         check=next(c for c in attribution if c['file_id']==p['file_id'])
         family='CC BY-SA' if p['share_alike'] else 'CC BY'
         split_name={'train':'Eğitim','val':'Doğrulama','test':'Test'}[p['split']]
         version=check['version'] or check['version_status']
+        confirmation=check.get('source_confirmation')
+        if confirmation:
+            if confirmation['source_url'] != p['thing_url']:
+                raise ValueError('license confirmation source mismatch')
+            family=confirmation['license_label']
+            version='Depo sahibi doğruladı ('+confirmation['confirmed_on']+')'
+        source_cell=f'[{version}]({p["thing_url"]})'
+        if confirmation:
+            source_cell+=f' · [lisans]({confirmation["license_url"]})'
         changes='Ölçekleme, hizalama, örnekleme ve varyantlar'
         if p['split']=='val':changes+='; görünürlük türevi ve sadeleştirilmemiş gösterim mesh’i'
         else:changes+='; ham mesh dağıtılmıyor'
-        lines.append(f'| {p["name"]} | {p["author"]} | {split_name} | {family} | [{version}]({p["thing_url"]}) | {changes} |')
+        lines.append(f'| {p["name"]} | {p["author"]} | {split_name} | {family} | {source_cell} | {changes} |')
     values['table.attribution']='\n'.join(lines)
 
     collision=_load(root,'results/collision_audit_v1.json')

@@ -266,11 +266,11 @@ Son ağırlıklar bu dosyada yoktur. Dosyadan yüklenen bir politika tek bir do�
 
 Proje kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf robot ve font varlıkları kendi BSD-3-Clause ve OFL lisanslarını; parça ve türetilmiş veriler kendi Creative Commons koşullarını korur. Kodun MIT olması veri varlıklarını MIT yapmaz.
 
-Tablodaki lisans aileleri kayıtlı veri metadatasından gelir. Kaynak sayfalar tek tek kontrol edilmeye çalışılmış, erişim engeli nedeniyle sürüm bilgisi doğrulanamamıştır. Bu nedenle “kaynak sayfada sürüm belirtilmemiş” sonucu çıkarılmamış ve sürüm tahmin edilmemiştir.
+Tablodaki lisanslar kayıtlı veri metadatası ve açıkça belirtilen kaynak sayfa kontrollerinden gelir. PHIL, R. Maker – Mark I ve Mechanical Clock için kaynak sayfalardaki lisans bağlantıları depo sahibi tarafından kontrol edilmiş ve CC BY-SA 4.0 olarak bildirilmiştir. Bu kontrol, otomatik erişim engeli kayıtlarından ayrı tutulur. Diğer parçalarda erişim engeli nedeniyle lisans sürümü doğrulanamamıştır; sürüm tahmin edilmez. [Veri lisansı ve atıf bildirimi](docs/DATA_LICENSES.md).
 
 {{table.attribution}}
 
-Uygulanan değişiklikler: nominal modelin ölçeklenmesi ve hizalanması; alan ağırlıklı yüzey örneklemesi; varyant noktalarında geometrik sapmalar; görünürlük bitlerinin türetilmesi. Gösterim mesh'leri nominal, noktalar ilgili varyant geometrisindedir. Paylaşılan gösterim mesh'leri sadeleştirilmemiştir. BY-SA türevlerinin aynı lisans koşullarını koruması, yazar/kaynak atfı, değişiklik açıklaması ve doğrulanmış lisans bağlantısı gerekir. Lisans sürümü eksikleri donmuş veri paketinde sessizce değiştirilmemiştir.
+Uygulanan değişiklikler: nominal modelin ölçeklenmesi ve hizalanması; alan ağırlıklı yüzey örneklemesi; varyant noktalarında geometrik sapmalar; görünürlük bitlerinin türetilmesi. Gösterim mesh'leri nominal, noktalar ilgili varyant geometrisindedir. Paylaşılan gösterim mesh'leri sadeleştirilmemiştir. Demo paketindeki bu modellerin geometrileri ve türevlerine ait katkılar CC BY-SA 4.0 altında paylaşılır; kod MIT olarak kalır. Donmuş paket değişmez: PHIL'in eski metadata kaydındaki CC BY ailesi ile güncel kaynak kontrolündeki CC BY-SA 4.0 farkı ve diğer sürüm eksikleri ayrı veri lisansı bildiriminde açıklanır. Görüntüleyici güncel atıf bilgisini bu kaynak kontrolüyle gösterir.
 
 ## Kaynakça
 

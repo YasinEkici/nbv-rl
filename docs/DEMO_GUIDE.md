@@ -66,7 +66,7 @@ Canlı süre **bu makine, görüntüleme yükü dahil** olarak yorumlanır; ayr�
 
 ## Atıf ve lisans
 
-Atıf panelini görünür tutun. Parça adı, yazar, kaynak, kayıtlı lisans ailesi, sürüm durumu ve yapılan değişiklikleri içerir. Nominal mesh ile varyant noktaları küçük geometrik farklılıklar taşır. BY-SA türevleri kendi lisans koşullarını korur. Kaynak sayfa erişimiyle doğrulanamayan sürümler tahmin edilmez; güncel durum ve parça bağlantıları [araştırma raporundadır](../README.md#11-veri-ve-lisans-atıfları).
+Atıf panelini görünür tutun. Parça adı, yazar, kaynak, lisans, kaynak kontrolü ve yapılan değişiklikleri içerir. Demo modelleri için depo sahibinin bildirdiği kaynak sayfa kontrolü CC BY-SA 4.0 olarak gösterilir; donmuş paket değiştirilmez. PHIL'in tarihsel lisans ailesiyle fark ve dağıtım koşulları [veri lisansı bildiriminde](DATA_LICENSES.md) açıklanır. Nominal mesh ile varyant noktaları küçük geometrik farklılıklar taşır. BY-SA türevleri kendi lisans koşullarını korur. Diğer modellerde doğrulanamayan sürümler tahmin edilmez; güncel durum ve parça bağlantıları [araştırma raporundadır](../README.md#11-veri-ve-lisans-atıfları).
 
 ## Sorun giderme
 
