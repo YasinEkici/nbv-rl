@@ -1,0 +1,23 @@
+{
+  "weights": {
+    "path": "weights/linear_learners.json",
+    "bytes": 41767,
+    "sha256": "21f304502f3414aa28f1df42b68347436e6055714f2e50081361fc12d6d10bd4",
+    "rows": 60,
+    "values_per_row": 11,
+    "weight_kind": "tail mean"
+  },
+  "hardware": "Intel Core Ultra 9 275HX, 24 çekirdek; RTX 5080 Laptop, 16 GB; Windows",
+  "learning": {
+    "discount": 1.0,
+    "reward_scale": 0.01,
+    "potential_scale": 50.0,
+    "potential_exponent": 2.0
+  },
+  "thresholds": {
+    "forward": 0.02,
+    "shaping_speed": 0.1,
+    "shaping_final": 0.02
+  },
+  "source_check_date": "2026-11-27"
+}

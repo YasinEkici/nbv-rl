@@ -22,3 +22,12 @@ results/visualization/palette_check_v1.json -text
 # Corrected motion-plot revision; preserve earlier v1/v2 evidence unchanged.
 results/figures/*_v3.* -text
 results/figures/manifest_v3.json -text
+
+# Preserve the recorded CRLF receipt bytes on every checkout platform.
+results/visualization/polish_comparison_v1.json text eol=crlf
+results/visualization/collision_worst_1_v1.json text eol=crlf
+results/visualization/collision_worst_2_v1.json text eol=crlf
+results/visualization/collision_worst_3_v1.json text eol=crlf
+
+# The published numerical policy file has a portable, exact-byte SHA-256.
+weights/linear_learners.json -text

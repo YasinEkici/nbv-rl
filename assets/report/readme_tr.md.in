@@ -1,0 +1,279 @@
+# Robot Koluna Bağlı Çizgi Lazer Profilometreyle Yüzey Taramasında Sonraki En İyi Bakışın Öğrenilmesi
+
+**Yasin Ekici — Bursa Teknik Üniversitesi, Derin Pekiştirmeli Öğrenme dersi**
+
+## Özet
+
+Bu çalışma, nominal CAD modeli bilinen bir parçanın ölçülebilir yüzeyini robot hareketi ve tarama süresini azaltarak kapsama problemini inceler. Çift optik örtülme, robot erişilebilirliği ve statik çarpışma maskeleri içeren benzetimde doğrusal true online SARSA(λ), düzenlileştirilmiş Q-learning ve miyop öğrenme; açgözlü bilgi kazancı, Monte Carlo ağaç araması ve CAD tabanlı planlayıcılarla karşılaştırılmıştır. Eğitim ve ayar işlemlerinden ayrılan {{parts.test}} test parçasında önceden seçilen doğrusal potansiyelli SARSA'nın normalize çevrim süresi {{test.sarsa/linear}}, değer tahmini potansiyelli SARSA'nın {{test.sarsa/value_estimate}}, MCTS'nin {{test.mcts}} olmuştur. Önceden konan hipotez eşikleri sağlanmamıştır. Değer tahmini kolunun MCTS'ye yakın sonucu sonradan gözlenen betimsel bir bulgudur; bu kol testten önce ana yöntem olarak seçilmemiştir. Sonuçlar küçük bir benzetim örneklemine ve tahmini hareket sürelerine aittir; fiziksel çarpışmasız robot performansı iddiası taşımaz.
+
+## 1 Giriş ve motivasyon
+
+Robotlu optik muayenede gereksiz tarama geçişleri çevrim süresini uzatır; iç boşluklar, kaburgalar ve yüzey normalleri bazı bölgeleri belirli bakışlardan görünmez kılar. Sonraki en iyi bakış (NBV) planlama, yeni ölçülebilir alan ile o bakışa erişmenin maliyetini birlikte ele alır. Bu nedenle yalnız bilgi kazancını artırmak, hızlı bir muayene planı üretmeye yetmez.
+
+Çalışma, dersteki Ödev {{assignment}} kapsamındadır. Odak, farklı parça türlerine aktarılabilen ve çevrim süresini doğrudan gözeten bir seçim kuralının öğrenilip öğrenilemeyeceğidir. Dersin ara aşaması sinir ağı kullanmadan doğrusal yöntemleri sınar. Böylece temsil öğrenmesine geçmeden önce ortam, güçlü karşılaştırmalar ve değerlendirme tasarımı incelenebilir. Sonuç, kapalı bir test kümesinde yöntem değiştirmek için kullanılmaz.
+
+## 2 İlgili çalışmalar
+
+Bakış planlama literatürü, geometriyi yeniden oluşturma ve muayene için kapsama, görünürlük ve maliyeti bir arada ele alır [[cite:scott2003]]. Endüstriyel muayenede RL tabanlı görünüm seçimi araştırılmıştır [[cite:landgraf2021]]; profilometrik sensör yörüngelerini öğrenen çalışmalar da vardır [[cite:roos2025]]. Robot simülasyonunu ve kinematik kısıtları planlamaya katmak pratik uygulanabilirlik açısından önemlidir [[cite:koch2025]]. Bu çalışmaların varlığı, yöntemlerin bütün endüstriyel koşullarda olgunlaştığı anlamına gelmez. Buradaki karşılaştırma, güçlü açgözlü ve çözücü tabanlı referansları aynı maliyet modelinde gösterir.
+
+Öğrenilmiş kombinatoryal sezgiseller güçlü çözücülere yaklaşabilir; çözücü karşılaştırmasının kaldırılması uygun değildir [[cite:kool2019]]. Klasik zamansal fark öğrenmesi için temel çerçeve [[cite:sutton2018]], çevrim içi iz güncellemeleri için true online yöntemler [[cite:vanseijen2016]] ve doğrusal Q-learning'in düzenlileştirilmesi için RegQ [[cite:regq]] kullanılmıştır. Yöntemler kaynaklardan uyarlanmıştır; özgün çalışmaların deneylerinin yeniden üretimi iddia edilmez.
+
+## 3 Problem tanımı
+
+### Durum, eylem ve bilgi sınırı
+
+Nominal CAD, aday pasların geometrisini ve nominal görünürlük modelini sağlar. Gerçek varyantın görünürlük matrisi değerlendirmeye ayrılmıştır. Gözlem; ölçülmüş örneklerin bit dizisi, kullanılmış paslar, mevcut eklem durumu, adım sayısı ve nominal kapsama bilgisini içerir. Her eylem, önceden hesaplanmış {{passes}} adaydan bir tarama pasıdır. Kullanılmış, IK ile erişilemeyen veya statik çarpışma maskesine giren eylemler seçilemez.
+
+Bu, bilinen nominal modele dayalı bir problemdir; öğrenici gerçek varyantın tüm geometrisini görmez. Ödevde önerilen sürekli bakış açısı değişimleri burada ayrık pas seçimine dönüştürülmüştür. Sensörün Öklid uzayındaki yolu yerine robotun eklem uzayındaki tahmini süre kullanılır. Bilgi kazancı terimi ortamın ödülüne değil öğrenicinin şekillendirmesine konmuştur.
+
+### Geçiş, ödül ve bölüm sonu
+
+Bir pas tamamlandığında yeni ölçülen örnekler kümeye eklenir, robot pas sonuna gelir ve eylem kullanılmış olur. Bölüm {{target}}% birincil kapsamaya, {{pass_limit}} pas sınırına veya eylemsizliğe ulaşınca biter. Başarısız bitişler sansürlü olarak kaydedilir. Eve dönüş her durumda süreye dahildir.
+
+$$
+r_t=-(t_{\mathrm{move},t}+t_{\mathrm{scan},t})
+-\mathbf 1_{\mathrm{terminal}}t_{\mathrm{home}}
++B\mathbf 1_{\mathrm{success}},\qquad B={{bonus}}\ \mathrm{s}.
+$$
+
+Dolayısıyla toplam ödül, başarı primi eksi çevrim süresidir. Başarısız bir bölümün kısa sürmesi başarılı bir tarama anlamına gelmez; süre ile başarı birlikte raporlanır.
+
+### Hareket süresi ve ana ölçüt
+
+`robot.movej_time`, lider eklem için simetrik üçgen/trapez profilini kullanır. Eklem sarma ve sınır denetimi yürütülen pasın tamamı üzerinde uygulanır. Aşağıdaki d, seçilmiş uygun eklem temsilleri arasındaki en büyük mutlak değişimdir:
+
+$$
+d=\max_j|\Delta q_j|,\qquad
+t_{\mathrm{move}}(d)=
+\begin{cases}
+2\sqrt{d/a},&d<v^2/a,\\
+d/v+v/a,&d\geq v^2/a.
+\end{cases}
+$$
+
+Hız sınırı {{move_speed}} rad/s, ivme sınırı {{move_accel}} rad/s² ve tarama hızı {{scan_speed}} mm/s'dir. Ana karşılaştırma, aynı varyanttaki yürütülmüş ILP + TSP süresine göre yapılır:
+
+$$
+\widetilde T_{m,p,v,s}
+=\frac{T_{m,p,v,s}}{T_{\mathrm{ILP+TSP},p,v}},\qquad
+T=\sum_t(t_{\mathrm{move},t}+t_{\mathrm{scan},t})+t_{\mathrm{home}}.
+$$
+
+Pay ve payda aynı aday kümesini kullanır; onarım pasları da dahildir. Parça ortalamaları eşit ağırlıklıdır. Ham saniyeler ayrıca verilir. Referansın bir olması, onun gerçek dünyada küresel optimum olduğunu göstermez.
+
+## 4 Yöntem
+
+### Doğrusal değer yaklaşımı
+
+$$
+Q_w(s,a)=w^\top\varphi(s,a).
+$$
+
+Seçilen {{feature_count}} bileşen sırasıyla sabit terim, nominal yeni kapsama, en iyi kazanca göre göreli kazanç, hareket süresi, tarama süresi, göreli kazanç/süre, hedefi bitirme göstergesi, eve dönüş süresi, kalan nominal pay, hedef için gereken pay ve bölüm ilerlemesidir. Normalleştirme parça üzerinde öğrenilmiş istatistik kullanmaz. Zamanlar sabit bir ölçeğe, oranlar o durumdaki adaylara göre ifade edilir. İskonto {{discount}}; öğrenici tarafındaki ödül ve potansiyel ölçeği {{reward_scale}} olarak sabittir.
+
+Başlangıçtaki daha geniş temsil, eğitimde öğrenilip doğrulamada ölçülen önceden tanımlı çıkar-ve-karşılaştır kontrolüyle daraltılmıştır. Sabit terim ve yalnız duruma bağlı bileşenler bütün eylemlere aynı değeri ekler. Böylece eylem sıralamasını esas olarak sabit ağırlıklı pas puanları belirler; zengin durum–eylem etkileşimleri temsil edilmez.
+
+### Güncellemeler
+
+True online SARSA(λ), ε-açgözlü davranış politikası ve dutch izleriyle çevrim içi ileri görünümü izler [[cite:vanseijen2016]]. Şekillendirilmiş ve ölçeklenmiş ödül \(\widetilde r_t\) için SARSA hedefi:
+
+$$
+y_t^{\mathrm{SARSA}}=\widetilde r_t+\gamma Q_w(s_{t+1},a_{t+1}).
+$$
+
+RegQ, aynı doğrusal temsilde maksimum sonraki değeri kullanır ve ağırlıklara L2 düzenlileştirme uygular [[cite:regq]]:
+
+$$
+y_t^{\mathrm{RegQ}}=\widetilde r_t+\gamma\max_{a\in\mathcal A(s_{t+1})}Q_w(s_{t+1},a),\qquad
+w\leftarrow w+\alpha\big[(y_t-Q_w(s_t,a_t))\varphi(s_t,a_t)-\eta w\big].
+$$
+
+Miyop öğrenici sonraki değere önyükleme yapmaz; aynı tek-adım şekillendirilmiş ödüle regresyon uygular:
+
+$$
+y_t^{\mathrm{miyop}}=\widetilde r_t,\qquad
+w\leftarrow w+\alpha(y_t-Q_w(s_t,a_t))\varphi(s_t,a_t).
+$$
+
+Terminal durumlarda bütün önyükleme terimleri sıfırdır. Miyop hedefi yalnız hızdan oluşmaz: potansiyel farkı kapsama kazanımını da taşır. Böylece gecikmiş değer öğrenmenin katkısı araştırılabilir.
+
+### Potansiyel tabanlı şekillendirme
+
+PBRS, potansiyel farkı ekleyerek hedef politikayı korumayı amaçlar [[cite:ng1999]]. Bölümlü durumda terminal potansiyelin sıfır olması önemlidir [[cite:grzes2017]]:
+
+$$
+F_t=\gamma\Phi(s_{t+1})-\Phi(s_t),\qquad
+\sum_{t=0}^{T-1}\gamma^tF_t=-\Phi(s_0)+\gamma^T\Phi(s_T).
+$$
+
+Terminal potansiyel sıfırlanır. C nominal erişilebilir birleşimde ölçülen pay olmak üzere potansiyeller: sıfır; {{potential_scale}}C; {{potential_scale}}C²; nominal açgözlü planın tahmini kalan hareket/tarama/eve dönüş süresinin negatifi. Sonuncusu gelecekteki kalan maliyet için bir sezgiseldir. Sabit pozitif ödül ölçeklemesi bütün öğrenenlerde aynıdır.
+
+Doğrusal potansiyel bu öznitelik uzayında temsil edilebilir; uygun başlangıç ağırlıklarıyla şekillendirmesiz öğrenmeye eşdeğerlik, Wiewiora'nın sonucu ile uyumludur [[cite:wiewiora2003]]. Bu karşılaştırma farklı başlangıç değerlerini de karşılaştırır. İlke, her potansiyelin daha hızlı öğrenmesini garanti etmez.
+
+### Karşılaştırma yöntemleri
+
+Greedy-IG/maliyet, nominal yeni ölçüm sayısını hareket ve tarama süresine böler. MCTS, nominal modelde UCT araması yapar [[cite:kocsis2006]]. ILP + TSP önce kapsama için pas kümesini, sonra turu seçer. Ortak planlayıcı pas seçimiyle sıralamayı birlikte çözer. Son ikisi nominal planı yürütür; hedef eksik kalırsa aynı nominal açgözlü kural ile onarır. Ortak planlayıcı gerçek varyantı bilen bir oracle değildir. Rastgele, sabit desen ve yalnız bilgi kazancı yardımcı karşılaştırmalardır.
+
+## 5 Deney düzeni
+
+### Veri, sensör ve robot hücresi
+
+Thingi10K'dan [[cite:thingi10k]] alınan {{parts.total}} mekanik model, döküm parçaya benzer geometrilerin vekilidir; gerçek döküm taraması veri kümesi değildir. Bölme parça türüne göredir: {{parts.train}} eğitim, {{parts.val}} doğrulama, {{parts.test}} test. Her parçanın {{parts.variants}} geometrik varyantı aynı bölmede kalır. Nominal mesh bilinir; küçük üretim sapmaları gerçek varyantta uygulanır.
+
+İdeal çizgi lazerin çalışma mesafesi {{working_distance}} mm, çizgi uzunluğu {{line_width}} mm ve triangülasyon açısı {{triangulation}} derecedir. Görünürlük hem lazer hem kamera yolunun açık olmasını gerektirir. UR5'in sensör ofseti {{tcp}} mm'dir. Erişilebilirlik ve statik çarpışma, her pasta {{ik_samples}} IK örneğinde kontrol edilir. Erişilebilir yüzey tüm yüzeyin bir alt kümesidir; masaya bakan ve optik olarak kapalı bölgeler hedef paydasına alınmaz. Kayıtlı ortalama erişilebilir ham yüzey payı doğrulamada {{surface.val}}, testte {{surface.test}} düzeyindedir.
+
+![VAL parçalarının ölçülebilir yüzey dağılımı](results/figures/p004_f_val_gallery_v2.png)
+
+**Şekil 1.** Doğrulama parçalarında görünürlük dağılımı. Renk erişilebilir pas sayısını; ayrı sınıflar hiç görülemeyen ve masaya bakan örnekleri gösterir. Yüksek birincil kapsama, bütün fiziksel yüzeyin ölçüldüğü anlamına gelmez.
+
+### Ön kayıt, ayar ve testin ayrılması
+
+Ana yöntem, hipotezler, eşikler, bütçeler ve seçim kuralları testten önce yazılmıştır. Ayrıntılar [Ek: Ön kayıt ve değerlendirme protokolü](docs/PROTOCOL.md) belgesindedir. Ayar seed'leri resmi değerlendirme seed'lerinden ayrılmış, yöntemlere eşit arama bütçesi verilmiştir. Bu ayrım, ayar rastlantılarına aşırı uyumu azaltmak için önemlidir [[cite:patterson2024]] [[cite:eimer2023]].
+
+{{official_arms}} resmi kolun her biri {{official_seeds}} seed ile {{official_steps}} adım eğitilmiştir. Her öğrenenin resmi politikası eğitimin son yüzde onundaki sonlu ağırlıkların ortalamasıdır. Son ağırlıklarla değerlendirme ikincildir; checkpoint seçimi yapılmamıştır. Seçilen ayarlar:
+
+{{table.settings}}
+
+Test açılışının ilk girişimi eksik bir nominal yardımcı girdinin hash kontrolünde, herhangi bir ortam veya performans hesabından önce durmuştur. Girdi tamamlanıp kontroller geçtikten sonra tek bir yetkilendirilmiş devam yapılmış; tamamlanan test kümesi kapatılmıştır. Yöntem, ayar ve hipotezler bu olay nedeniyle değiştirilmemiştir. Bu koruma, holdout'un performansa bakılarak uyarlamalı kullanılmasını engeller [[cite:dwork2015]].
+
+### İstatistik
+
+İstatistiksel birim parçadır. Önce her test parçası; sonra parçalar, varyantlar ve seed'ler üzerinden hiyerarşik bootstrap aralığıyla bölme ortalaması verilir [[cite:saravanan2020]]. Özgün aralık hesabı {{bootstrap_repetitions}} tekrar kullanmıştır. Aralıklar mevcut kayıtlı uç değerlerden alınır; bu rapor için yeniden örnekleme yapılmaz. Varyant ve seed sayıları bağımsız parça sayısını artırmaz. Anlamlılık testi yoktur; bütün karşılaştırmalar betimseldir.
+
+## 6 Sonuçlar
+
+### Parça bazında birincil test sonuçları
+
+Tablolarda nokta tahmini ve kayıtlı aralık gösterilir. Küçük normalize süre daha iyidir; başarısız bölümlerin süreleri de ortalamada tutulmuştur. Başarı sütunu bu yüzden zorunludur. Ortak planlayıcının adı, yürütülmüş gerçek-varyant süresinin kesin optimum olduğu anlamına gelmez.
+
+{{table.parts}}
+
+![Test parçalarına göre tekil gözlemler](results/figures/p004_c_test_distributions_v2.png)
+
+**Şekil 2.** Her test parçasında varyant × seed gözlemleri. Deterministik karşılaştırmaların gerçek gözlem sayısı korunur; fazladan örnek çoğaltılmaz.
+
+### Bölme ortalaması: ikincil özet
+
+{{table.summary}}
+
+Önceden seçilen ana yöntem, doğrusal potansiyelli SARSA'dır. Değer tahmini potansiyelli kol testte en iyi SARSA sonucu vermiştir; bu durum ana yöntem seçiminde kullanılmamıştır. MCTS'ye yakın ortalamalar, istatistiksel eşdeğerlik veya fiziksel uygulanabilirlik kanıtı değildir.
+
+### Öğrenme eğrileri ve bölmeler arası tutarlılık
+
+![Resmi doğrulama öğrenme eğrileri](results/figures/phase1_three_val_curves_v1.png)
+
+**Şekil 3.** SARSA, RegQ ve değer tahmini kolunun doğrulama öğrenme eğrileri: seed ortalaması ve seed min–maks aralığı. Bantlar güven ya da bootstrap aralığı değildir.
+
+{{table.cross_split}}
+
+Değer tahmini kolu eğitim, doğrulama ve testte en düşük SARSA ortalamasına sahiptir. Bu tutarlılık betimsel bulguyu destekler; bağımsız bir tekrar deneyinin yerini tutmaz. Genelleme açığı eğitim eksi test olarak tanımlanır; parçaların zorluk dağılımları ve normalizasyon nedeniyle işareti tek başına aşırı öğrenme tanısı değildir.
+
+Normalize sürede eğitim eksi test farkı ana SARSA için {{gap.sarsa/linear}}, değer tahmini kolu için {{gap.sarsa/value_estimate}} olmuştur.
+
+### Karar başına planlama süresi
+
+{{table.timing}}
+
+Süreler aynı doğrulama durumlarında, seed sıfır politikalarıyla, sıcak önbellekte ve bu makinede ölçülmüştür. Öznitelik hesabı/eylem seçimi veya nominal MCTS dahildir; ortam adımı, ön işleme, önbellek yükleme ve eğitim potansiyeli hesabı hariçtir. Değer tahmini potansiyeli öğrenme sırasında kullanılır; donmuş doğrusal politikanın çıkarımında yeniden hesaplanmaz. Bu ölçümde MCTS / değer tahminli SARSA süre oranı {{timing_speedup}} kattır; evrensel donanım bağımsız bir hızlanma iddiası değildir.
+
+![Kalite ve karar süresi](results/figures/p004_a_quality_latency_v2.png)
+
+**Şekil 4.** Kalite test kayıtlarından, süre doğrulama üzerindeki seed-sıfır ölçümünden gelir. Bölmeler arası bu görünüm betimseldir.
+
+## 7 Tartışma
+
+**H1′:** Ana SARSA'nın açgözlü yöntem ile ILP + TSP arasındaki boşluğun en az yarısını kapatması beklenmişti. Parça eşiği açgözlü normalize sürenin bir ile ortalamasıdır; hem bölme koşulu hem test parçalarının çoğunun kendi eşiğini sağlaması gerekir. Önceden konan koşullar sağlanmadı. Bazı parçalarda boşluk kapanmak yerine büyümüştür; sonuçlar kesilmeden raporlanmıştır.
+
+**H-ileri görüş:** Ön kayıt en az {{threshold.forward}} ortalama iyileşme ve test parçalarının çoğunda negatif eşleştirilmiş fark ister. SARSA eksi miyop eşleştirilmiş farkı {{forward}}. Gerekli iyileşmeye eksik kalan pay {{forward_margin}} olduğundan eşik sağlanmadı. Küçük farkı yuvarlayıp başarılı saymak uygun değildir. Bu sonuç iki politikanın eşdeğer olduğunu kanıtlamaz.
+
+{{table.hypothesis_parts}}
+
+![Eşleştirilmiş ileri görüş farkları](results/figures/p004_c2_paired_forward_v2.png)
+
+**Şekil 5.** Varyantlarda seed ortalaması alındıktan sonraki eşleştirilmiş farklar. Parça ve bölme ortalamaları, sıfır çizgisi ve önceden tanımlanan iyileşme eşiği birlikte gösterilir.
+
+**H-şekillendirme:** Hız için en az {{threshold.shaping_percent}}% öğrenme alanı farkı ve her potansiyel için doğrusal kola göre en fazla {{threshold.shaping_final}} nihai fark istenir. Doğrulama öğrenme alanının en iyi–en kötü göreli farkı {{shaping_auc_percent}}% olmuştur. Her iki koşulu isteyen birleşik eşik sağlanmadı. Bu, potansiyel şekillendirmenin politikayı koruma özelliğiyle çelişmez; sonlu temsil, başlangıç değerleri ve öğrenme dinamikleri performansı etkiler.
+
+{{table.shaping}}
+
+Doğrusal SARSA'nın salınması literatürde bilinen bir davranıştır [[cite:zhang2023_sarsa]]. Son ağırlıklarla kuyruk ortalamasının ayrılması bu açıklamayla uyumludur; nedensel kanıt değildir. Ayrıca en iyi ayar tahminini seçmek iyimserlik üretir [[cite:smith_winkler2006]]. Ayardan önce yazılan küçük ileri-görüş farkı tahmini resmi doğrulamayla uyumluyken, ayar sonrasındaki büyük-fark yorumu uyumlu olmamıştır. İki açıklama birlikte bulunabilir.
+
+RegQ resmi koşularda ampirik olarak kararlı kalmıştır. Kullanılan kimlik-matrisli düzenlileştirme için yeterli yakınsama koşulu değerlendirilmemiştir. Farklı bir eski formüle dayanarak teorik garanti iddia edilmez.
+
+Değer tahmini kolunun olası avantajı, doğrusal temsilin büyük duruma bağlı değer değişimlerini öğrenme yükünü azaltması olabilir. Bu açıklama doğrulanmamıştır; sezgisel değerle yönlendirme [[cite:cheng2021_hurl]], değer/avantaj ayrımı [[cite:wang2016_dueling]] ve iyi potansiyel seçimi [[cite:canonaco2024]] ile ilişkilidir. Daha iyi görünen test kolunu sonradan seçmenin iyimserlik riski vardır; üç bölmedeki tutarlılık bu riski tamamen kaldırmaz.
+
+## 8 Sınırlılıklar
+
+İdeal sensör modeli ölçümü ikili kabul eder. Yansıma, speckle, parlak yüzeyde çoklu yansıma, çizgi uçlarının doğruluk kaybı ve ölçüm gürültüsü modellenmez. Tek kurulum ve döner tabla olmaması iç veya masaya bakan yüzeyleri erişilemez bırakır. Veri işleme, kayıt ve CAD karşılaştırması süreye dahil değildir.
+
+Beş örnek pozundaki statik çarpışma denetimi, pozlar arası yolu güvenli yapmaz. Sonradan kayıtlı eğitim/doğrulama yollarında yapılan yoğun örneklemeli denetim şu oranları vermiştir:
+
+{{table.collision}}
+
+Aynı sarılmamış uç noktalar, başlangıç/sonda duruş ve hız/ivme sınırları altında doğrudan eklem hareketinin süresi, çarpışmasız dolambaçlı bir yol için alt sınırdır. Kaçınma süresi ölçülmediği için kayıtlı süreler fiziksel uygulama açısından iyimser olabilir. CAD planlayıcılarında oranların düşük olması sınırlılığın yöntemleri aynı ölçüde etkilemediğini gösterir; düzeltilmiş bir sıralama veya bütün hipotezlerin sağlamlığı kanıtlanmaz. Değer tahminli SARSA–MCTS yakınlığı bu belirsizlik içindedir. Test parçalarında bu denetim yapılmamıştır.
+
+Öz-çarpışma ve fikstürler modellenmez; örneklenmiş güvenli durumlar sürekli yol sertifikası değildir. {{unmeasured_train}} ikincil son-ağırlık eğitim bölümü çarpışma açısından ölçülmemiştir. Öğrenenlerin test adım izleri saklanmadığından bağımsız doğrulama politika tekrarından çok kayıt/metrik tutarlılığını denetlemiştir.
+
+Örneklem azdır; başarı yüzey alanının tamamına göre değil erişilebilir birleşime göredir. Adım ölçeği yöntemler arasında asimetriktir. Potansiyeller ayrı ayrı ayarlanmamıştır. Kamera-only karşılaştırması betimseldir. Parça lisanslarının sürüm doğrulaması erişim engeli nedeniyle tamamlanamamıştır.
+
+## 9 Gelecek çalışma
+
+Öncelik, geri çekilme ara pozları ve daha sık yol denetimiyle çarpışmasız geçiş modelidir. Hareket matrisi değişirse karşılaştırmaların tamamı yeni bir değerlendirme tasarımıyla yeniden üretilmelidir; mevcut kapalı test kümesi uyarlamalı seçime açılmaz.
+
+Sonraki öğrenme aşaması durum–eylem etkileşimlerini öğrenen maskeli derin yöntemleri inceleyebilir. Değer/avantaj ayrımı, sezgisel değerle ufuk kısaltma ve bir açgözlü/arama politikasının üzerine artık politika öğrenme seçeneklerdir [[cite:silver2018_rpl]]. Bu yaklaşımlar henüz burada uygulanmamıştır. Değer tahmini açıklaması da kontrollü olarak sınanmalıdır.
+
+## 10 Yeniden üretim
+
+Python {{python}}, uv ve Windows/PowerShell kullanılmıştır. Kayıtlı makine bilgisi: {{hardware}}. Sayısal iş parçacığı değişkenleri kullanıcı tarafından verilmemişse birle sınırlandırılır. GPU, bu doğrusal yöntemler için gerekli değildir. Kaydedilmiş resmi ve keşif eğitim grubunun toplam duvar süresi {{workers}} süreçte {{training_hours}} saattir; bu süre veri hazırlığı, kurulum veya başka donanımın maliyeti değildir.
+
+### Kısa ve güvenli doğrulama
+
+Depo kökünde:
+
+```powershell
+uv sync --locked --extra demo
+uv run --extra demo python scripts/verify_readme.py
+uv run --extra demo pytest -q
+```
+
+Rapor doğrulayıcı mevcut kayıt ve çıktı dosyalarını okur; eğitim, politika değerlendirmesi veya bootstrap yeniden örneklemesi yapmaz. Kaynak klonda bulunmayan özgün deney önbelleklerine bağımlı bütünleştirme kontrolleri atlanır. Bu, test kümesini yeniden açmak için bir komut değildir.
+
+### Taşınabilir kayıtlı oynatıcı
+
+```powershell
+uv run --extra demo python scripts/live_demo.py --recorded --port 8080
+```
+
+Tarayıcıda `http://127.0.0.1:8080` açılır. Kayıtlı oynatıcı, paket dosyalarını SHA-256 ile doğrular; özgün mesh, görünürlük önbelleği, checkpoint veya yeni politika çağrısı gerektirmez. Yalnız doğrulama parçalarının kayıtlı bölümlerini gösterir. Başlat, Adım ve Sıfırla kontrolleriyle eve dönüş dahil oynatılır. [Görüntüleyici kılavuzu](docs/DEMO_GUIDE.md).
+
+### Canlı modun ek önkoşulları
+
+```powershell
+uv run --extra demo python scripts/live_demo.py --weights weights/linear_learners.json --port 8080
+```
+
+Canlı mod ayrıca özgün doğrulama görünürlük/robot önbelleklerini ve kayıtlı doğrulama bölümlerini gerektirir. Bunlar kaynak depoyla dağıtılmaz; ağırlık dosyası tek başına bu girdileri sağlamaz. Girdiler yoksa kayıtlı mod kullanılır. Test parçaları kod düzeyinde reddedilir. ILP + TSP ve ortak planlayıcı yeniden çözülmez; kayıtlı dizileri oynatılır. Bölüm sonunda pas dizisi ve özetler özgün doğrulama kaydıyla birebir karşılaştırılır; uyuşmazlık gizlenmez.
+
+Paylaşılan metin dosyası yalnız kuyruk ortalamalarını içerir: {{official_arms}} kol × {{official_seeds}} seed, her biri {{feature_count}} ağırlık; {{weights_bytes}} bayt. Özgün checkpoint'lerle tam hassasiyetli eşleşmesi kontrol edilmiştir. SHA-256:
+
+```text
+{{weights_sha256}}
+```
+
+Son ağırlıklar bu dosyada yoktur. Dosyadan yüklenen bir politika tek bir doğrulama bölümüyle özgün kayda karşı kontrol edilmiştir; test değerlendirmesi yapılmamıştır. Görüntüleme sırasında ölçülen karar süreleri, yukarıdaki ayrı sıcak-önbellek benchmark'ıyla aynı koşulları taşımaz.
+
+## 11 Veri ve lisans atıfları
+
+Proje kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf robot ve font varlıkları kendi BSD-3-Clause ve OFL lisanslarını; parça ve türetilmiş veriler kendi Creative Commons koşullarını korur. Kodun MIT olması veri varlıklarını MIT yapmaz.
+
+Tablodaki lisans aileleri kayıtlı veri metadatasından gelir. Kaynak sayfalar tek tek kontrol edilmeye çalışılmış, erişim engeli nedeniyle sürüm bilgisi doğrulanamamıştır. Bu nedenle “kaynak sayfada sürüm belirtilmemiş” sonucu çıkarılmamış ve sürüm tahmin edilmemiştir.
+
+{{table.attribution}}
+
+Uygulanan değişiklikler: nominal modelin ölçeklenmesi ve hizalanması; alan ağırlıklı yüzey örneklemesi; varyant noktalarında geometrik sapmalar; görünürlük bitlerinin türetilmesi. Gösterim mesh'leri nominal, noktalar ilgili varyant geometrisindedir. Paylaşılan gösterim mesh'leri sadeleştirilmemiştir. BY-SA türevlerinin aynı lisans koşullarını koruması, yazar/kaynak atfı, değişiklik açıklaması ve doğrulanmış lisans bağlantısı gerekir. Lisans sürümü eksikleri donmuş veri paketinde sessizce değiştirilmemiştir.
+
+## Kaynakça
+
+Yalnız metinde atıf yapılan çalışmalar aşağıdadır. Depoda üçüncü taraf makale PDF'i, makaleden kopyalanmış şekil veya literatür özet dosyası dağıtılmaz; kaynaklara bağlantı verilir.
+
+{{references}}

@@ -1,5 +1,6 @@
 """Exercise real initialized VAL sessions, not merely the HTTP listener."""
 import socket
+from pathlib import Path
 import pytest
 
 
@@ -18,9 +19,21 @@ def _scene_ready(server,scene):
     assert len(scene.faces)>0 and len(scene.points)==20000
 
 
+def _require_live_material():
+    """Live integration needs originals; recorded playback remains source-portable."""
+    if not Path('data/cache/visibility/271875_v0_n48.npz').is_file():
+        pytest.skip('live initialization requires original VAL visibility/cache material')
+    from nbv.visualization.live import SourceStore,METHODS
+    store=SourceStore()
+    required=[Path('outputs')/store.row(method,0)['run_id']/'episodes.jsonl' for method in METHODS]
+    if not all(path.is_file() for path in required):
+        pytest.skip('live initialization requires original canonical VAL episode records')
+
+
 @pytest.mark.parametrize('method',[
     'greedy_cost','mcts','sarsa/linear','sarsa/value_estimate','regq/linear','ilp_tsp','joint_opt'])
 def test_live_first_session_has_scene_chart_and_no_swallowed_error(method):
+    _require_live_material()
     server=_server()
     try:
         c=server._nbv_controller
@@ -55,6 +68,7 @@ def test_recorded_first_session_and_distinct_comparison_have_ready_chart(compari
 
 @pytest.mark.parametrize('recorded',[False,True])
 def test_compact_panel_uses_readable_choices_and_collapsed_details(recorded):
+    if not recorded:_require_live_material()
     server=_server(recorded=recorded)
     try:
         c=server._nbv_controller

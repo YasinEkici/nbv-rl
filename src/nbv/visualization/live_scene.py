@@ -127,7 +127,8 @@ class Scene:
 
 
 class DemoController:
-    def __init__(self,server,*,recorded=False,load_initial=True):
+    def __init__(self,server,*,recorded=False,load_initial=True,weights_path=None):
+        self.weights_path=weights_path
         self.server=server;self.recorded=recorded;self.store=None;self.session=None;self.bundle=None;self.scene=None
         self.running=False;self.worker=False;self.epoch=0;self.lock=threading.RLock();self.position=0;self.home_done=False
         self.rows=[];self.last_time=0.;self.last_coverage=0.;self.last_pass='—';self.last_ms=0.;self.verdict=None
@@ -201,7 +202,7 @@ class DemoController:
                     self.bundle=recorded_session(part,method);self.session=None
                     self.scene=Scene(self.server,self.bundle['part_data'],self.bundle['common']['robot'],bundle=True)
                 else:
-                    if self.store is None:self.store=SourceStore()
+                    if self.store is None:self.store=SourceStore(weights_path=self.weights_path)
                     self.session=LiveSession(self.store,part,index,method,seed);self.bundle=None
                     self.scene=Scene(self.server,assets.load_scene(part,variant=True,variant_index=index),assets.robot_description())
                 self.toggle_candidates()

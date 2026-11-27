@@ -40,7 +40,8 @@ def verify_live(actual,expected):
 
 class SourceStore:
     """Read only canonical VAL sources, and verify checkpoint bytes before inference."""
-    def __init__(self):
+    def __init__(self,weights_path=None):
+        self.weights_path=Path(weights_path) if weights_path is not None else None
         self.manifest=parts.load_yaml('configs/split_v1.yaml')
         with Path('results/registry.csv').open(encoding='utf-8') as f:rows=list(csv.DictReader(f))
         self.rows=[r for r in rows if r['status']=='canonical' and r['part_split']=='val' and r['env_version']=='v4']
@@ -86,7 +87,14 @@ class SourceStore:
         verify_artifact_hashes(directory,entry['sha256'])
         if checkpoint_identity(row,self.selected)!=entry['identity'] or not checkpoint_matches(directory,row,self.selected):
             raise ValueError('checkpoint identity mismatch')
-        with np.load(directory/'weights.npz') as z:return z['tail'].copy()
+        with np.load(directory/'weights.npz') as z:original=z['tail'].copy()
+        if self.weights_path is None:return original
+        from nbv.policy_weights import ARM_NAMES,load_policy
+        published_info=json.loads(Path('provenance/publication.json').read_text(encoding='utf-8'))['weights']
+        name,phi=method.split('/')
+        published=load_policy(self.weights_path,ARM_NAMES[(name,phi)],seed,expected_sha256=published_info['sha256'])
+        if published.tobytes()!=original.tobytes():raise ValueError('published tail weights differ from original checkpoint')
+        return published
 
     def mcts_rng(self,seed,variant):
         rng=np.random.default_rng([seed,48,7]) # canonical METHODS.index('mcts') in run_baselines.py
@@ -164,13 +172,13 @@ def recorded_session(part,method,directory='results/demo'):
     return episode|dict(mode='recorded bundle',part_data=data,common=common)
 
 
-def create_server(port=8080,*,load_initial=True,recorded=False):
+def create_server(port=8080,*,load_initial=True,recorded=False,weights_path=None):
     import viser
     from nbv.visualization.live_scene import DemoController
     from nbv.visualization.recorded_controller import RecordedController
     server=viser.ViserServer(host='127.0.0.1',port=port,label='NBV / VAL only')
     try:
-        server._nbv_controller=RecordedController(server,load_initial=load_initial) if recorded else DemoController(server,load_initial=load_initial)
+        server._nbv_controller=RecordedController(server,load_initial=load_initial) if recorded else DemoController(server,load_initial=load_initial,weights_path=weights_path)
     except Exception:
         server.stop();raise
     return server

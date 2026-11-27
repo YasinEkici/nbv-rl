@@ -9,7 +9,16 @@ from nbv.phase1_report import rows,record_groups,mean,ARMS,BASELINES
 from nbv.report_common import model_limitations
 
 
-def reference_table(keys,literature='docs/LITERATURE.md'):
+def reference_table(keys,literature='provenance/references.json'):
+    if Path(literature).suffix=='.json':
+        sources=json.loads(Path(literature).read_text(encoding='utf-8'))
+        lines=['| Key | Citation | Status | Source |','|---|---|---|---|']
+        for key in keys:
+            item=sources[key]
+            if not item.get('verified_on') or not item.get('url'):raise ValueError(f'unverified reference: {key}')
+            title=f"{item['authors']} ({item['year']}). {item['title']}. {item['venue']}"
+            lines.append(f"| {key} | {title} | verified-source | [source]({item['url']}) |")
+        return '\n'.join(lines)
     sections={}
     for section in Path(literature).read_text(encoding='utf-8').split('\n## '):
         heading=section.split('\n',1)[0].removeprefix('## ')
@@ -20,7 +29,7 @@ def reference_table(keys,literature='docs/LITERATURE.md'):
         status=re.search(r'^Status: (.+)$',section,re.M).group(1)
         if not status.startswith(('verified-source','secondary','verified (')): raise ValueError(f'unverified reference: {key}')
         urls=re.findall(r'https?://[^\s;]+',section)
-        source=f'[source]({urls[0].rstrip(".,")})' if urls else '[literature notes](docs/LITERATURE.md)'
+        source=f'[source]({urls[0].rstrip(".,")})' if urls else 'Source URL not supplied'
         lines.append(f'| {key} | {title} | {status} | {source} |')
     return '\n'.join(lines)
 
@@ -86,9 +95,7 @@ def report(registry='results/registry.csv'):
         'secondary':test_text.split('Secondary metrics (tail policy; passes to 95% conditional on success):\n\n',1)[1].split('\n\nSecondary coverage',1)[0],
         'model_limitations':model_limitations(collision_prefix='results/').strip().replace('## Model limitations','### Model limitations',1),
     }
-    reference_keys=['thingi10k','vanseijen2016','regq','ng1999','grzes2017','wiewiora2003','canonaco2024',
-        'patterson2024','smith_winkler2006','eimer2023','zhang2023_sarsa','saravanan2020',
-        'landgraf2021','kaiser2025_thesis','koch2025','roos2025','cheng2021_hurl','wang2016_dueling','silver2018_rpl','johannink2019']
+    reference_keys=list(json.loads(Path('provenance/references.json').read_text(encoding='utf-8')))
     blocks['references']=reference_table(reference_keys)
     for name,content in blocks.items(): replace_block('README.md',name,content)
     os.environ.setdefault('MPLCONFIGDIR',str(Path('scratch/matplotlib').resolve()))
