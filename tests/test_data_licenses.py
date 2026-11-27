@@ -55,7 +55,55 @@ def test_viewer_credits_use_confirmed_license_without_mutating_bundle():
 
 def test_unconfirmed_models_do_not_gain_an_invented_license_version():
     from nbv.data_licenses import display_attribution
-    recorded = dict(file_id=46262, source_url='https://www.thingiverse.com/thing:14130',
+    recorded = dict(file_id=999001, source_url='https://example.invalid/model',
                     license='Creative Commons - Attribution - Share Alike',
                     license_version=None)
     assert display_attribution(recorded) == recorded
+
+
+@pytest.mark.parametrize('file_id,license_id', [
+    (46262, 'CC-BY-SA-4.0'),
+    (124336, 'CC-BY-4.0'),
+    (486859, 'CC-BY-4.0'),
+    (178195, 'CC-BY-4.0'),
+    (548863, 'CC-BY-4.0'),
+    (65149, 'CC-BY-SA-4.0'),
+    (702389, 'CC-BY-SA-4.0'),
+    (135365, 'CC-BY-SA-4.0'),
+    (124532, 'CC-BY-SA-4.0'),
+    (635751, 'CC-BY-SA-4.0'),
+    (79729, 'CC-BY-SA-4.0'),
+])
+def test_supplied_license_blocks_are_recorded_and_rendered(file_id, license_id):
+    entries = json.loads(Path('provenance/part_sources.json').read_text(encoding='utf-8'))
+    entry = next(row for row in entries if row['file_id'] == file_id)
+    confirmation = entry['source_confirmation']
+    assert confirmation['license_id'] == license_id
+    assert confirmation['source_url'] == entry['url']
+    assert confirmation['license_version'] == '4.0'
+    assert confirmation['confirmation_method'] == 'repository owner supplied the model page license block'
+    assert entry['status'] == 403 and entry['version'] is None
+    from nbv.data_licenses import display_attribution
+    record = dict(file_id=file_id, source_url=entry['url'], license='historical metadata', license_version=None)
+    display = display_attribution(record)
+    assert display['share_alike'] is (license_id == 'CC-BY-SA-4.0')
+    assert display['official_specific_license_url'] == confirmation['license_url']
+    from nbv.manuscript import render
+    text, _ = render()
+    import yaml
+    part = next(row for row in yaml.safe_load(Path('configs/split_v1.yaml').read_text(encoding='utf-8'))['parts']
+                if row['file_id'] == file_id)
+    table_row = next(line for line in text.splitlines() if line.startswith('| ' + part['name'] + ' |'))
+    assert '| ' + confirmation['license_label'] + ' |' in table_row
+    assert confirmation['license_url'] in table_row
+
+
+def test_confirmed_by_license_does_not_inherit_a_sharealike_flag(monkeypatch):
+    from nbv import data_licenses
+    confirmation = dict(source_url='https://example.invalid/model', license_id='CC-BY-4.0',
+                        license_label='CC BY 4.0', license_version='4.0',
+                        license_url='https://creativecommons.org/licenses/by/4.0/', confirmed_on='2026-11-27')
+    monkeypatch.setattr(data_licenses, 'source_confirmation', lambda file_id: confirmation)
+    recorded = dict(file_id=999001, source_url=confirmation['source_url'], share_alike=True)
+    assert data_licenses.display_attribution(recorded)['share_alike'] is False
+    assert recorded['share_alike'] is True

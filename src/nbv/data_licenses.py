@@ -25,7 +25,7 @@ def display_attribution(recorded):
         license=confirmation['license_label'],
         license_version=confirmation['license_version'],
         official_specific_license_url=confirmation['license_url'],
-        share_alike=True,
+        share_alike=confirmation['license_id'] == 'CC-BY-SA-4.0',
         version_status_tr='depo sahibinin kaynak sayfa kontrolü: '+confirmation['confirmed_on'],
     )
     return result

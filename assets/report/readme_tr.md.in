@@ -266,7 +266,7 @@ Son ağırlıklar bu dosyada yoktur. Dosyadan yüklenen bir politika tek bir do�
 
 Proje kodu [MIT lisansı](LICENSE) altındadır. Üçüncü taraf robot ve font varlıkları kendi BSD-3-Clause ve OFL lisanslarını; parça ve türetilmiş veriler kendi Creative Commons koşullarını korur. Kodun MIT olması veri varlıklarını MIT yapmaz.
 
-Tablodaki lisanslar kayıtlı veri metadatası ve açıkça belirtilen kaynak sayfa kontrollerinden gelir. PHIL, R. Maker – Mark I ve Mechanical Clock için kaynak sayfalardaki lisans bağlantıları depo sahibi tarafından kontrol edilmiş ve CC BY-SA 4.0 olarak bildirilmiştir. Bu kontrol, otomatik erişim engeli kayıtlarından ayrı tutulur. Diğer parçalarda erişim engeli nedeniyle lisans sürümü doğrulanamamıştır; sürüm tahmin edilmez. [Veri lisansı ve atıf bildirimi](docs/DATA_LICENSES.md).
+Tablodaki modellerin kaynak sayfalarındaki lisans bağlantıları veya lisans bölümleri depo sahibi tarafından paylaşılmış ve lisans sürümleri kaydedilmiştir. Atıf bilgileri kayıtlı veri metadatasıyla eşleştirilmiş; güncel kaynak kontrolleri otomatik erişim engeli kayıtlarından ayrı tutulmuştur. CC BY ve CC BY-SA koşulları parça bazında ayrılır. [Veri lisansı ve atıf bildirimi](docs/DATA_LICENSES.md).
 
 {{table.attribution}}
 
